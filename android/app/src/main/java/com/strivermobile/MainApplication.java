@@ -1,4 +1,4 @@
-package com.pepperoniapptemplate;
+package com.strivermobile;
 
 import android.app.Application;
 import android.util.Log;
