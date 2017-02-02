@@ -1,23 +1,15 @@
 {
   "name": "StriverMobile",
-  "author": "Futurice",
-  "description": "React Native App Starter Kit for Android and iOS",
+  "author": "Striver Athletics",
+  "description": "React-Native App for Striver Mobile iOS and Android",
   "license": "MIT",
-  "homepage": "http://getpepperoni.com",
-  "bugs": "https://github.com/futurice/pepperoni-app-kit/issues",
+  "homepage": "http://striverathletics.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/futurice/pepperoni-app-kit"
+    "url": "https://github.com/djakaitis/Striver-Mobile"
   },
-  "keywords": [
-    "React Native",
-    "Starter Kit",
-    "Bitrise",
-    "Redux",
-    "Auth0"
-  ],
   "version": "1.0.0",
-  "private": false,
+  "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "bundle:ios": "node ./node_modules/react-native/local-cli/cli.js bundle --platform ios --entry-file index.ios.js --bundle-output ios/StriverMobile/main.jsbundle --dev=false --minify --verbose",
@@ -39,6 +31,7 @@
     "react": "~15.3.2",
     "react-dom": "~15.3.2",
     "react-native": "~0.37.0",
+    "react-native-lock": "github:futurice/react-native-lock#feature/customizedTheme",
     "react-native-vector-icons": "^3.0.0",
     "react-redux": "^4.4.5",
     "redux": "^3.4.0",
