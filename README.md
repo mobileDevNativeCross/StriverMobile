@@ -25,8 +25,6 @@ $ npm run test:watch
 $ npm run coverage
 ```
 
-Read the **[Testing guide](docs/TESTING.md)** for more information about writing tests.
-
 ## Deployment
 
 Read the **[Deployment guide](docs/DEPLOYMENT.md)** to learn how to deploy the application to test devices, app stores, and how to use Code Push to push updates to your users immediately.
