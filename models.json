@@ -1,0 +1,24 @@
+{
+	userId:"",
+	tenantId:"",
+	isCoach:false,
+	todaysWorkouts:[{
+		//collection of liveWorkoutObjects below - should be one ifCoach is false
+		//coaches api returns all liveworkouts for all users on todays date
+	}]
+
+}
+
+//liveworkoutobj
+{
+	workoutId: 1,
+	athleteId: "",
+	tenantId:"",
+	workoutDate:"",
+	intensityScore:"",
+	isComplete:false, //if true -> place in history page
+	dateComplete: null,
+	assignedBy:"",
+	workoutItems:[{}] //collection of liveworkoutitem + state of each set
+	completedFeedback: {} //create separate class: actual intensity, notes, markedBy,time to complete
+ }
