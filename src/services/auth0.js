@@ -8,11 +8,11 @@ const clientId = env.AUTH0_CLIENT_ID;
 const domain = env.AUTH0_DOMAIN;
 const authenticationEnabled = clientId && domain;
 
+
 let lock = null;
 if (authenticationEnabled) {
   lock = new Auth0Lock({
-    clientId,
-    domain
+    clientId, domain
   });
 } else {
   console.warn('Authentication not enabled: Auth0 configuration not provided');
@@ -23,8 +23,13 @@ export function showLogin() {
     return;
   }
 
+  //defines our auth0 lock return token
+  //scopes are what we pull from user profile in auth0 db
   const options = {
-    closable: true
+    closable: false,
+    authParams: {
+      scope: 'openid email user_metadata app_metadata picture'
+    }
   };
 
   if (Platform.OS === 'ios') {
