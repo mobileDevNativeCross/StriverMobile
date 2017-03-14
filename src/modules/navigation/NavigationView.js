@@ -10,10 +10,6 @@ const {
   PropTypes: NavigationPropTypes
 } = NavigationExperimental;
 import AppRouter from '../AppRouter';
-import TabBar from '../../components/TabBar';
-
-// Customize bottom tab bar height here if desired
-const TAB_BAR_HEIGHT = 50;
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -42,7 +38,7 @@ const NavigationView = React.createClass({
         renderTitleComponent={() => {
           return (
             <NavigationHeader.Title>
-              {sceneProps.scene.route.title}
+              Striver
             </NavigationHeader.Title>
           );
         }}
@@ -71,12 +67,6 @@ const NavigationView = React.createClass({
           renderHeader={this.renderHeader}
           renderScene={this.renderScene}
         />
-        <TabBar
-          height={TAB_BAR_HEIGHT}
-          tabs={tabs}
-          currentTabIndex={tabs.index}
-          switchTab={this.props.switchTab}
-        />
       </View>
     );
   }
@@ -88,7 +78,6 @@ const styles = StyleSheet.create({
   },
   sceneContainer: {
     flex: 1,
-    marginBottom: TAB_BAR_HEIGHT,
   }
 });
 
