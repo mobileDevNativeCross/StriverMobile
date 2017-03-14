@@ -84,11 +84,11 @@ const NavigationView = React.createClass({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   sceneContainer: {
     flex: 1,
-    marginBottom: TAB_BAR_HEIGHT
+    marginBottom: TAB_BAR_HEIGHT,
   }
 });
 
