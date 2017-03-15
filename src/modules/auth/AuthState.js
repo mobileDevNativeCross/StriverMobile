@@ -7,7 +7,8 @@ import {
 const initialState = Map({
     isLoggedIn: false,
     currentUser: null,
-    authenticationToken: null
+    authenticationToken: null,
+    nextWorkoutTree: null
 });
 
 //actions
@@ -42,7 +43,7 @@ export default function AuthStateReducer(state = initialState, action = {}) {
             return state
                 .set('isLoggedIn', true)
                 .set('currentUser', action.payload.profile)
-                .set('authenticationToken', action.payload.token);
+                .set('authenticationToken', action.payload.token)
         case USER_LOGIN_ERROR:
             return initialState;
         default:

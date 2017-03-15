@@ -18,9 +18,6 @@ const fontColor = 'rgb(110,110,110)';
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 class CounterView extends Component{
-  componentDidMount(){
-    console.warn('Trying read token from state(.get): ', this.props.currentState);
-  }
 
   propTypes: {
     dispatch: PropTypes.func.isRequired
