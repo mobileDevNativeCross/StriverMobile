@@ -8,7 +8,9 @@ import {
   Image,
   Text,
   View,
-  ListView
+  ScrollView,
+  ListView,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo'
 
@@ -23,13 +25,38 @@ class CounterView extends Component{
     super();
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
+      chack: false,
       dataSource: [
-        'Ex 1',
-        'Ex 2',
-        'Ex 3',
-        'Ex 4',
-        'Ex 5',
-        'Ex 6',
+        {
+          exercise: {
+            name: 'Ex 1',
+          },
+        },
+        {
+          exercise: {
+            name: 'Ex 2',
+          },
+        },
+        {
+          exercise: {
+            name: 'Ex 3',
+          },
+        },
+        {
+          exercise: {
+            name: 'Ex 4',
+          },
+        },
+        {
+          exercise: {
+            name: 'Ex 5',
+          },
+        },
+        {
+          exercise: {
+            name: 'Ex 6',
+          },
+        },
       ],
     }
   }
@@ -49,8 +76,24 @@ class CounterView extends Component{
       </View>
     );
   }
+  renderItemTwo = (item) => {
+    return (
+      <View style={styles.exerciseItem}>
+        <Icon name="dot-single"
+          size={20}
+          color={fontColor}
+        />
+        <Text style={{fontSize: 18,
+        color: fontColor,
+        fontWeight: '700',fontWeight: '600', marginLeft: 10}}>
+          {item.exercise.name}
+        </Text>
+      </View>
+    );
+  }
 
   render() {
+    // const { name } - this.props;
     return (
       <View style={styles.container}>
         <View style={styles.title}>
@@ -71,15 +114,22 @@ class CounterView extends Component{
           <Text style={styles.exText}>
             Exercises:
           </Text>
-          <View>
-            <ListView
-              dataSource = {this.ds.cloneWithRows(this.state.dataSource)}
-              renderRow = {this.renderItem}
-            />
-          </View>
+          <ScrollView>
+          {
+            this.state.dataSource.map(item => { return(this.renderItemTwo(item)); })
+          }
+          {
+            // <ListView
+            //   dataSource = {this.ds.cloneWithRows(this.state.dataSource)}
+            //   renderRow = {this.renderItem}
+            // />
+          }
+          </ScrollView>
         </View>
         <TouchableOpacity style={styles.beginWorkoutButton}>
           <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
         </TouchableOpacity>
       </View>
     );
@@ -91,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   title: {
     width: displayWidth,
