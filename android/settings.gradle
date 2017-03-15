@@ -1,0 +1,3 @@
+rootProject.name = 'StriverMobile'
+
+include ':app'
