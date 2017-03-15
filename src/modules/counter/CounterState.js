@@ -15,6 +15,19 @@ const RANDOM_REQUEST = 'CounterState/RANDOM_REQUEST';
 const RANDOM_RESPONSE = 'CounterState/RANDOM_RESPONSE';
 
 // Action creators
+export function increment() {
+  return {type: INCREMENT};
+}
+
+export function reset() {
+  return {type: RESET};
+}
+
+export function random() {
+  return {
+    type: RANDOM_REQUEST
+  };
+}
 
 export async function requestRandomNumber() {
   return {
@@ -22,17 +35,6 @@ export async function requestRandomNumber() {
     payload: await generateRandomNumber()
   };
 }
-
-/*
-export const random = () => (dispatch, getState) => {
-  api.post().then(data => dispatch(random(data))).catch(dispatch(error()));
-};
-
-
-export const random = () => {
-  return ({ type: 'RESET' })
-};
-*/
 
 // Reducer
 export default function CounterStateReducer(state = initialState, action = {}) {

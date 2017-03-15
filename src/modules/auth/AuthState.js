@@ -7,8 +7,7 @@ import {
 const initialState = Map({
     isLoggedIn: false,
     currentUser: null,
-    authenticationToken: null,
-    nextWorkoutTree: null
+    authenticationToken: null
 });
 
 //actions
@@ -18,7 +17,6 @@ const USER_LOGIN_ERROR = 'AppState/USER_LOGIN_ERROR';
 
 
 export function onUserLoginSuccess(profile, token) {
-  console.log("token_from_authstate",JSON.stringify(token, null, 2)); //Login token is here!!
     return {
         type: USER_LOGIN_SUCCESS,
         payload: {
@@ -43,7 +41,7 @@ export default function AuthStateReducer(state = initialState, action = {}) {
             return state
                 .set('isLoggedIn', true)
                 .set('currentUser', action.payload.profile)
-                .set('authenticationToken', action.payload.token)
+                .set('authenticationToken', action.payload.token);
         case USER_LOGIN_ERROR:
             return initialState;
         default:

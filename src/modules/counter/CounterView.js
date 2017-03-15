@@ -10,74 +10,75 @@ import {
   View,
   ScrollView,
   ListView,
-  Platform,
+  Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo'
 
-const fontColor = 'rgb(110,110,110)';
+
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
-class CounterView extends Component{
+const fontColor = 'rgb(110,110,110)';
 
-  propTypes: {
-    dispatch: PropTypes.func.isRequired
-  }
-  constructor() {
-    super();
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    this.state = {
-      chack: false,
-      dataSource: [
-        {
-          exercise: {
-            name: 'Ex 1',
-          },
-        },
-        {
-          exercise: {
-            name: 'Ex 2',
-          },
-        },
-        {
-          exercise: {
-            name: 'Ex 3',
-          },
-        },
-        {
-          exercise: {
-            name: 'Ex 4',
-          },
-        },
-        {
-          exercise: {
-            name: 'Ex 5',
-          },
-        },
-        {
-          exercise: {
-            name: 'Ex 6',
-          },
-        },
-      ],
-    }
-  }
+const dataSource = [
+  {
+    exercise: {
+      name: 'Ex 1',
+    },
+  },
+  {
+    exercise: {
+      name: 'Ex 2',
+    },
+  },
+  {
+    exercise: {
+      name: 'Ex 3',
+    },
+  },
+  {
+    exercise: {
+      name: 'Ex 4',
+    },
+  },
+  {
+    exercise: {
+      name: 'Ex 5',
+    },
+  },
+  {
+    exercise: {
+      name: 'Ex 6',
+    },
+  },
+];
 
-  renderItem = (rowData, sectionId, rowId) => {
-    return (
-      <View style={styles.exerciseItem}>
-        <Icon name="dot-single"
-          size={20}
-          color={fontColor}
-        />
-        <Text style={{fontSize: 18,
-        color: fontColor,
-        fontWeight: '700',fontWeight: '600', marginLeft: 10}}>
-          {rowData}
-        </Text>
-      </View>
-    );
-  }
-  renderItemTwo = (item) => {
+// class CounterView extends Component{
+const CounterView = React.createClass({
+
+  // propTypes: {
+  //   counter: PropTypes.number.isRequired,
+  //   userName: PropTypes.string,
+  //   userProfilePhoto: PropTypes.string,
+  //   loading: PropTypes.bool.isRequired,
+  //   dispatch: PropTypes.func.isRequired
+  // },
+  // increment() {
+  //   this.props.dispatch(CounterState.increment());
+  // },
+  // reset() {
+  //   this.props.dispatch(CounterState.reset());
+  // },
+  // random() {
+  //   this.props.dispatch(CounterState.random());
+  // },
+  // bored() {
+  //   this.props.dispatch(NavigationState.pushRoute({
+  //     key: 'Color',
+  //     title: 'Color Screen'
+  //   }));
+  // },
+
+  renderItem(item) {
     return (
       <View style={styles.exerciseItem}>
         <Icon name="dot-single"
@@ -91,10 +92,34 @@ class CounterView extends Component{
         </Text>
       </View>
     );
-  }
+  },
 
+  // renderUserInfo() {
+  //   if (!this.props.userName) {
+  //     return null;
+  //   }
+  //
+  //   return (
+  //     <View style={styles.userContainer}>
+  //       <Image
+  //         style={styles.userProfilePhoto}
+  //         source={{
+  //           uri: this.props.userProfilePhoto,
+  //           width: 80,
+  //           height: 80
+  //         }}
+  //       />
+  //       <Text style={styles.linkButton}>
+  //         Welcome, {this.props.userName}!
+  //       </Text>
+  //     </View>
+  //   );
+  // },
   render() {
-    // const { name } - this.props;
+    // const loadingStyle = this.props.loading
+    //   ? {backgroundColor: '#eee'}
+    //   : null;
+
     return (
       <View style={styles.container}>
         <View style={styles.title}>
@@ -116,7 +141,7 @@ class CounterView extends Component{
             Exercises:
           </Text>
           <ScrollView>
-            {this.state.dataSource.map(item => { return(this.renderItemTwo(item)); })}
+            {dataSource.map(item => { return(this.renderItem(item)); })}
           </ScrollView>
         </View>
         <TouchableOpacity style={styles.beginWorkoutButton}>
@@ -125,7 +150,14 @@ class CounterView extends Component{
       </View>
     );
   }
-}
+});
+
+// const circle = {
+//   borderWidth: 0,
+//   borderRadius: 40,
+//   width: 80,
+//   height: 80
+// };
 
 const styles = StyleSheet.create({
   container: {

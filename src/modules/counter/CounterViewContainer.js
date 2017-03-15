@@ -3,6 +3,9 @@ import CounterView from './CounterView';
 
 export default connect(
   state => ({
-    currentState: state.getIn(['auth', 'authenticationToken', 'idToken'])
+    counter: state.getIn(['counter', 'value']),
+    loading: state.getIn(['counter', 'loading']),
+    userName: state.getIn(['auth', 'currentUser', 'name']),
+    userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture'])
   })
 )(CounterView);

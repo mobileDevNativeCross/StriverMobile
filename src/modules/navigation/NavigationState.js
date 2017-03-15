@@ -30,23 +30,23 @@ export function popRoute() {
 
 // reducers for tabs and scenes are separate
 const initialState = fromJS({
-  // tabs: {
-  //   index: 0,
-  //   routes: [
-  //     {key: 'HomeTab', title: 'HOME'},
-  //     {key: 'ProfileTab', title: 'PROFILE'}
-  //   ]
-  // },
-  // // Scenes for the `HomeTab` tab.
-  // HomeTab: {
-  //   index: 0,
-  //   routes: [{key: 'Counter', title: 'Counter Screen'}]
-  // },
-  // // Scenes for the `ProfileTab` tab.
-  // ProfileTab: {
-  //   index: 0,
-  //   routes: [{key: 'Color', title: 'Color Screen'}]
-  // }
+  tabs: {
+    index: 0,
+    routes: [
+      {key: 'HomeTab', title: 'HOME'},
+      {key: 'ProfileTab', title: 'PROFILE'}
+    ]
+  },
+  // Scenes for the `HomeTab` tab.
+  HomeTab: {
+    index: 0,
+    routes: [{key: 'Counter', title: 'Counter Screen'}]
+  },
+  // Scenes for the `ProfileTab` tab.
+  ProfileTab: {
+    index: 0,
+    routes: [{key: 'Color', title: 'Color Screen'}]
+  }
 });
 
 export default function NavigationReducer(state = initialState, action) {

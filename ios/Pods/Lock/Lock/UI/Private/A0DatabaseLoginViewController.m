@@ -229,19 +229,16 @@
         [self hideKeyboard];
         NSString *username = [self.loginView.identifier stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         NSString *password = self.loginView.password;
-    
         A0APIClient *client = [self a0_apiClientFromProvider:self.lock];
         A0APIClientAuthenticationSuccess success = ^(A0UserProfile *profile, A0Token *token){
             [self postLoginSuccessfulWithUsername:username andParameters:self.parameters];
             if (self.onLoginBlock) {
-//                NSLog(@"tokentoken %@", token.idToken);
                 self.onLoginBlock(self, profile, token);
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(YES);
             });
         };
-
         A0APIClientError failure = ^(NSError *error) {
             [self postLoginErrorNotificationWithError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
