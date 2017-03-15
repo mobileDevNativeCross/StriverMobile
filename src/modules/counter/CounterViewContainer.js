@@ -6,6 +6,7 @@ export default connect(
     counter: state.getIn(['counter', 'value']),
     loading: state.getIn(['counter', 'loading']),
     userName: state.getIn(['auth', 'currentUser', 'name']),
-    userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture'])
+    userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
+    currentState: state
   })
 )(CounterView);

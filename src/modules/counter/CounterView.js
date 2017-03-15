@@ -18,6 +18,10 @@ const fontColor = 'rgb(110,110,110)';
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 class CounterView extends Component{
+  componentDidMount(){
+    console.log('Trying read token from state(.get): ', this.props.currentState);
+  }
+
   propTypes: {
     dispatch: PropTypes.func.isRequired
   }
@@ -115,21 +119,11 @@ class CounterView extends Component{
             Exercises:
           </Text>
           <ScrollView>
-          {
-            this.state.dataSource.map(item => { return(this.renderItemTwo(item)); })
-          }
-          {
-            // <ListView
-            //   dataSource = {this.ds.cloneWithRows(this.state.dataSource)}
-            //   renderRow = {this.renderItem}
-            // />
-          }
+            {this.state.dataSource.map(item => { return(this.renderItemTwo(item)); })}
           </ScrollView>
         </View>
         <TouchableOpacity style={styles.beginWorkoutButton}>
           <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
         </TouchableOpacity>
       </View>
     );

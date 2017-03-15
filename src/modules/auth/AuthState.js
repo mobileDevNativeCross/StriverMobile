@@ -18,7 +18,6 @@ const USER_LOGIN_ERROR = 'AppState/USER_LOGIN_ERROR';
 
 export function onUserLoginSuccess(profile, token) {
   console.log("token_from_authstate",JSON.stringify(token, null, 2)); //Login token is here!!
-  console.log("token_from_authstate123123123",token)
     return {
         type: USER_LOGIN_SUCCESS,
         payload: {
