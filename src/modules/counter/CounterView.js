@@ -12,8 +12,8 @@ import {
   ListView,
   Platform
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo'
-
+import Icon from 'react-native-vector-icons/Entypo';
+import store from '../../redux/store';
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
@@ -52,10 +52,21 @@ const dataSource = [
   },
 ];
 
-// class CounterView extends Component{
-const CounterView = React.createClass({
+class CounterView extends Component{
+// const CounterView = React.createClass({
+  constructor(props) {
+    super(props);
+    this.props.dispatch(CounterState.getWorkoutTree());
+  }
 
+/*
   // propTypes: {
+  ///  //   counter: PropTypes.arrayOf(PropTypes.object),
+  //   action: PropTypes.shape({
+    //   onClose: PropTypes.func,
+    //   onOpen: PropTypes.func,
+  //   })
+*/
   //   counter: PropTypes.number.isRequired,
   //   userName: PropTypes.string,
   //   userProfilePhoto: PropTypes.string,
@@ -92,7 +103,7 @@ const CounterView = React.createClass({
         </Text>
       </View>
     );
-  },
+  }
 
   // renderUserInfo() {
   //   if (!this.props.userName) {
@@ -119,7 +130,6 @@ const CounterView = React.createClass({
     // const loadingStyle = this.props.loading
     //   ? {backgroundColor: '#eee'}
     //   : null;
-
     return (
       <View style={styles.container}>
         <View style={styles.title}>
@@ -150,7 +160,7 @@ const CounterView = React.createClass({
       </View>
     );
   }
-});
+};
 
 // const circle = {
 //   borderWidth: 0,

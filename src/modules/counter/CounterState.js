@@ -4,7 +4,7 @@ import {generateRandomNumber} from '../../services/randomNumberService';
 
 // Initial state
 const initialState = Map({
-  value: 0,
+  nextWorkoutTree: 111,
   loading: false
 });
 
@@ -13,8 +13,36 @@ const INCREMENT = 'CounterState/INCREMENT';
 const RESET = 'CounterState/RESET';
 const RANDOM_REQUEST = 'CounterState/RANDOM_REQUEST';
 const RANDOM_RESPONSE = 'CounterState/RANDOM_RESPONSE';
+const GET_WORKOUT_TREE = 'CounterState/GET_WORKOUT_TREE';
 
 // Action creators
+export const getWorkoutTree = () => (dispatch, getState) => {
+  const token = getState().getIn(['auth', 'authenticationToken', 'idToken'])
+
+  fetch('https://strivermobile-api.herokuapp.com/api/nextworkout',{
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  })
+  .then((response) => {
+    // console.warn('returning response.json()', response.json());
+    return response.json();
+  })
+  .then((responseJson) => {
+    dispatch(({
+      type: GET_WORKOUT_TREE,
+      response: responseJson,
+    }))
+  })
+  .catch((e) => {
+    console.warn('error is: ', e);
+  });
+
+
+
+}
+
 export function increment() {
   return {type: INCREMENT};
 }
@@ -55,6 +83,12 @@ export default function CounterStateReducer(state = initialState, action = {}) {
       return state
         .set('loading', false)
         .set('value', action.payload);
+
+    case GET_WORKOUT_TREE: {
+        console.warn('state is: ', action.response);
+          return state
+            .set('nextWorkoutTree', action.response);
+    }
 
     default:
       return state;

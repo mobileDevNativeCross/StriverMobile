@@ -2,7 +2,10 @@ import React, {PropTypes} from 'react';
 import {
   NavigationExperimental,
   View,
-  StyleSheet
+  StyleSheet,
+  Dimensions,
+  Image,
+  Text,
 } from 'react-native';
 const {
   CardStack: NavigationCardStack,
@@ -14,6 +17,9 @@ import AppRouter from '../AppRouter';
 
 // Customize bottom tab bar height here if desired
 // const TAB_BAR_HEIGHT = 50;
+
+const logo = require('../../assets/logo.png');
+const { width, height } = Dimensions.get('window');
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -34,21 +40,29 @@ const NavigationView = React.createClass({
   },
   // NavigationHeader accepts a prop style
   // NavigationHeader.title accepts a prop textStyle
-  // renderHeader(sceneProps) {
-  //   return (
-  //     <NavigationHeader
-  //       {...sceneProps}
-  //       onNavigateBack={this.props.onNavigateBack}
-  //       renderTitleComponent={() => {
-  //         return (
-  //           <NavigationHeader.Title>
-  //             {sceneProps.scene.route.title}
-  //           </NavigationHeader.Title>
-  //         );
-  //       }}
-  //     />
-  //   );
-  // },
+  renderHeader(sceneProps) {
+    return (
+      <View style={styles.viewLogo}>
+        <Image resizeMode="contain" style={styles.imageLogo} source={logo} />
+        <Text style={styles.textLogo}>
+        striver
+        </Text>
+      </View>
+      // <NavigationHeader
+      //   {...sceneProps}
+      //   onNavigateBack={this.props.onNavigateBack}
+      //   renderTitleComponent={() => {
+      //     return (
+      //       // <NavigationHeader.Title>
+      //
+      //       // {sceneProps.scene.route.title}
+      //
+      //       // </NavigationHeader.Title>
+      //     );
+      //   }}
+      // />
+    );
+  },
   renderScene(sceneProps) {
     // render scene and apply padding to cover
     // for app bar and navigation bar
@@ -68,7 +82,7 @@ const NavigationView = React.createClass({
           key={'stack_' + tabKey}
           onNavigateBack={this.props.onNavigateBack}
           navigationState={scenes}
-          // renderHeader={this.renderHeader}
+          renderHeader={this.renderHeader}
           renderScene={this.renderScene}
         />
         {
@@ -91,7 +105,26 @@ const styles = StyleSheet.create({
   sceneContainer: {
     flex: 1,
     // marginBottom: TAB_BAR_HEIGHT,
-  }
+  },
+  viewLogo: {
+    backgroundColor: 'white',
+   width,
+   paddingTop: 30,
+   flexDirection: 'row',
+   alignItems: 'center',
+   justifyContent: 'center',
+   alignItems: 'center',
+  //  paddingBottom: 20,
+ },
+ textLogo: {
+   marginLeft: 2,
+   fontWeight: '600',
+   fontSize: 23,
+ },
+ imageLogo: {
+   width: 30,
+   height: 50,
+ },
 });
 
 export default NavigationView;

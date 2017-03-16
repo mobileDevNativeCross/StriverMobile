@@ -13,7 +13,7 @@ describe('reducer', () => {
 
       const [nextState] = dispatch(initialState, resetStateAction);
 
-      expect(initialState.getIn(['counter', 'value'])).toBe(0);
+      expect(initialState.getIn(['counter', 'nextWorkoutTree'])).toBe(null);
       expect(nextState.getIn(['counter', 'value'])).toBe(9);
     });
   });
