@@ -82,12 +82,11 @@ class CounterView extends Component{
   // random() {
   //   this.props.dispatch(CounterState.random());
   // },
-  // bored() {
-  //   this.props.dispatch(NavigationState.pushRoute({
-  //     key: 'Color',
-  //     title: 'Color Screen'
-  //   }));
-  // },
+  bored() {
+    this.props.dispatch(NavigationState.pushRoute({
+      key: 'beginWorkout',
+    }));
+  }
 
   renderItem(item) {
     return (
@@ -154,7 +153,7 @@ class CounterView extends Component{
             {dataSource.map(item => { return(this.renderItem(item)); })}
           </ScrollView>
         </View>
-        <TouchableOpacity style={styles.beginWorkoutButton}>
+        <TouchableOpacity onPress={() => {this.bored()}} style={styles.beginWorkoutButton}>
           <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
         </TouchableOpacity>
       </View>
