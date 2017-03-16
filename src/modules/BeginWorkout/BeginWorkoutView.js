@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as CounterState from '../counter/CounterState';
 import * as BeginWorkoutState from './BeginWorkoutState';
 
 const { width, height } = Dimensions.get('window');
@@ -20,8 +21,12 @@ const pencil = require('../../assets/pencil.png');
 
 class BeginWorkout extends Component {
   state={
-    check: this.props.check || [],
+    check: [],
     disable: false,
+  }
+
+  componentDidMount() {
+    this.props.dispatch(CounterState.getWorkoutTree());
   }
 
   pop() {
@@ -29,10 +34,10 @@ class BeginWorkout extends Component {
   }
 
   checkExsercise = (index) => {
-    checkMas = this.state.check;
-    checkMas[index] = !this.state.check[index];
-    this.setState({check: checkMas});
-    this.props.dispatch(BeginWorkoutState.setCheck(checkMas));
+    // checkMas = this.state.check;
+    // checkMas[index] = !this.state.check[index];
+    // this.setState({check: checkMas});
+    this.props.dispatch(BeginWorkoutState.setCheck(index));
   }
 
   clearCheck = () => {
@@ -45,14 +50,14 @@ class BeginWorkout extends Component {
       <TouchableOpacity onPress={() => {this.clearCheck()}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
-            <Text style={styles.textExercizeName} >
+            <Text style={styles.textExercizeName}>
               {item.Exercise.name}
             </Text>
             <CheckBox
               checkboxStyle={styles.checkboxStyle}
               underlayColor={'transparent'}
               label={''}
-              checked={this.state.check[index]}
+              checked={this.props.check.get(index)}
               onChange={() => { this.checkExsercise(index) }}
             />
           </View>
@@ -62,6 +67,7 @@ class BeginWorkout extends Component {
   }
 
   render() {
+    console.warn('state is: ', this.props.state);
     console.warn('PROPSCHECK', this.props.check);
     console.warn('SOME', this.props.some);
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
@@ -97,7 +103,8 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewItems}>
           {
-            nextWorkoutTree.liveWorkoutComponents &&
+            // console.warn('LOL', nextWorkoutTree)
+            Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
             nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
               return(this.renderItem(item, index));
             })

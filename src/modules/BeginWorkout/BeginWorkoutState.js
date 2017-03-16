@@ -4,8 +4,7 @@ import {loop, Effects} from 'redux-loop';
 
 // Initial state
 const initialState = Map({
-  check: [],
-  some: 'some',
+  check: Map(),
 });
 
 // Actions
@@ -18,14 +17,14 @@ const CLEAR_CHECK = 'CLEAR_CHECK';
 // const GET_WORKOUT_TREE = 'CounterState/GET_WORKOUT_TREE';
 
 // Action creators
-export const setCheck = (check) => ({
+export const setCheck = (index) => ({
   type: SET_CHECK,
-  check,
+  index,
 });
 
 export const clearCheck = () => ({
   type: CLEAR_CHECK,
-  check: [],
+  // check: [false],
 });
   // const token = getState().getIn(['auth', 'authenticationToken', 'idToken'])
   //
@@ -92,10 +91,20 @@ export default function CounterStateReducer(state = initialState, action = {}) {
   //
     case SET_CHECK: {
       return state
-        .set('check', action.check);
+        .setIn(['check', action.index], !state.getIn(['check', action.index]));
     }
 
     case CLEAR_CHECK: {
+      const size = state.get('check').size;
+      // state.get('check').map((value, index) console.warn)
+      // return state.map(item => { item.set('item', false) })
+      // const a = Map();
+      for (var i = 0; i < size - 1; i ++) {
+        state = state.setIn(['check', i], false);
+      }
+
+      return state;
+      // return initialState;
       // console.warn('CLEAR', state);
       // return state
       //   .update((check) => {
@@ -103,8 +112,12 @@ export default function CounterStateReducer(state = initialState, action = {}) {
       //   });
       // return state
       //   .set('check', action.check);
-      return state
-       .delete('check');
+      // return state
+      //   .get('check').map(value => false)
+      // return state.merge(initialState);
+      // return state.update('check', (check) => check.set('check', []));
+      // return state
+      //  .delete('check');
     }
 
     default:
