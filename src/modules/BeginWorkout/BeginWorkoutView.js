@@ -20,7 +20,7 @@ const pencil = require('../../assets/pencil.png');
 
 class BeginWorkout extends Component {
   state={
-    check: this.props.check,
+    check: this.props.check || [],
     disable: false,
   }
 
@@ -35,9 +35,14 @@ class BeginWorkout extends Component {
     this.props.dispatch(BeginWorkoutState.setCheck(checkMas));
   }
 
+  clearCheck = () => {
+    this.props.dispatch(BeginWorkoutState.clearCheck());
+    // this.setState({check: this.props.check});
+  }
+
   renderItem = (item, index) => {
     return (
-      <TouchableHighlight onPress={() => {this.props.dispatch(BeginWorkoutState.clearCheck())}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <TouchableOpacity onPress={() => {this.clearCheck()}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName} >
@@ -47,16 +52,18 @@ class BeginWorkout extends Component {
               checkboxStyle={styles.checkboxStyle}
               underlayColor={'transparent'}
               label={''}
-              checked={this.props.check[index]}
+              checked={this.state.check[index]}
               onChange={() => { this.checkExsercise(index) }}
             />
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 
   render() {
+    console.warn('PROPSCHECK', this.props.check);
+    console.warn('SOME', this.props.some);
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
     return (
       <ScrollView style={styles.container}>

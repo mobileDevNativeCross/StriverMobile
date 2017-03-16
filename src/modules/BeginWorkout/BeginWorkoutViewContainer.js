@@ -11,5 +11,6 @@ export default connect(
     nextWorkoutTree: state.getIn(['counter', 'nextWorkoutTree']),
     state: state,
     check: state.getIn(['beginWorkout', 'check']),
+    some: state.getIn(['beginWorkout', 'some']),
   })
 )(BeginWorkoutView);

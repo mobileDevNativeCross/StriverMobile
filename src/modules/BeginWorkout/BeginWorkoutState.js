@@ -5,6 +5,7 @@ import {loop, Effects} from 'redux-loop';
 // Initial state
 const initialState = Map({
   check: [],
+  some: 'some',
 });
 
 // Actions
@@ -95,8 +96,15 @@ export default function CounterStateReducer(state = initialState, action = {}) {
     }
 
     case CLEAR_CHECK: {
+      // console.warn('CLEAR', state);
+      // return state
+      //   .update((check) => {
+      //     return check.set([]);
+      //   });
+      // return state
+      //   .set('check', action.check);
       return state
-        .set('check', action.check);
+       .delete('check');
     }
 
     default:
