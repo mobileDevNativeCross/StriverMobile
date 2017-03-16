@@ -13,13 +13,14 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as BeginWorkoutState from './BeginWorkoutState';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
 
 class BeginWorkout extends Component {
   state={
-    check: [],
+    check: this.props.check,
     disable: false,
   }
 
@@ -31,11 +32,12 @@ class BeginWorkout extends Component {
     checkMas = this.state.check;
     checkMas[index] = !this.state.check[index];
     this.setState({check: checkMas});
+    this.props.dispatch(BeginWorkoutState.setCheck(checkMas));
   }
 
   renderItem = (item, index) => {
     return (
-      <TouchableHighlight style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <TouchableHighlight onPress={() => {this.props.dispatch(BeginWorkoutState.clearCheck())}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName} >
@@ -45,7 +47,7 @@ class BeginWorkout extends Component {
               checkboxStyle={styles.checkboxStyle}
               underlayColor={'transparent'}
               label={''}
-              checked={this.state.check[index]}
+              checked={this.props.check[index]}
               onChange={() => { this.checkExsercise(index) }}
             />
           </View>

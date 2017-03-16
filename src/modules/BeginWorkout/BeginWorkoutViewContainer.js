@@ -7,8 +7,9 @@ export default connect(
     loading: state.getIn(['counter', 'loading']),
     userName: state.getIn(['auth', 'currentUser', 'name']),
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
-    nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
+    nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']), // state.get('auth').get('auth...').get('idToken')
     nextWorkoutTree: state.getIn(['counter', 'nextWorkoutTree']),
-    state: state
+    state: state,
+    check: state.getIn(['beginWorkout', 'check']),
   })
 )(BeginWorkoutView);

@@ -4,6 +4,7 @@ import NavigationStateReducer from '../modules/navigation/NavigationState';
 import AuthStateReducer from '../modules/auth/AuthState';
 import CounterStateReducer from '../modules/counter/CounterState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
+import BeginWorkoutStateReducer from '../modules/BeginWorkout/BeginWorkoutState';
 
 const reducers = {
   //auth0 Authentication login state
@@ -16,7 +17,9 @@ const reducers = {
   //`navigationState`
   navigationState: NavigationStateReducer,
 
-  session: SessionStateReducer
+  session: SessionStateReducer,
+
+  beginWorkout: BeginWorkoutStateReducer,
 
 };
 
