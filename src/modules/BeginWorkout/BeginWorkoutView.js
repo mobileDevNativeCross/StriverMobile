@@ -19,7 +19,7 @@ const pencil = require('../../assets/pencil.png');
 
 class BeginWorkout extends Component {
   state={
-    check: false,
+    check: [],
     disable: false,
   }
 
@@ -27,18 +27,26 @@ class BeginWorkout extends Component {
     this.props.dispatch(NavigationState.popRoute());
   }
 
+  checkExsercise = (index) => {
+    checkMas = this.state.check;
+    checkMas[index] = !this.state.check[index];
+    this.setState({check: checkMas});
+  }
+
   renderItem = (item, index) => {
     return (
       <TouchableHighlight style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
-            <Text>
+            <Text style={styles.textExercizeName} >
               {item.Exercise.name}
             </Text>
             <CheckBox
+              checkboxStyle={styles.checkboxStyle}
+              underlayColor={'transparent'}
               label={''}
-              checked={this.state.check}
-              onChange={(checked) => { this.setState({check: !this.state.check}) }}
+              checked={this.state.check[index]}
+              onChange={() => { this.checkExsercise(index) }}
             />
           </View>
         </View>
@@ -47,7 +55,7 @@ class BeginWorkout extends Component {
   }
 
   render() {
-    const { workOut, PRE, timeDate, focus, liveWorkoutComponents } = this.props;
+    const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
     return (
       <ScrollView style={styles.container}>
         <View style={styles.viewFlexDirection}>
@@ -80,7 +88,10 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewItems}>
           {
-            // liveWorkoutComponents.map((item, index) => { return(this.renderItem(item, index)); })
+            nextWorkoutTree.liveWorkoutComponents &&
+            nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
+              return(this.renderItem(item, index));
+            })
           }
         </View>
       </ScrollView>
@@ -120,11 +131,6 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
   },
-  // instructions: {
-  //   textAlign: 'center',
-  //   color: '#333333',
-  //   marginBottom: 5,
-  // },
   textTop: {
     color: '#7b7b7b',
     fontSize: 18,
@@ -160,17 +166,29 @@ const styles = StyleSheet.create({
   touchableItem: {
     paddingVertical: 20,
   },
-  viewItem: {
-    marginLeft: 20,
-    width: (width / 1.3),
-    backgroundColor: 'red',
-  },
   viewRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   viewItems: {
     marginTop: 30,
+  },
+  viewItem: {
+    justifyContent: 'center',
+    marginLeft: 20,
+    width: (width / 1.2),
+  },
+  textExercizeName: {
+    color: '#7b7b7b',
+    fontWeight: '700',
+    fontSize: 17,
+    width: (width / 1.4),
+  },
+  checkboxStyle: {
+    tintColor: '#979797',
+    borderWidth: 2.8,
+    borderColor: '#979797',
+    backgroundColor: '#ededed',
   },
 });
 
@@ -179,7 +197,7 @@ BeginWorkout.propTypes = {
   PRE: PropTypes.string,
   timeDate: PropTypes.string,
   focus: PropTypes.number,
-  // liveWorkoutComponents: PropTypes.arrayOf(PropTypes.object),
+  nextWorkoutTree: PropTypes.object,
 };
 
 export default BeginWorkout;
