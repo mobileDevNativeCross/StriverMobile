@@ -20,10 +20,12 @@ import BackgroundTimer from 'react-native-background-timer';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
+const liveWorkoutTimer = null;
 
 class BeginWorkout extends Component {
   componentDidMount(){
     //starting timer
+    this.props.dispatch(CounterState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
       this.props.dispatch(CounterState.timerIncrement());
     }, 1000);
@@ -32,10 +34,6 @@ class BeginWorkout extends Component {
   state={
     check: [],
     disable: false,
-  }
-
-  componentDidMount() {
-    this.props.dispatch(CounterState.getWorkoutTree());
   }
 
   pop() {
@@ -117,7 +115,7 @@ class BeginWorkout extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.viewFlexDirection}>
           <Text style={styles.textTop}>
-            {workOut ? workOut : 'Work Out'}
+            {workOut ? workOut : 'Workout'}
           </Text>
           <Text style={styles.textTop}>
             {PRE ? PRE : 'PRE'}
