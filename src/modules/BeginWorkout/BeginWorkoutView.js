@@ -13,8 +13,10 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import * as NavigationState from '../../modules/navigation/NavigationState';
-import BackgroundTimer from 'react-native-background-timer';
+
 import * as CounterState from '../counter/CounterState';
+import * as BeginWorkoutState from './BeginWorkoutState';
+import BackgroundTimer from 'react-native-background-timer';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
@@ -28,8 +30,12 @@ class BeginWorkout extends Component {
   }
 
   state={
-    check: false,
+    check: [],
     disable: false,
+  }
+
+  componentDidMount() {
+    this.props.dispatch(CounterState.getWorkoutTree());
   }
 
   pop() {
@@ -40,27 +46,73 @@ class BeginWorkout extends Component {
     this.props.dispatch(NavigationState.popRoute());
   }
 
+  checkExsercise = (index) => {
+    // checkMas = this.state.check;
+    // checkMas[index] = !this.state.check[index];
+    // this.setState({check: checkMas});
+    this.props.dispatch(BeginWorkoutState.setCheck(index));
+  }
+
+  clearCheck = () => {
+    this.props.dispatch(BeginWorkoutState.clearCheck());
+    // this.setState({check: this.props.check});
+  }
+
   renderItem = (item, index) => {
     return (
-      <TouchableHighlight style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <TouchableOpacity onPress={() => {this.clearCheck()}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
-            <Text>
+            <Text style={styles.textExercizeName}>
               {item.Exercise.name}
             </Text>
             <CheckBox
+              checkboxStyle={styles.checkboxStyle}
+              underlayColor={'transparent'}
               label={''}
-              checked={this.state.check}
-              onChange={(checked) => { this.setState({check: !this.state.check}) }}
+              checked={this.props.check.get(index)}
+              onChange={() => { this.checkExsercise(index) }}
             />
           </View>
+          {/* <View>
+            {
+              this.props.sets.map(set => { return(
+              // item.sets.map(set => { return(
+                  <Text>
+                    {set.weight}
+                  </Text>
+                  <Text>
+                    {set.repetitions}
+                  </Text>
+                  <Text>
+                    {set.intervalTime}
+                  </Text>
+              );})
+            }
+          </View> */}
+          <View style={styles.viewSets}>
+            <View style={styles.viewSetsFlex}>
+              <Text style={styles.textSets}>
+                Weight
+              </Text>
+              <Text style={styles.textSets}>
+                Reps
+              </Text>
+              <Text style={styles.textSets}>
+                Time
+              </Text>
+            </View>
+          </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 
   render() {
-    const { workOut, PRE, timeDate, focus, liveWorkoutComponents } = this.props;
+    // console.warn('state is: ', this.props.state);
+    // console.warn('PROPSCHECK', this.props.check);
+    // console.warn('SOME', this.props.some);
+    const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
     return (
       <ScrollView style={styles.container}>
         <View style={styles.viewFlexDirection}>
@@ -77,7 +129,7 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewFocus}>
           <Text style={styles.textFocus}>
-            Focus: {focus}
+            Focus: {nextWorkoutTree.goal}
           </Text>
         </View>
         <View style={styles.viewTouchOpacityComplete}>
@@ -93,7 +145,11 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewItems}>
           {
-            // liveWorkoutComponents.map((item, index) => { return(this.renderItem(item, index)); })
+            // console.warn('LOL', nextWorkoutTree)
+            Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+            nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
+              return(this.renderItem(item, index));
+            })
           }
         </View>
       </ScrollView>
@@ -133,11 +189,6 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
   },
-  // instructions: {
-  //   textAlign: 'center',
-  //   color: '#333333',
-  //   marginBottom: 5,
-  // },
   textTop: {
     color: '#7b7b7b',
     fontSize: 18,
@@ -160,9 +211,10 @@ const styles = StyleSheet.create({
   touchOpacityComplete: {
     width: 200,
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingBottom: 10,
+    paddingTop: 15,
     borderWidth: 2,
-    borderRadius: 5,
+    borderRadius: 3,
     borderColor: '#7b7b7b',
   },
   textComplete: {
@@ -173,17 +225,46 @@ const styles = StyleSheet.create({
   touchableItem: {
     paddingVertical: 20,
   },
-  viewItem: {
-    marginLeft: 20,
-    width: (width / 1.3),
-    backgroundColor: 'red',
-  },
   viewRow: {
+    marginLeft: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   viewItems: {
     marginTop: 30,
+  },
+  viewItem: {
+    justifyContent: 'center',
+    width: (width / 1.4),
+  },
+  textExercizeName: {
+    color: '#7b7b7b',
+    fontWeight: '700',
+    fontSize: 17,
+    width: (width / 1.7),
+  },
+  checkboxStyle: {
+    tintColor: '#979797',
+    borderWidth: 2.8,
+    borderColor: '#979797',
+    backgroundColor: '#ededed',
+  },
+  viewSetsFlex: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: ( width / 1.7 ),
+  },
+  viewSets: {
+    marginTop: 10,
+    width: ( width - 65 ),
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 5,
+  },
+  textSets: {
+    color: '#7b7b7b',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
@@ -192,7 +273,7 @@ BeginWorkout.propTypes = {
   PRE: PropTypes.string,
   timeDate: PropTypes.string,
   focus: PropTypes.number,
-  // liveWorkoutComponents: PropTypes.arrayOf(PropTypes.object),
+  nextWorkoutTree: PropTypes.object,
 };
 
 export default BeginWorkout;
