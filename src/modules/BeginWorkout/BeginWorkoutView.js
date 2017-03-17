@@ -27,7 +27,8 @@ class BeginWorkout extends Component {
 
   componentDidMount() {
     this.props.dispatch(CounterState.getWorkoutTree());
-    // this.props.dispatch(BeginWorkoutState.setLength(this.props.nextWorkoutTree.liveWorkoutComponents.length));
+    // console.warn('checkTHIS', this.props.nextWorkoutTree);
+    // this.props.dispatch(BeginWorkoutState.setLength(this.props.nextWorkoutTree.liveWorkoutComponents.length))
   }
 
   pop() {

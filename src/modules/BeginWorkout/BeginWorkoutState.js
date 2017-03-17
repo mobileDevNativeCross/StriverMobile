@@ -101,9 +101,9 @@ export default function CounterStateReducer(state = initialState, action = {}) {
       const checkMas = new Array(action.len).fill(false);
       console.warn('checkMas', checkMas);
       console.warn('action.len', action.len);
-      return this.state
-        .setIn(['len'], action.len)
-        // .setIn(['check'], checkMas);
+      return state
+        .set(['len'], action.len)
+        .set(['check'], checkMas);
     }
 
     case SET_CHECK: {
