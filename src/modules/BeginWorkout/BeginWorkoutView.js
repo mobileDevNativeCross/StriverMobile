@@ -45,15 +45,11 @@ class BeginWorkout extends Component {
   }
 
   checkExsercise = (index) => {
-    // checkMas = this.state.check;
-    // checkMas[index] = !this.state.check[index];
-    // this.setState({check: checkMas});
     this.props.dispatch(BeginWorkoutState.setCheck(index));
   }
 
   clearCheck = () => {
     this.props.dispatch(BeginWorkoutState.clearCheck());
-    // this.setState({check: this.props.check});
   }
 
   renderItem = (item, index) => {
@@ -72,22 +68,6 @@ class BeginWorkout extends Component {
               onChange={() => { this.checkExsercise(index) }}
             />
           </View>
-          {/* <View>
-            {
-              this.props.sets.map(set => { return(
-              // item.sets.map(set => { return(
-                  <Text>
-                    {set.weight}
-                  </Text>
-                  <Text>
-                    {set.repetitions}
-                  </Text>
-                  <Text>
-                    {set.intervalTime}
-                  </Text>
-              );})
-            }
-          </View> */}
           <View style={styles.viewSets}>
             <View style={styles.viewSetsFlex}>
               <Text style={styles.textSets}>
@@ -107,9 +87,6 @@ class BeginWorkout extends Component {
   }
 
   render() {
-    // console.warn('state is: ', this.props.state);
-    // console.warn('PROPSCHECK', this.props.check);
-    // console.warn('SOME', this.props.some);
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
     return (
       <ScrollView style={styles.container}>
@@ -143,7 +120,6 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewItems}>
           {
-            // console.warn('LOL', nextWorkoutTree)
             Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
             nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
               return(this.renderItem(item, index));

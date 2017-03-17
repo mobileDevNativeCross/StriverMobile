@@ -21,39 +21,6 @@ const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 const fontColor = 'rgb(110,110,110)';
 
-const dataSource = [
-  {
-    exercise: {
-      name: 'Ex 1',
-    },
-  },
-  {
-    exercise: {
-      name: 'Ex 2',
-    },
-  },
-  {
-    exercise: {
-      name: 'Ex 3',
-    },
-  },
-  {
-    exercise: {
-      name: 'Ex 4',
-    },
-  },
-  {
-    exercise: {
-      name: 'Ex 5',
-    },
-  },
-  {
-    exercise: {
-      name: 'Ex 6',
-    },
-  },
-];
-
 const liveWorkoutTimer = null;
 
 class CounterView extends Component{
@@ -72,30 +39,6 @@ class CounterView extends Component{
     }
   }
 
-/*
-  // propTypes: {
-  ///  //   counter: PropTypes.arrayOf(PropTypes.object),
-  //   action: PropTypes.shape({
-    //   onClose: PropTypes.func,
-    //   onOpen: PropTypes.func,
-  //   })
-*/
-  //   counter: PropTypes.number.isRequired,
-  //   userName: PropTypes.string,
-  //   userProfilePhoto: PropTypes.string,
-  //   loading: PropTypes.bool.isRequired,
-  //   dispatch: PropTypes.func.isRequired
-  // },
-  // increment() {
-  //   this.props.dispatch(CounterState.increment());
-  // },
-  // reset() {
-  //   this.props.dispatch(CounterState.reset());
-  // },
-  // random() {
-  //   this.props.dispatch(CounterState.random());
-  // },
-
   goToLiveWorkout() {
     this.props.dispatch(NavigationState.pushRoute({
       key: 'beginWorkout',
@@ -103,7 +46,6 @@ class CounterView extends Component{
   }
 
   renderItem(item) {
-    // let strItem = JSON.stringify(item);
     return (
       <View style={styles.exerciseItem}>
       <Icon name="dot-single"
@@ -120,9 +62,6 @@ class CounterView extends Component{
     }
 
   render() {
-    // const loadingStyle = this.props.loading
-    //   ? {backgroundColor: '#eee'}
-    //   : null;
     const workoutTree = JSON.stringify(this.props.nextWorkoutTree, null, 3);
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
@@ -164,22 +103,10 @@ class CounterView extends Component{
             <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
           </TouchableOpacity>
         </View>
-        {
-        // <Text>
-        //   {workoutTree}
-        // </Text>
-      }
       </View>
     );
   }
 };
-
-// const circle = {
-//   borderWidth: 0,
-//   borderRadius: 40,
-//   width: 80,
-//   height: 80
-// };
 
 const styles = StyleSheet.create({
   container: {

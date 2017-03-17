@@ -29,7 +29,6 @@ export const getWorkoutTree = () => (dispatch, getState) => {
     }
   })
   .then((response) => {
-    // console.warn('returning response.json()', response.json());
     return response.json();
   })
   .then((responseJson) => {
@@ -37,7 +36,6 @@ export const getWorkoutTree = () => (dispatch, getState) => {
       type: GET_WORKOUT_TREE,
       response: responseJson,
     }))
-    // console.warn('HECK', responseJson.liveWorkoutComponents.length)
     dispatch(setLength(responseJson.liveWorkoutComponents.length))
   })
   .catch((e) => {
@@ -81,7 +79,6 @@ export default function CounterStateReducer(state = initialState, action = {}) {
       return state.update('timerValue', timerValue => timerValue + 1);
 
     case TIMER_RESET:
-      console.warn('TIMER_RESET is working');
       return state.update('timerValue', timerValue => 0);
 
     case RESET:
@@ -99,7 +96,6 @@ export default function CounterStateReducer(state = initialState, action = {}) {
         .set('value', action.payload);
 
     case GET_WORKOUT_TREE: {
-        // console.warn('state is: ', action.response);
           return state
             .set('nextWorkoutTree', action.response);
     }

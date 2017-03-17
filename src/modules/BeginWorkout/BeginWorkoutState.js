@@ -41,38 +41,17 @@ export default function CounterStateReducer(state = initialState, action = {}) {
     }
 
     case SET_CHECK: {
-      // console.warn(state.getIn(['check']));
       return state
         .setIn(['check', action.index], !state.getIn(['check', action.index]));
     }
 
     case CLEAR_CHECK: {
       const size = state.get('check').size;
-      // state.get('check').map((value, index) console.warn)
-      // return state.map(item => { item.set('item', false) })
-      // const a = Map();
-      // stateMas = [];
-      // let stateMas = [];
-      // console.warn('SIZE',size);
+
       for (var i = 0; i < size; i ++) {
         state = state.setIn(['check', i], false);
       }
-      // console.warn('STATECHECK', state);
       return state;
-      // return initialState;
-      // console.warn('CLEAR', state);
-      // return state
-      //   .update((check) => {
-      //     return check.set([]);
-      //   });
-      // return state
-      //   .set('check', action.check);
-      // return state
-      //   .get('check').map(value => false)
-      // return state.merge(initialState);
-      // return state.update('check', (check) => check.set('check', []));
-      // return state
-      //  .delete('check');
     }
 
     default:
