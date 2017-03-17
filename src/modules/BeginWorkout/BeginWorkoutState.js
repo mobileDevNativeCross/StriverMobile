@@ -111,17 +111,17 @@ export default function CounterStateReducer(state = initialState, action = {}) {
     }
 
     case CLEAR_CHECK: {
-      const size = state.get('len');
+      const size = state.get('check').size;
       // state.get('check').map((value, index) console.warn)
       // return state.map(item => { item.set('item', false) })
       // const a = Map();
       // stateMas = [];
       // let stateMas = [];
-      console.warn(size);
+      // console.warn('SIZE',size);
       for (var i = 0; i < size; i ++) {
         state = state.setIn(['check', i], false);
       }
-      console.warn('STATECHECK', state);
+      // console.warn('STATECHECK', state);
       return state;
       // return initialState;
       // console.warn('CLEAR', state);
