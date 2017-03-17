@@ -1,6 +1,7 @@
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
 import {generateRandomNumber} from '../../services/randomNumberService';
+import {setLength} from '../BeginWorkout/BeginWorkoutState';
 
 // Initial state
 const initialState = Map({
@@ -34,6 +35,8 @@ export const getWorkoutTree = () => (dispatch, getState) => {
       type: GET_WORKOUT_TREE,
       response: responseJson,
     }))
+    // console.warn('HECK', responseJson.liveWorkoutComponents.length)
+    dispatch(setLength(responseJson.liveWorkoutComponents.length))
   })
   .catch((e) => {
     console.warn('error is: ', e);

@@ -1,10 +1,10 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import {loop, Effects} from 'redux-loop';
 // import {generateRandomNumber} from '../../services/randomNumberService';
 
 // Initial state
 const initialState = Map({
-  check: Map(),
+  check: List([]),
   len: 0,
 });
 
@@ -99,30 +99,29 @@ export default function CounterStateReducer(state = initialState, action = {}) {
   //
     case SET_LENGTH: {
       const checkMas = new Array(action.len).fill(false);
-      console.warn('checkMas', checkMas);
-      console.warn('action.len', action.len);
       return state
         .set(['len'], action.len)
         .set(['check'], checkMas);
     }
 
     case SET_CHECK: {
+      // console.warn(state.getIn(['check']));
       return state
         .setIn(['check', action.index], !state.getIn(['check', action.index]));
     }
 
     case CLEAR_CHECK: {
-      const size = state.get('check').size;
+      const size = state.get('len');
       // state.get('check').map((value, index) console.warn)
       // return state.map(item => { item.set('item', false) })
       // const a = Map();
       // stateMas = [];
       // let stateMas = [];
-      // console.warn(size);
-      for (var i = 0; i < (size-1); i ++) {
+      console.warn(size);
+      for (var i = 0; i < size; i ++) {
         state = state.setIn(['check', i], false);
       }
-      // console.warn('STATECHECK', state);
+      console.warn('STATECHECK', state);
       return state;
       // return initialState;
       // console.warn('CLEAR', state);

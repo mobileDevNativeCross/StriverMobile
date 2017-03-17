@@ -27,8 +27,6 @@ class BeginWorkout extends Component {
 
   componentDidMount() {
     this.props.dispatch(CounterState.getWorkoutTree());
-    // console.warn('checkTHIS', this.props.nextWorkoutTree);
-    // this.props.dispatch(BeginWorkoutState.setLength(this.props.nextWorkoutTree.liveWorkoutComponents.length))
   }
 
   pop() {
@@ -63,6 +61,35 @@ class BeginWorkout extends Component {
               onChange={() => { this.checkExsercise(index) }}
             />
           </View>
+          {/* <View>
+            {
+              this.props.sets.map(set => { return(
+              // item.sets.map(set => { return(
+                  <Text>
+                    {set.weight}
+                  </Text>
+                  <Text>
+                    {set.repetitions}
+                  </Text>
+                  <Text>
+                    {set.intervalTime}
+                  </Text>
+              );})
+            }
+          </View> */}
+          <View style={styles.viewSets}>
+            <View style={styles.viewSetsFlex}>
+              <Text style={styles.textSets}>
+                Weight
+              </Text>
+              <Text style={styles.textSets}>
+                Reps
+              </Text>
+              <Text style={styles.textSets}>
+                Time
+              </Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -89,7 +116,7 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewFocus}>
           <Text style={styles.textFocus}>
-            Focus: {focus}
+            Focus: {nextWorkoutTree.goal}
           </Text>
         </View>
         <View style={styles.viewTouchOpacityComplete}>
@@ -171,9 +198,10 @@ const styles = StyleSheet.create({
   touchOpacityComplete: {
     width: 200,
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingBottom: 10,
+    paddingTop: 15,
     borderWidth: 2,
-    borderRadius: 5,
+    borderRadius: 3,
     borderColor: '#7b7b7b',
   },
   textComplete: {
@@ -185,6 +213,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   viewRow: {
+    marginLeft: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -193,20 +222,36 @@ const styles = StyleSheet.create({
   },
   viewItem: {
     justifyContent: 'center',
-    marginLeft: 20,
-    width: (width / 1.2),
+    width: (width / 1.4),
   },
   textExercizeName: {
     color: '#7b7b7b',
     fontWeight: '700',
     fontSize: 17,
-    width: (width / 1.4),
+    width: (width / 1.7),
   },
   checkboxStyle: {
     tintColor: '#979797',
     borderWidth: 2.8,
     borderColor: '#979797',
     backgroundColor: '#ededed',
+  },
+  viewSetsFlex: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: ( width / 1.7 ),
+  },
+  viewSets: {
+    marginTop: 10,
+    width: ( width - 65 ),
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 5,
+  },
+  textSets: {
+    color: '#7b7b7b',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
