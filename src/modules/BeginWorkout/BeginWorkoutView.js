@@ -27,6 +27,7 @@ class BeginWorkout extends Component {
 
   componentDidMount() {
     this.props.dispatch(CounterState.getWorkoutTree());
+    // this.props.dispatch(BeginWorkoutState.setLength(this.props.nextWorkoutTree.liveWorkoutComponents.length));
   }
 
   pop() {
@@ -67,9 +68,9 @@ class BeginWorkout extends Component {
   }
 
   render() {
-    console.warn('state is: ', this.props.state);
-    console.warn('PROPSCHECK', this.props.check);
-    console.warn('SOME', this.props.some);
+    // console.warn('state is: ', this.props.state);
+    // console.warn('PROPSCHECK', this.props.check);
+    // console.warn('SOME', this.props.some);
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
     return (
       <ScrollView style={styles.container}>

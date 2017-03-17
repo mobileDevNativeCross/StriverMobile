@@ -5,10 +5,13 @@ import {loop, Effects} from 'redux-loop';
 // Initial state
 const initialState = Map({
   check: Map(),
+  len: 0,
 });
+
 
 // Actions
 const SET_CHECK = 'SET_CHECK';
+const SET_LENGTH = 'SET_LENGTH';
 const CLEAR_CHECK = 'CLEAR_CHECK';
 // const INCREMENT = 'CounterState/INCREMENT';
 // const RESET = 'CounterState/RESET';
@@ -17,9 +20,14 @@ const CLEAR_CHECK = 'CLEAR_CHECK';
 // const GET_WORKOUT_TREE = 'CounterState/GET_WORKOUT_TREE';
 
 // Action creators
+export const setLength = (len) => ({
+  type: SET_LENGTH,
+  len,
+})
+
 export const setCheck = (index) => ({
   type: SET_CHECK,
-  index,
+  index
 });
 
 export const clearCheck = () => ({
@@ -89,6 +97,15 @@ export default function CounterStateReducer(state = initialState, action = {}) {
   //       .set('loading', false)
   //       .set('value', action.payload);
   //
+    case SET_LENGTH: {
+      const checkMas = new Array(action.len).fill(false);
+      console.warn('checkMas', checkMas);
+      console.warn('action.len', action.len);
+      return this.state
+        .setIn(['len'], action.len)
+        // .setIn(['check'], checkMas);
+    }
+
     case SET_CHECK: {
       return state
         .setIn(['check', action.index], !state.getIn(['check', action.index]));
@@ -99,10 +116,13 @@ export default function CounterStateReducer(state = initialState, action = {}) {
       // state.get('check').map((value, index) console.warn)
       // return state.map(item => { item.set('item', false) })
       // const a = Map();
-      for (var i = 0; i < size - 1; i ++) {
+      // stateMas = [];
+      // let stateMas = [];
+      // console.warn(size);
+      for (var i = 0; i < (size-1); i ++) {
         state = state.setIn(['check', i], false);
       }
-
+      // console.warn('STATECHECK', state);
       return state;
       // return initialState;
       // console.warn('CLEAR', state);
