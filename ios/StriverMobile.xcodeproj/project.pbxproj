@@ -24,6 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		84C6B6171E7BEF06000F1D2C /* libRNBackgroundTimer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6B6161E7BEEF3000F1D2C /* libRNBackgroundTimer.a */; };
 		84EE6F2B1E76D4B200D2ADF1 /* libA0RNLock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EE6F2A1E76D49200D2ADF1 /* libA0RNLock.a */; };
 		84EE6F381E76D7D100D2ADF1 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE6F2F1E76D7D100D2ADF1 /* Entypo.ttf */; };
 		84EE6F391E76D7D100D2ADF1 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE6F2F1E76D7D100D2ADF1 /* Entypo.ttf */; };
@@ -230,6 +231,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		84C6B6151E7BEEF3000F1D2C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84C6B6111E7BEEF3000F1D2C /* RNBackgroundTimer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNBackgroundTimer;
+		};
 		84EE6F291E76D49200D2ADF1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84EE6F251E76D49200D2ADF1 /* A0RNLock.xcodeproj */;
@@ -266,6 +274,7 @@
 		7185C9488A6D432BC16EF7C7 /* Pods-StriverMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StriverMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-StriverMobile/Pods-StriverMobile.release.xcconfig"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		84C6B6111E7BEEF3000F1D2C /* RNBackgroundTimer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundTimer.xcodeproj; path = "../node_modules/react-native-background-timer/ios/RNBackgroundTimer.xcodeproj"; sourceTree = "<group>"; };
 		84EE6F251E76D49200D2ADF1 /* A0RNLock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = A0RNLock.xcodeproj; path = "../node_modules/react-native-lock/ios/A0RNLock.xcodeproj"; sourceTree = "<group>"; };
 		84EE6F2F1E76D7D100D2ADF1 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		84EE6F301E76D7D100D2ADF1 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
@@ -294,6 +303,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C6B6171E7BEF06000F1D2C /* libRNBackgroundTimer.a in Frameworks */,
 				84EE6F2B1E76D4B200D2ADF1 /* libA0RNLock.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -449,6 +459,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				84C6B6111E7BEEF3000F1D2C /* RNBackgroundTimer.xcodeproj */,
 				84EE6F251E76D49200D2ADF1 /* A0RNLock.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -494,6 +505,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* StriverMobile.app */,
 				00E356EE1AD99517003FC87E /* StriverMobileTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84C6B6121E7BEEF3000F1D2C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84C6B6161E7BEEF3000F1D2C /* libRNBackgroundTimer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -564,8 +583,8 @@
 			buildPhases = (
 				BAAFCFA577FB39ECF5764094 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
-				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				FC9217CEF1B9056699916787 /* [CP] Embed Pods Frameworks */,
 				269A8E68FF99998D1D7BD285 /* [CP] Copy Pods Resources */,
@@ -653,6 +672,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 84C6B6121E7BEEF3000F1D2C /* Products */;
+					ProjectRef = 84C6B6111E7BEEF3000F1D2C /* RNBackgroundTimer.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -837,6 +860,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		84C6B6161E7BEEF3000F1D2C /* libRNBackgroundTimer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBackgroundTimer.a;
+			remoteRef = 84C6B6151E7BEEF3000F1D2C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		84EE6F2A1E76D49200D2ADF1 /* libA0RNLock.a */ = {

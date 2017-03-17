@@ -15,6 +15,7 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import store from '../../redux/store';
 import moment from 'moment';
+import BackgroundTimer from 'react-native-background-timer';
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
@@ -53,11 +54,22 @@ const dataSource = [
   },
 ];
 
+const liveWorkoutTimer = null;
+
 class CounterView extends Component{
-// const CounterView = React.createClass({
-  constructor(props) {
-    super(props);
+  state = {
+    isLoaded: false,
+  }
+
+  componentDidMount() {
     this.props.dispatch(CounterState.getWorkoutTree());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
+      this.setState({ isLoaded: true });
+      this.props.dispatch(CounterState.getWorkoutTree());
+    }
   }
 
 /*
@@ -83,34 +95,12 @@ class CounterView extends Component{
   // random() {
   //   this.props.dispatch(CounterState.random());
   // },
+
   goToLiveWorkout() {
     this.props.dispatch(NavigationState.pushRoute({
       key: 'beginWorkout',
     }));
   }
-
-
-  // renderUserInfo() {
-  //   if (!this.props.userName) {
-  //     return null;
-  //   }
-  //
-  //   return (
-  //     <View style={styles.userContainer}>
-  //       <Image
-  //         style={styles.userProfilePhoto}
-  //         source={{
-  //           uri: this.props.userProfilePhoto,
-  //           width: 80,
-  //           height: 80
-  //         }}
-  //       />
-  //       <Text style={styles.linkButton}>
-  //         Welcome, {this.props.userName}!
-  //       </Text>
-  //     </View>
-  //   );
-  // },
 
   renderItem(item) {
     // let strItem = JSON.stringify(item);
@@ -134,7 +124,6 @@ class CounterView extends Component{
     //   ? {backgroundColor: '#eee'}
     //   : null;
     const workoutTree = JSON.stringify(this.props.nextWorkoutTree, null, 3);
-
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const Focus = this.props.nextWorkoutTree.goal;
