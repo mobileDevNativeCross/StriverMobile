@@ -85,7 +85,7 @@ export default function CounterStateReducer(state = initialState, action = {}) {
         .set('value', action.payload);
 
     case GET_WORKOUT_TREE: {
-        console.warn('state is: ', action.response);
+        // console.warn('state is: ', action.response);
           return state
             .set('nextWorkoutTree', action.response);
     }
