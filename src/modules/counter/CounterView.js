@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import store from '../../redux/store';
+import moment from 'moment';
+import BackgroundTimer from 'react-native-background-timer';
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
@@ -52,11 +54,22 @@ const dataSource = [
   },
 ];
 
+const liveWorkoutTimer = null;
+
 class CounterView extends Component{
-// const CounterView = React.createClass({
-  constructor(props) {
-    super(props);
+  state = {
+    isLoaded: false,
+  }
+
+  componentDidMount() {
     this.props.dispatch(CounterState.getWorkoutTree());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
+      this.setState({ isLoaded: true });
+      this.props.dispatch(CounterState.getWorkoutTree());
+    }
   }
 
 /*
@@ -82,80 +95,80 @@ class CounterView extends Component{
   // random() {
   //   this.props.dispatch(CounterState.random());
   // },
-  bored() {
+
+  goToLiveWorkout() {
     this.props.dispatch(NavigationState.pushRoute({
       key: 'beginWorkout',
     }));
   }
 
   renderItem(item) {
+    // let strItem = JSON.stringify(item);
     return (
       <View style={styles.exerciseItem}>
-        <Icon name="dot-single"
-          size={20}
-          color={fontColor}
-        />
-        <Text style={{fontSize: 18,
+      <Icon name="dot-single"
+      size={20}
+      color={fontColor}
+      />
+      <Text style={{fontSize: 18,
         color: fontColor,
         fontWeight: '700',fontWeight: '600', marginLeft: 10}}>
-          {item.exercise.name}
-        </Text>
-      </View>
-    );
-  }
+        {item.Exercise.name}
+      </Text>
+        </View>
+      );
+    }
 
-  // renderUserInfo() {
-  //   if (!this.props.userName) {
-  //     return null;
-  //   }
-  //
-  //   return (
-  //     <View style={styles.userContainer}>
-  //       <Image
-  //         style={styles.userProfilePhoto}
-  //         source={{
-  //           uri: this.props.userProfilePhoto,
-  //           width: 80,
-  //           height: 80
-  //         }}
-  //       />
-  //       <Text style={styles.linkButton}>
-  //         Welcome, {this.props.userName}!
-  //       </Text>
-  //     </View>
-  //   );
-  // },
   render() {
     // const loadingStyle = this.props.loading
     //   ? {backgroundColor: '#eee'}
     //   : null;
+    const workoutTree = JSON.stringify(this.props.nextWorkoutTree, null, 3);
+    const workoutName = this.props.nextWorkoutTree.workoutName;
+    const intensityScore = this.props.nextWorkoutTree.intensityScore;
+    const Focus = this.props.nextWorkoutTree.goal;
+    const rawWorkoutDate = this.props.nextWorkoutTree.workoutDate;
+    const workoutDate = moment(rawWorkoutDate).format('LLL');
+    const exercisesArr = this.props.nextWorkoutTree.liveWorkoutComponents;
+
     return (
       <View style={styles.container}>
         <View style={styles.title}>
           <Text style={styles.titleText}>
-            Name of workout
+            {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
           </Text>
           <Text style={styles.titleText}>
-            Date
+            {workoutDate}
           </Text>
           <Text style={styles.titleText}>
-            PRE Score
+            Intensity Score: {intensityScore}
           </Text>
           <Text style={styles.titleText}>
-           Focus: XXXXXX
+           Focus: {Focus}
           </Text>
         </View>
         <View style={styles.exercises}>
           <Text style={styles.exText}>
             Exercises:
           </Text>
-          <ScrollView>
-            {dataSource.map(item => { return(this.renderItem(item)); })}
+          <ScrollView >
+            {
+              (Array.isArray(exercisesArr)) ?
+              exercisesArr.map(item => { return(this.renderItem(item)); }) :
+                <View />
+            }
           </ScrollView>
         </View>
-        <TouchableOpacity onPress={() => {this.bored()}} style={styles.beginWorkoutButton}>
-          <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
-        </TouchableOpacity>
+        <View style={styles.beginWorkoutButtonBox}>
+          <TouchableOpacity onPress={() => {this.goToLiveWorkout()}} style={styles.beginWorkoutButton}>
+            <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
+          </TouchableOpacity>
+        </View>
+        {
+        // <Text>
+        //   {workoutTree}
+        // </Text>
+      }
       </View>
     );
   }
@@ -196,6 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   exercises: {
+    height: 200,
     width: displayWidth,
     paddingVertical: 14,
     paddingHorizontal: 40,
@@ -213,10 +227,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 17,
   },
+  beginWorkoutButtonBox: {
+    position: 'absolute',
+    bottom: 55, width: displayWidth,
+    alignItems: 'center',
+  },
   beginWorkoutButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginVertical: 25,
     borderWidth: 2,
     borderColor: 'rgb(130,130,130)',
   },

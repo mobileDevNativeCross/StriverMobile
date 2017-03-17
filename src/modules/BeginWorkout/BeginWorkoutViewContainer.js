@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import BeginWorkoutView from './BeginWorkoutView';
 
 export default connect(
-  state => ({
+  (state, props) => ({
     // counter: state.getIn(['counter', 'value']),
     loading: state.getIn(['counter', 'loading']),
     userName: state.getIn(['auth', 'currentUser', 'name']),
@@ -12,5 +12,7 @@ export default connect(
     state: state,
     check: state.getIn(['beginWorkout', 'check']),
     some: state.getIn(['beginWorkout', 'some']),
+    currentTimerValue: state.getIn(['counter', 'timerValue']),
+    reduxTimerId: state.getIn(['counter', 'timerId']),
   })
 )(BeginWorkoutView);

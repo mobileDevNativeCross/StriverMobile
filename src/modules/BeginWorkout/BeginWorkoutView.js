@@ -13,13 +13,22 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import * as NavigationState from '../../modules/navigation/NavigationState';
+
 import * as CounterState from '../counter/CounterState';
 import * as BeginWorkoutState from './BeginWorkoutState';
+import BackgroundTimer from 'react-native-background-timer';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
 
 class BeginWorkout extends Component {
+  componentDidMount(){
+    //starting timer
+    liveWorkoutTimer = BackgroundTimer.setInterval(() => {
+      this.props.dispatch(CounterState.timerIncrement());
+    }, 1000);
+  }
+
   state={
     check: [],
     disable: false,
@@ -30,6 +39,10 @@ class BeginWorkout extends Component {
   }
 
   pop() {
+    //stopping timer
+    BackgroundTimer.clearInterval(liveWorkoutTimer);
+    this.props.dispatch(CounterState.timerReset());
+    console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
     this.props.dispatch(NavigationState.popRoute());
   }
 

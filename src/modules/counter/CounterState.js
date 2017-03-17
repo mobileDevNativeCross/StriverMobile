@@ -6,11 +6,14 @@ import {setLength} from '../BeginWorkout/BeginWorkoutState';
 // Initial state
 const initialState = Map({
   nextWorkoutTree: 111,
-  loading: false
+  loading: false,
+  timerValue: 0,
+  timerId: 'liveWorkoutTimer'
 });
 
 // Actions
-const INCREMENT = 'CounterState/INCREMENT';
+const TIMER_INCREMENT = 'CounterState/TIMER_INCREMENT';
+const TIMER_RESET = 'CounterState/TIMER_RESET';
 const RESET = 'CounterState/RESET';
 const RANDOM_REQUEST = 'CounterState/RANDOM_REQUEST';
 const RANDOM_RESPONSE = 'CounterState/RANDOM_RESPONSE';
@@ -19,7 +22,6 @@ const GET_WORKOUT_TREE = 'CounterState/GET_WORKOUT_TREE';
 // Action creators
 export const getWorkoutTree = () => (dispatch, getState) => {
   const token = getState().getIn(['auth', 'authenticationToken', 'idToken'])
-
   fetch('https://strivermobile-api.herokuapp.com/api/nextworkout',{
     method: 'GET',
     headers: {
@@ -39,15 +41,19 @@ export const getWorkoutTree = () => (dispatch, getState) => {
     dispatch(setLength(responseJson.liveWorkoutComponents.length))
   })
   .catch((e) => {
-    console.warn('error is: ', e);
+    console.log('error is (probably just didn\'t get token YET!): ', e);
   });
 
 
 
 }
 
-export function increment() {
-  return {type: INCREMENT};
+export function timerIncrement() {
+  return {type: TIMER_INCREMENT};
+}
+
+export function timerReset() {
+  return {type: TIMER_RESET};
 }
 
 export function reset() {
@@ -70,8 +76,13 @@ export async function requestRandomNumber() {
 // Reducer
 export default function CounterStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case INCREMENT:
-      return state.update('value', value => value + 1);
+    case TIMER_INCREMENT:
+      console.warn('timerIncrement() working');
+      return state.update('timerValue', timerValue => timerValue + 1);
+
+    case TIMER_RESET:
+      console.warn('TIMER_RESET is working');
+      return state.update('timerValue', timerValue => 0);
 
     case RESET:
       return initialState;
@@ -88,7 +99,7 @@ export default function CounterStateReducer(state = initialState, action = {}) {
         .set('value', action.payload);
 
     case GET_WORKOUT_TREE: {
-        console.warn('state is: ', action.response);
+        // console.warn('state is: ', action.response);
           return state
             .set('nextWorkoutTree', action.response);
     }
