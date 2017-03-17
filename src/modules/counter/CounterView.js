@@ -21,8 +21,6 @@ const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 const fontColor = 'rgb(110,110,110)';
 
-const liveWorkoutTimer = null;
-
 class CounterView extends Component{
   state = {
     isLoaded: false,
