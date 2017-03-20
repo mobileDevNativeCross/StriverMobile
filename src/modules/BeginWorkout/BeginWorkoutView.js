@@ -18,6 +18,7 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as CounterState from '../counter/CounterState';
 import * as BeginWorkoutState from './BeginWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
+import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
@@ -99,6 +100,7 @@ class BeginWorkout extends Component {
     check: [],
     disable: true,
     len: 0,
+    modalFinishVisible: false,
   }
 
   pop() {
@@ -121,6 +123,10 @@ class BeginWorkout extends Component {
     } else return true;
   }
 
+  setModalFinishVisible = () => {
+    this.setState({modalFinishVisible : !this.state.modalFinishVisible});
+  }
+
   checkExsercise = (index) => {
     this.props.dispatch(BeginWorkoutState.setCheck(index));
   }
@@ -130,9 +136,6 @@ class BeginWorkout extends Component {
   }
 
   renderRow = (set) => {
-    // console.warn('checkmas',this.state.check);
-
-    // console.warn('set',set);
     return (
       <View style={styles.viewFlexDirectionSet}>
         <View style={styles.viewSetParam}>
@@ -202,55 +205,63 @@ class BeginWorkout extends Component {
   render() {
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.viewFlexDirection}>
-          <Text style={styles.textTop}>
-            {workOut ? workOut : 'Workout'}
-          </Text>
-          <Text style={styles.textTop}>
-            {PRE ? PRE : 'PRE'}
-          </Text>
-          <Text style={styles.textTop}>
-            {timeDate ? timeDate : 'Date'}
-          </Text>
-          <Image style={styles.imagePencil} source={pencil}/>
-        </View>
-        <View style={styles.viewFocus}>
-          <Text style={styles.textFocus}>
-            Focus: {nextWorkoutTree.goal}
-          </Text>
-        </View>
-        <View style={styles.viewTouchOpacityComplete}>
-          <TouchableOpacity
-            onPress={() => {this.pop()}}
-            disabled={this.check()}
-            style={styles.touchOpacityComplete}
-          >
-            <Text style={styles.textComplete}>
-              Complete Workout
+      <View style={styles.viewContainer}>
+        <ScrollView style={styles.container}>
+          <View style={styles.viewFlexDirection}>
+            <Text style={styles.textTop}>
+              {workOut ? workOut : 'Workout'}
             </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.viewItems}>
-          {
-            nextWorkoutTree.liveWorkoutComponents
-            ?
-              Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
-              nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
-                return(this.renderItem(item, index));
-              })
-            :
-              <View style={styles.activityIndicator}>
-                <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 25 : "large"} />
-              </View>
-          }
-        </View>
-      </ScrollView>
+            <Text style={styles.textTop}>
+              {PRE ? PRE : 'PRE'}
+            </Text>
+            <Text style={styles.textTop}>
+              {timeDate ? timeDate : 'Date'}
+            </Text>
+            <Image style={styles.imagePencil} source={pencil}/>
+          </View>
+          <View style={styles.viewFocus}>
+            <Text style={styles.textFocus}>
+              Focus: {nextWorkoutTree.goal}
+            </Text>
+          </View>
+          <View style={styles.viewTouchOpacityComplete}>
+            <TouchableOpacity
+              // onPress={() => {this.pop()}}
+              onPress={() => {this.setModalFinishVisible()}}
+              disabled={this.check()}
+              style={styles.touchOpacityComplete}
+            >
+              <Text style={styles.textComplete}>
+                Complete Workout
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.viewItems}>
+            {
+              nextWorkoutTree.liveWorkoutComponents
+              ?
+                Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+                nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
+                  return(this.renderItem(item, index));
+                })
+              :
+                <View style={styles.activityIndicator}>
+                  <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 25 : "large"} />
+                </View>
+            }
+          </View>
+        </ScrollView>
+        <BeginWorkoutFinishWindow modalFinishVisible={this.state.modalFinishVisible} setModalFinishVisible={() => {this.setModalFinishVisible()}} />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  viewContainer: {
+    height,
+    width,
+  },
   container: {
     paddingTop: Platform.OS === 'android' ? 0 : 25,
     backgroundColor: 'white',
