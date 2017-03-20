@@ -75,7 +75,7 @@ export async function requestRandomNumber() {
 export default function CounterStateReducer(state = initialState, action = {}) {
   switch (action.type) {
     case TIMER_INCREMENT:
-      console.warn('timerIncrement() working');
+      // console.warn('timerIncrement() working');
       return state.update('timerValue', timerValue => timerValue + 1);
 
     case TIMER_RESET:

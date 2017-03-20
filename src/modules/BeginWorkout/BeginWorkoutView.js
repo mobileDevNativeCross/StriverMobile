@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import * as NavigationState from '../../modules/navigation/NavigationState';
@@ -21,6 +22,66 @@ import BackgroundTimer from 'react-native-background-timer';
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
 const liveWorkoutTimer = null;
+
+const liveWorkoutComponents = [
+  {
+    sets: [
+      {
+        weight: 25,
+        repetitions: 5,
+        intervalTime: 35,
+      },
+      {
+        weight: 30,
+        repetitions: 4,
+        intervalTime: 40,
+      },
+      {
+        weight: 30,
+        repetitions: 5,
+        intervalTime: 50,
+      },
+    ],
+  },
+  {
+    sets: [
+      {
+        weight: 4,
+        repetitions: 15,
+        intervalTime: 55,
+      },
+      {
+        weight: 10,
+        repetitions: 10,
+        intervalTime: 50,
+      },
+      {
+        weight: 15,
+        repetitions: 5,
+        intervalTime: 25,
+      },
+    ],
+  },
+  {
+    sets: [
+      {
+        weight: 55,
+        repetitions: 2,
+        intervalTime: 10,
+      },
+      {
+        weight: 70,
+        repetitions: 1,
+        intervalTime: 5,
+      },
+      {
+        weight: 70,
+        repetitions: 1,
+        intervalTime: 5,
+      },
+    ],
+  },
+];
 
 class BeginWorkout extends Component {
   componentDidMount(){
@@ -40,7 +101,7 @@ class BeginWorkout extends Component {
     //stopping timer
     BackgroundTimer.clearInterval(liveWorkoutTimer);
     this.props.dispatch(CounterState.timerReset());
-    console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
+    // console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
     this.props.dispatch(NavigationState.popRoute());
   }
 
@@ -52,13 +113,36 @@ class BeginWorkout extends Component {
     this.props.dispatch(BeginWorkoutState.clearCheck());
   }
 
+  renderRow = (set) => {
+    // console.warn('set',set);
+    return (
+      <View style={styles.viewFlexDirectionSet}>
+        <View style={styles.viewSetParam}>
+          <Text style={styles.textSetParam}>
+            {set.weight}
+          </Text>
+        </View>
+        <View style={styles.viewSetParam}>
+          <Text style={styles.textSetParam}>
+            {set.repetitions}
+          </Text>
+        </View>
+        <View style={styles.viewSetParam}>
+          <Text style={styles.textSetParam}>
+            {set.intervalTime}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   renderItem = (item, index) => {
     return (
-      <TouchableOpacity onPress={() => {this.clearCheck()}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <View onPress={() => {/* this.clearCheck() */}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
-              {item.Exercise.name}
+              {`${index + 1}. ${item.Exercise.name}`}
             </Text>
             <CheckBox
               checkboxStyle={styles.checkboxStyle}
@@ -70,19 +154,30 @@ class BeginWorkout extends Component {
           </View>
           <View style={styles.viewSets}>
             <View style={styles.viewSetsFlex}>
-              <Text style={styles.textSets}>
-                Weight
-              </Text>
-              <Text style={styles.textSets}>
-                Reps
-              </Text>
-              <Text style={styles.textSets}>
-                Time
-              </Text>
+              <View style={styles.viewSetHead}>
+                <Text style={styles.textSets}>
+                  Weight
+                </Text>
+              </View>
+              <View style={styles.viewSetHead}>
+                <Text style={styles.textSets}>
+                  Reps
+                </Text>
+              </View>
+              <View style={styles.viewSetHead}>
+                <Text style={styles.textSets}>
+                  Time
+                </Text>
+              </View>
             </View>
           </View>
+          <View style={styles.viewSetsArray}>
+            {/* {item.sets.map(set => {this.renderRow(set)})} */}
+            {liveWorkoutComponents[index].sets
+              .map(set => { return(this.renderRow(set)); })}
+          </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 
@@ -120,10 +215,16 @@ class BeginWorkout extends Component {
         </View>
         <View style={styles.viewItems}>
           {
-            Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
-            nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
-              return(this.renderItem(item, index));
-            })
+            nextWorkoutTree.liveWorkoutComponents
+            ?
+              Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+              nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
+                return(this.renderItem(item, index));
+              })
+            :
+              <View style={styles.activityIndicator}>
+                <ActivityIndicator color={'#7b7b7b'} size="large"/>
+              </View>
           }
         </View>
       </ScrollView>
@@ -135,6 +236,11 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'android' ? 0 : 25,
     backgroundColor: 'white',
+  },
+  activityIndicator: {
+    height: (height / 1.5),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   viewFlexDirection: {
     paddingHorizontal: 20,
@@ -230,7 +336,7 @@ const styles = StyleSheet.create({
   },
   viewSets: {
     marginTop: 10,
-    width: ( width - 65 ),
+    width: ( width - 45 ),
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 5,
@@ -239,6 +345,32 @@ const styles = StyleSheet.create({
     color: '#7b7b7b',
     fontSize: 16,
     fontWeight: '600',
+  },
+  viewSetHead: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+  },
+  viewFlexDirectionSet: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: ( width / 1.7 ),
+  },
+  viewSetsArray: {
+    width: ( width - 45 ),
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 5,
+  },
+  viewSetParam: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    marginTop: 5,
+  },
+  textSetParam: {
+    color: '#7b7b7b',
+    fontSize: 16,
   },
 });
 
