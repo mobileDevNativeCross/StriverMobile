@@ -91,12 +91,16 @@ class BeginWorkout extends Component {
       this.props.dispatch(CounterState.timerIncrement());
     }, 1000);
   }
+  componentWillReceiveProps() {
+    console.warn('CHECK',this.props.nextWorkoutTree.liveWorkoutComponents.length);
 
-  componentWillReceiveProps(props) {
-    // console.warn(props.check.length);
-    this.setState({check: props.check})
-    // this.setState({check: new Array(props.check.length).fill(false)});
   }
+
+  // componentWillReceiveProps(props) {
+  //   // console.warn(props.check.length);
+  //   this.setState({check: props.check})
+  //   // this.setState({check: new Array(props.check.length).fill(false)});
+  // }
 
   state={
     // check: this.props.check,
@@ -112,27 +116,22 @@ class BeginWorkout extends Component {
     this.props.dispatch(NavigationState.popRoute());
   }
 
+  check = (checkMas) => {
+    for (let i=0; i<=3; i++) {
+      if (checkMas[i] === false) {
+        return false;
+      }
+      else if (checkMas[i] === true) {
+        return true;
+      }
+    }
+  }
+
   checkExsercise = (index) => {
     checkMas = this.state.check;
     checkMas[index] = !checkMas[index];
     this.setState({check: checkMas});
-    // let checkCheck;
-    // for (let i=0; i<=this.props.check.length; i++) {
-    //   if (this.state.check[i] === false) {
-    //     console.warn('FALSE');
-    //     checkCheck = false;
-    //     break;
-    //   }
-    //   else {
-    //     console.warn('TRUE');
-    //     checkCheck = true;
-    //     break;
-    //   }
-    // }
-    // console.warn(checkCheck);
-    // console.warn('checkmas',this.props.check);
-    // console.warn('checkmas',this.state.check);
-    // console.warn(checkMas);
+    console.warn(this.check(checkMas));
     this.props.dispatch(BeginWorkoutState.setCheck(index));
   }
 
