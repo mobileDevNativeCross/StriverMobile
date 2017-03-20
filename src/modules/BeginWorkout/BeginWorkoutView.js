@@ -92,9 +92,16 @@ class BeginWorkout extends Component {
     }, 1000);
   }
 
+  componentWillReceiveProps(props) {
+    // console.warn(props.check.length);
+    this.setState({check: props.check})
+    // this.setState({check: new Array(props.check.length).fill(false)});
+  }
+
   state={
+    // check: this.props.check,
     check: [],
-    disable: false,
+    disable: true,
   }
 
   pop() {
@@ -106,6 +113,26 @@ class BeginWorkout extends Component {
   }
 
   checkExsercise = (index) => {
+    checkMas = this.state.check;
+    checkMas[index] = !checkMas[index];
+    this.setState({check: checkMas});
+    // let checkCheck;
+    // for (let i=0; i<=this.props.check.length; i++) {
+    //   if (this.state.check[i] === false) {
+    //     console.warn('FALSE');
+    //     checkCheck = false;
+    //     break;
+    //   }
+    //   else {
+    //     console.warn('TRUE');
+    //     checkCheck = true;
+    //     break;
+    //   }
+    // }
+    // console.warn(checkCheck);
+    // console.warn('checkmas',this.props.check);
+    // console.warn('checkmas',this.state.check);
+    // console.warn(checkMas);
     this.props.dispatch(BeginWorkoutState.setCheck(index));
   }
 
@@ -114,6 +141,8 @@ class BeginWorkout extends Component {
   }
 
   renderRow = (set) => {
+    // console.warn('checkmas',this.state.check);
+
     // console.warn('set',set);
     return (
       <View style={styles.viewFlexDirectionSet}>
@@ -223,7 +252,7 @@ class BeginWorkout extends Component {
               })
             :
               <View style={styles.activityIndicator}>
-                <ActivityIndicator color={'#7b7b7b'} size="large"/>
+                <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 25 : "large"} />
               </View>
           }
         </View>
@@ -238,7 +267,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   activityIndicator: {
-    height: (height / 1.5),
+    height: (height / 1.7),
     justifyContent: 'center',
     alignItems: 'center',
   },
