@@ -92,20 +92,13 @@ class BeginWorkout extends Component {
     }, 1000);
   }
   componentWillReceiveProps() {
-    console.warn('CHECK',this.props.nextWorkoutTree.liveWorkoutComponents.length);
-
+    this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
   }
 
-  // componentWillReceiveProps(props) {
-  //   // console.warn(props.check.length);
-  //   this.setState({check: props.check})
-  //   // this.setState({check: new Array(props.check.length).fill(false)});
-  // }
-
   state={
-    // check: this.props.check,
     check: [],
     disable: true,
+    len: 0,
   }
 
   pop() {
@@ -116,22 +109,19 @@ class BeginWorkout extends Component {
     this.props.dispatch(NavigationState.popRoute());
   }
 
-  check = (checkMas) => {
-    for (let i=0; i<=3; i++) {
-      if (checkMas[i] === false) {
-        return false;
-      }
-      else if (checkMas[i] === true) {
-        return true;
+  check = () => {
+    let count = 0;
+    for (let i=0; i<=this.state.len; i++) {
+      if (this.props.check.get(i) !== undefined && this.props.check.get(i) === true) {
+        count += 1;
       }
     }
+    if (count === this.state.len) {
+      return false;
+    } else return true;
   }
 
   checkExsercise = (index) => {
-    checkMas = this.state.check;
-    checkMas[index] = !checkMas[index];
-    this.setState({check: checkMas});
-    console.warn(this.check(checkMas));
     this.props.dispatch(BeginWorkoutState.setCheck(index));
   }
 
@@ -233,7 +223,7 @@ class BeginWorkout extends Component {
         <View style={styles.viewTouchOpacityComplete}>
           <TouchableOpacity
             onPress={() => {this.pop()}}
-            disabled={this.state.disable ? true : false}
+            disabled={this.check()}
             style={styles.touchOpacityComplete}
           >
             <Text style={styles.textComplete}>
