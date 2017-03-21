@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   exercises: {
-    // height: 200,
     width: displayWidth,
     paddingVertical: 14,
     paddingHorizontal: 40,
@@ -177,8 +176,6 @@ const styles = StyleSheet.create({
     marginBottom: 17,
   },
   beginWorkoutButtonBox: {
-    // position: 'absolute',
-    // bottom: 55,
     width: displayWidth,
     alignItems: 'center',
     paddingBottom: 55

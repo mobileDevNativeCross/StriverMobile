@@ -9,7 +9,6 @@ export default connect(
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['counter', 'nextWorkoutTree']),
-    state: state,
     check: state.getIn(['beginWorkout', 'check']),
     some: state.getIn(['beginWorkout', 'some']),
     currentTimerValue: state.getIn(['counter', 'timerValue']),

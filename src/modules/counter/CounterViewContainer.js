@@ -8,6 +8,5 @@ export default connect(
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['counter', 'nextWorkoutTree']),
-    state: state
   })
 )(CounterView);

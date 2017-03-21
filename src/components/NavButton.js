@@ -67,12 +67,6 @@ class NavButton extends Component {
             height: 25,
             tintColor: '#FFFFFF'}}
         />
-        {
-          // <Icon name="plus"
-          // size={52}
-          // color="rgb(129,129,129)"
-          // />
-        }
         </TouchableOpacity>
       </View>
     )
@@ -91,8 +85,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     backgroundColor: 'transparent',
-    // width: 46,
-    // height: 46,
     justifyContent:  'center',
     alignItems: 'center',
     transform: [

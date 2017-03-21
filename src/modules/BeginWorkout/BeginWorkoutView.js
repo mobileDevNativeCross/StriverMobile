@@ -111,6 +111,7 @@ class BeginWorkout extends Component {
 
   pop = () => {
     this.props.dispatch(NavigationState.popRoute());
+    this.props.dispatch(CounterState.timerReset());
   }
 
   check = () => {
@@ -128,7 +129,6 @@ class BeginWorkout extends Component {
   setWindowFinishVisible = () => {
     this.setState({windowFinishVisible : !this.state.windowFinishVisible});
     BackgroundTimer.clearInterval(liveWorkoutTimer);
-    // this.props.dispatch(CounterState.timerReset());
   }
 
   checkExsercise = (index) => {
@@ -241,8 +241,6 @@ class BeginWorkout extends Component {
           </View>
           <View style={styles.viewTouchOpacityComplete}>
             <TouchableOpacity
-              // onPress={() => {this.pop()}}
-              // onPress={() => {this.setWindowFinishVisible()}}
               onPress={() => {this.setWindowFinishVisible()}}
               disabled={this.check()}
               style={styles.touchOpacityComplete}
