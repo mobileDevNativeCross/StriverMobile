@@ -66,8 +66,8 @@ class CounterView extends Component{
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const Focus = this.props.nextWorkoutTree.goal;
-    const rawWorkoutDate = this.props.nextWorkoutTree.workoutDate;
-    const workoutDate = moment(rawWorkoutDate).format('LLL');
+    const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
+    const workoutDate = moment(rawWorkoutDate).format('L');
     const exercisesArr = this.props.nextWorkoutTree.liveWorkoutComponents;
 
     return (
@@ -75,11 +75,17 @@ class CounterView extends Component{
         <ScrollView>
           <View>
             <View style={styles.title}>
+              {
+                // <Text style={styles.titleText}>
+                //   {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
+                // </Text>
+              }
               <Text style={styles.titleText}>
-                {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
-              </Text>
-              <Text style={styles.titleText}>
-                {workoutDate}
+                {
+                  workoutDate == 'Invalid date'
+                    ? 'Loading...'
+                    : workoutDate
+                }
               </Text>
               <Text style={styles.titleText}>
                 Intensity Score: {intensityScore}

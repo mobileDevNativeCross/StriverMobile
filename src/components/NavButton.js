@@ -25,32 +25,38 @@ class NavButton extends Component {
   render() {
     return (
       <View style={styles.navMenuButtonContainer}>
-      <Display
-      enable = {this.state.navMenuShow}
-      enterDuration = {500}
-      exitDuration = {250}
-      exit = "fadeOut"
-      enter = "fadeIn"
-      >
-        <View style={styles.navMenuBackground}>
-          <TouchableOpacity
-            style={{height: displayHeight, width: displayWidth}}
-            onPress={() => this.navMenuButtonPress()}
-          >
-          </TouchableOpacity>
-          <View style={styles.navMenu}>
-            <Text style={styles.navMenuText}>
-              Home
-            </Text>
-            <View style={{backgroundColor: 'white', height: 1, width: 90,}}></View>
-            <Text style={styles.navMenuText}>
-              History
-            </Text>
+        <Display
+        enable = {this.state.navMenuShow}
+        enterDuration = {500}
+        exitDuration = {250}
+        exit = "fadeOut"
+        enter = "fadeIn"
+        >
+          <View style={styles.navMenuBackground}>
+            <TouchableOpacity
+              style={{height: displayHeight, width: displayWidth}}
+              onPress={() => this.navMenuButtonPress()}
+            >
+            </TouchableOpacity>
+            <View style={styles.navMenu}>
+              <TouchableOpacity>
+                <Text style={styles.navMenuText}>
+                  Home
+                </Text>
+              </TouchableOpacity>
+              <View style={{backgroundColor: 'white', height: 1, width: 90,}}></View>
+              <TouchableOpacity>
+                <Text style={styles.navMenuText}>
+                  History
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Display>
+        </Display>
         <TouchableOpacity
-          style={styles.button}
+          style={this.state.navMenuShow
+            ? styles.buttonCross
+            : styles.button}
           onPress={() => this.navMenuButtonPress()}
         >
         <Icon name="circle-with-plus"
@@ -69,7 +75,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 30,
     height: 48,
-    width: 48,
+    width: 60,
   },
   button: {
     position: 'absolute',
@@ -79,10 +85,25 @@ const styles = StyleSheet.create({
     // borderRadius: 23,
     justifyContent:  'center',
     alignItems: 'center',
+    transform: [
+      {rotate: '0deg'},
+    ],
+  },
+  buttonCross: {
+    // right: 10,
+    // bottom: 5,
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    justifyContent:  'center',
+    alignItems: 'center',
+    transform: [
+      {rotate: '315deg'},
+    ],
   },
   navMenuBackground:{
-    bottom: displayHeight-46-30, //displayHeight - buttonWidth - navMenuButtonContainer->bottom
-    right: displayWidth-46-30, //displayWidth - buttonWidth - navMenuButtonContainer->right
+    bottom: displayHeight-48-30, //displayHeight - buttonWidth - navMenuButtonContainer->bottom
+    right: displayWidth-46-44, //displayWidth - buttonWidth - navMenuButtonContainer->right
+    // right: displayWidth-46-30, //displayWidth - buttonWidth - navMenuButtonContainer->right
     backgroundColor: 'rgba(255,255,255,0.55)',
     height: displayHeight,
     width: displayWidth,

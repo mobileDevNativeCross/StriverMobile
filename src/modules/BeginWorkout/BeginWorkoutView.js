@@ -20,6 +20,8 @@ import * as CounterState from '../counter/CounterState';
 import * as BeginWorkoutState from './BeginWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
 import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
+import NavButton from '../../components/NavButton';
+
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
@@ -230,6 +232,8 @@ class BeginWorkout extends Component {
             </View>
             {/* <Image style={styles.imagePencil} source={pencil}/> */}
             <View style={styles.viewHeadItem}>
+            {// TO DELETE onPress for <Text>
+            }
               <Text onPress={() => {this.pop()}} style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
@@ -263,6 +267,7 @@ class BeginWorkout extends Component {
           </View>
         </ScrollView>
         <BeginWorkoutFinishWindow modalFinishVisible={this.state.modalFinishVisible} setModalFinishVisible={() => {this.setModalFinishVisible()}} />
+        <NavButton />
       </View>
     );
   }
@@ -270,7 +275,7 @@ class BeginWorkout extends Component {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    height,
+    height: (height - 80),
     width,
   },
   container: {
