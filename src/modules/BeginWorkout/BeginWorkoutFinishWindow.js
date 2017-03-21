@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Platform,
+  TextInput,
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -24,9 +25,14 @@ class BeginWorkoutFinishWindow extends Component {
         <TouchableOpacity onPress={() => {setModalFinishVisible()}} style={styles.container}>
         </TouchableOpacity>
         <View style={styles.viewFinish}>
-          <Text onPress={() => {setModalFinishVisible()}}>
-            Welcome to React Native!
-          </Text>
+          <View style={styles.viewIntensityScore}>
+            <Text>
+              Perceived Intensity Score/PRE:
+            </Text>
+            <TextInput
+              // style={}
+            />
+          </View>
         </View>
       </Modal>
     );
