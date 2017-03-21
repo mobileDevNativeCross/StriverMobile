@@ -64,7 +64,7 @@ class BeginWorkoutFinishWindow extends Component {
       "Notes": this.state.comments, //string
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
-    }, null, 2);
+    });
     console.log('sending next object: ', controlPostObject);
     fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
       method: 'POST',
