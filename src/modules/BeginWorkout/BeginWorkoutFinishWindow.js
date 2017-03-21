@@ -66,13 +66,16 @@ class BeginWorkoutFinishWindow extends Component {
                   Perceived Intensity Score/PRE:
                 </Text>
               </View>
-              <TextInput
-                style={styles.inputTextScore}
-                onChangeText={(text) => this.setState({intensityScoreText: text})}
-                value={this.state.intensityScoreText}
-                maxLength={2}
-                keyboardType="numeric"
-              />
+              <View style={styles.viewInputScore}>
+                <TextInput
+                  style={styles.inputTextScore}
+                  onChangeText={(text) => this.setState({intensityScoreText: text})}
+                  value={this.state.intensityScoreText}
+                  maxLength={2}
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                />
+              </View>
             </View>
             <View style={styles.viewFocusScore}>
               <View style={styles.viewTextScore}>
@@ -80,13 +83,16 @@ class BeginWorkoutFinishWindow extends Component {
                   Perceived Focus Score:
                 </Text>
               </View>
-              <TextInput
-                style={styles.inputTextScore}
-                onChangeText={(text) => this.setState({focusScoreText: text})}
-                value={this.state.focusScoreText}
-                maxLength={2}
-                keyboardType="numeric"
-              />
+              <View style={styles.viewInputScore}>
+                <TextInput
+                  style={styles.inputTextScore}
+                  onChangeText={(text) => this.setState({focusScoreText: text})}
+                  value={this.state.focusScoreText}
+                  maxLength={2}
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                />
+              </View>
             </View>
             <View style={styles.viewComments}>
               <View>
@@ -99,6 +105,7 @@ class BeginWorkoutFinishWindow extends Component {
                 onChangeText={(text) => this.setState({comments: text})}
                 value={this.state.comments}
                 multiline
+                underlineColorAndroid="transparent"
               />
             </View>
             <View style={styles.viewTime}>
@@ -151,6 +158,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   viewTextScore: {
+    width: (width - 120),
     justifyContent: 'center',
   },
   inputTextScore: {
@@ -199,6 +207,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 20,
+  },
+  viewInputScore: {
+    justifyContent: 'center',
   },
 });
 

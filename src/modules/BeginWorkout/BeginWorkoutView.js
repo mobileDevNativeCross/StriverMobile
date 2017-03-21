@@ -107,10 +107,6 @@ class BeginWorkout extends Component {
   }
 
   pop = () => {
-    //stopping timer
-    // BackgroundTimer.clearInterval(liveWorkoutTimer);
-    // this.props.dispatch(CounterState.timerReset());
-    // console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
     this.props.dispatch(NavigationState.popRoute());
   }
 
@@ -232,11 +228,8 @@ class BeginWorkout extends Component {
                 Intensity Score: {intensityScore}
               </Text>
             </View>
-            {/* <Image style={styles.imagePencil} source={pencil}/> */}
             <View style={styles.viewHeadItem}>
-            {// TO DELETE onPress for <Text>
-            }
-              <Text onPress={() => {this.pop()}} style={styles.textTop}>
+              <Text style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -245,7 +238,7 @@ class BeginWorkout extends Component {
             <TouchableOpacity
               // onPress={() => {this.pop()}}
               onPress={() => {this.setWindowFinishVisible()}}
-              // disabled={this.check()}
+              disabled={this.check()}
               style={styles.touchOpacityComplete}
             >
               <Text style={styles.textComplete}>
@@ -277,7 +270,7 @@ class BeginWorkout extends Component {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    height: (height - 80),
+    height: Platform.OS === 'android' ? (height - 105) : (height - 80),
     width,
   },
   container: {
@@ -295,27 +288,6 @@ const styles = StyleSheet.create({
   viewHeadItem: {
     marginTop: 10,
   },
-  // viewLogo: {
-  //   width,
-  //   flexDirection: 'row',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   paddingBottom: 30,
-  // },
-  // textLogo: {
-  //   marginLeft: 2,
-  //   fontWeight: '600',
-  //   fontSize: 23,
-  // },
-  // imageLogo: {
-  //   width: 30,
-  //   height: 50,
-  // },
-  // imagePencil: {
-  //   marginTop: 2,
-  //   width: 18,
-  //   height: 18,
-  // },
   textTop: {
     color: '#7b7b7b',
     fontSize: 20,
