@@ -9,10 +9,13 @@ import {
   TouchableOpacity,
   Platform,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import Display from 'react-native-display';
 import NavButton from '../../components/NavButton';
-
+import moment from 'moment';
+import BackgroundTimer from 'react-native-background-timer';
+import * as CounterState from '../counter/CounterState';
 
 const { width, height } = Dimensions.get('window');
 
@@ -23,12 +26,52 @@ class BeginWorkoutFinishWindow extends Component {
       comments: '',
   }
 
+  pop = () => {
+    //reset timer
+    this.props.dispatch(CounterState.timerReset());
+    this.props.dispatch(NavigationState.popRoute());
+  }
+
   getHeight = () => {
     if (this.props.windowFinishVisible) {
       return height;
     }
     return 0;
   }
+
+  handleFinishPress = () => {
+    let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
+    this.setState({windowFinishVisible : !this.state.windowFinishVisible});
+    BackgroundTimer.clearInterval(this.liveWorkoutTimer);
+    let controlPostObject = JSON.stringify({
+      "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
+      "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
+      "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
+      "PerceivedIntensityScore": this.state.intensityScoreText, //scaled 1-10
+      "PerceivedFocusScore": this.state.focusScoreText, //scaled 1-10
+      "Notes": this.state.comments, //string
+      "StartTime": this.props.beginWorkoutTime, //start of timer
+      "EndTime": gotEndWorkoutTime, //end of timer
+    });
+    console.warn('sending next object: ', controlPostObject);
+    fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
+        'Content-Type': 'application/json',
+      },
+      body: controlPostObject
+    })
+    .then((response) => {
+      (response.status == 200 && response.ok == true)
+        ? this.props.popToStartScreen()
+        : console.warn('There is some error');// FINISH Error way (second request try and AsyncStorage saving)
+    })
+    .catch((e) => {
+      console.log('error in POST request: ', e);
+    });
+  }
+
   render() {
     const { windowFinishVisible, setWindowFinishVisible, currentTimerValue } = this.props;
     return (
@@ -40,7 +83,7 @@ class BeginWorkoutFinishWindow extends Component {
           exit = "fadeOut"
           enter = "fadeIn"
         >
-        <TouchableOpacity onPress={() => {setWindowFinishVisible()}} style={styles.container}>
+        <TouchableOpacity onPress={() => {/*setWindowFinishVisible()*/}} style={styles.container}>
         </TouchableOpacity>
           <View style={styles.viewFinish}>
             <View style={styles.viewIntensityScore}>
@@ -92,7 +135,7 @@ class BeginWorkoutFinishWindow extends Component {
               </Text>
             </View>
             <View style={styles.viewFinishButton}>
-              <TouchableOpacity style={styles.touchOpacityFinish}>
+              <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.handleFinishPress()}}>
                 <Text style={styles.textFinish}>
                   Finish
                 </Text>
@@ -120,7 +163,6 @@ const styles = StyleSheet.create({
     width: (width - 60),
     marginTop: 30,
     marginLeft: 30,
-    // paddingHorizontal: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -128,7 +170,6 @@ const styles = StyleSheet.create({
     width: (width - 60),
     marginTop: 10,
     marginLeft: 30,
-    // paddingHorizontal: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

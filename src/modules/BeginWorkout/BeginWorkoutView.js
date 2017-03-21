@@ -89,11 +89,13 @@ const liveWorkoutComponents = [
 
 class BeginWorkout extends Component {
   componentDidMount(){
+    let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
     this.props.dispatch(CounterState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
       this.props.dispatch(CounterState.timerIncrement());
     }, 1000);
+    this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
@@ -237,9 +239,7 @@ class BeginWorkout extends Component {
             </View>
             {/* <Image style={styles.imagePencil} source={pencil}/> */}
             <View style={styles.viewHeadItem}>
-            {// TO DELETE onPress for <Text>
-            }
-              <Text onPress={() => {this.pop()}} style={styles.textTop}>
+              <Text style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -247,6 +247,7 @@ class BeginWorkout extends Component {
           <View style={styles.viewTouchOpacityComplete}>
             <TouchableOpacity
               // onPress={() => {this.pop()}}
+              // onPress={() => {this.setWindowFinishVisible()}}
               onPress={() => {this.setWindowFinishVisible()}}
               // disabled={this.check()}
               style={styles.touchOpacityComplete}
@@ -271,7 +272,16 @@ class BeginWorkout extends Component {
             }
           </View>
         </ScrollView>
-        <BeginWorkoutFinishWindow currentTimerValue={currentTimerValue} windowFinishVisible={this.state.windowFinishVisible} setWindowFinishVisible={() => {this.setWindowFinishVisible()}} />
+        <BeginWorkoutFinishWindow
+          currentTimerValue={currentTimerValue}
+          windowFinishVisible={this.state.windowFinishVisible}
+          setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
+          beginWorkoutTime={this.state.beginWorkoutTime}
+          athleteId={this.props.athleteId}
+          nextWorkoutTree={this.props.nextWorkoutTree}
+          nextWorkoutToken={this.props.nextWorkoutToken}
+          popToStartScreen={() => {this.pop()}}
+        />
         <NavButton />
       </View>
     );
