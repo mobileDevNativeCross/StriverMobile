@@ -58,8 +58,7 @@ class BeginWorkoutFinishWindow extends Component {
           exit = "fadeOut"
           enter = "fadeIn"
         >
-        <TouchableOpacity onPress={() => {setWindowFinishVisible()}} style={styles.container}>
-        </TouchableOpacity>
+        <View style={styles.container} />
           <View style={styles.viewFinish}>
             <View style={styles.viewIntensityScore}>
               <View style={styles.viewTextScore}>
@@ -136,7 +135,6 @@ const styles = StyleSheet.create({
     width: (width - 60),
     marginTop: 30,
     marginLeft: 30,
-    // paddingHorizontal: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -144,7 +142,6 @@ const styles = StyleSheet.create({
     width: (width - 60),
     marginTop: 10,
     marginLeft: 30,
-    // paddingHorizontal: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
