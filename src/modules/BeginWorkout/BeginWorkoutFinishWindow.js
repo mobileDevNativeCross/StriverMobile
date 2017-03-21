@@ -23,6 +23,24 @@ class BeginWorkoutFinishWindow extends Component {
       comments: '',
   }
 
+  getCurrentTimerValue = () => {
+    let currentTimerValue = this.props.currentTimerValue;
+    const sec = (currentTimerValue % 60);
+    let min = (currentTimerValue - sec) / 60;
+    if (min<=0) {
+      const showTime = `${sec} seconds`;
+      return showTime;
+    }
+    if (min>=60) {
+      min_left = (min % 60);
+      const hour = ((min - min_left) / 60);
+      const showTime = `${hour} hour ${min_left} minutes ${sec} seconds`;
+      return showTime;
+    }
+    const showTime = `${min} minutes ${sec} seconds`;
+    return showTime;
+  }
+
   getHeight = () => {
     if (this.props.windowFinishVisible) {
       return height;
@@ -82,13 +100,11 @@ class BeginWorkoutFinishWindow extends Component {
                 onChangeText={(text) => this.setState({comments: text})}
                 value={this.state.comments}
                 multiline
-                // maxLength={2}
-                // keyboardType="numeric"
               />
             </View>
             <View style={styles.viewTime}>
               <Text style={styles.textIntensityScore}>
-                Time: {currentTimerValue}
+                Time: {this.getCurrentTimerValue()}
               </Text>
             </View>
             <View style={styles.viewFinishButton}>
