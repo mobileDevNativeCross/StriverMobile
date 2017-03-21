@@ -26,10 +26,22 @@ class BeginWorkoutFinishWindow extends Component {
       comments: '',
   }
 
-  pop = () => {
-    //reset timer
-    this.props.dispatch(CounterState.timerReset());
-    this.props.dispatch(NavigationState.popRoute());
+  getCurrentTimerValue = () => {
+    let currentTimerValue = this.props.currentTimerValue;
+    const sec = (currentTimerValue % 60);
+    let min = (currentTimerValue - sec) / 60;
+    if (min<=0) {
+      const showTime = `${sec} seconds`;
+      return showTime;
+    }
+    if (min>=60) {
+      min_left = (min % 60);
+      const hour = ((min - min_left) / 60);
+      const showTime = `${hour} hour ${min_left} minutes ${sec} seconds`;
+      return showTime;
+    }
+    const showTime = `${min} minutes ${sec} seconds`;
+    return showTime;
   }
 
   getHeight = () => {
@@ -83,8 +95,7 @@ class BeginWorkoutFinishWindow extends Component {
           exit = "fadeOut"
           enter = "fadeIn"
         >
-        <TouchableOpacity onPress={() => {/*setWindowFinishVisible()*/}} style={styles.container}>
-        </TouchableOpacity>
+        <View style={styles.container} />
           <View style={styles.viewFinish}>
             <View style={styles.viewIntensityScore}>
               <View style={styles.viewTextScore}>
@@ -92,13 +103,16 @@ class BeginWorkoutFinishWindow extends Component {
                   Perceived Intensity Score/PRE:
                 </Text>
               </View>
-              <TextInput
-                style={styles.inputTextScore}
-                onChangeText={(text) => this.setState({intensityScoreText: text})}
-                value={this.state.intensityScoreText}
-                maxLength={2}
-                keyboardType="numeric"
-              />
+              <View style={styles.viewInputScore}>
+                <TextInput
+                  style={styles.inputTextScore}
+                  onChangeText={(text) => this.setState({intensityScoreText: text})}
+                  value={this.state.intensityScoreText}
+                  maxLength={2}
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                />
+              </View>
             </View>
             <View style={styles.viewFocusScore}>
               <View style={styles.viewTextScore}>
@@ -106,13 +120,16 @@ class BeginWorkoutFinishWindow extends Component {
                   Perceived Focus Score:
                 </Text>
               </View>
-              <TextInput
-                style={styles.inputTextScore}
-                onChangeText={(text) => this.setState({focusScoreText: text})}
-                value={this.state.focusScoreText}
-                maxLength={2}
-                keyboardType="numeric"
-              />
+              <View style={styles.viewInputScore}>
+                <TextInput
+                  style={styles.inputTextScore}
+                  onChangeText={(text) => this.setState({focusScoreText: text})}
+                  value={this.state.focusScoreText}
+                  maxLength={2}
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                />
+              </View>
             </View>
             <View style={styles.viewComments}>
               <View>
@@ -125,13 +142,12 @@ class BeginWorkoutFinishWindow extends Component {
                 onChangeText={(text) => this.setState({comments: text})}
                 value={this.state.comments}
                 multiline
-                // maxLength={2}
-                // keyboardType="numeric"
+                underlineColorAndroid="transparent"
               />
             </View>
             <View style={styles.viewTime}>
               <Text style={styles.textIntensityScore}>
-                Time: {currentTimerValue}
+                Time: {this.getCurrentTimerValue()}
               </Text>
             </View>
             <View style={styles.viewFinishButton}>
@@ -179,6 +195,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   viewTextScore: {
+    width: (width - 120),
     justifyContent: 'center',
   },
   inputTextScore: {
@@ -227,6 +244,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 20,
+  },
+  viewInputScore: {
+    justifyContent: 'center',
   },
 });
 
