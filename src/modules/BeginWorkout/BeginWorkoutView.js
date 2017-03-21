@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
+import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 
 import * as CounterState from '../counter/CounterState';
@@ -103,10 +104,10 @@ class BeginWorkout extends Component {
     modalFinishVisible: false,
   }
 
-  pop() {
+  pop = () => {
     //stopping timer
-    BackgroundTimer.clearInterval(liveWorkoutTimer);
-    this.props.dispatch(CounterState.timerReset());
+    // BackgroundTimer.clearInterval(liveWorkoutTimer);
+    // this.props.dispatch(CounterState.timerReset());
     // console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
     this.props.dispatch(NavigationState.popRoute());
   }
@@ -204,25 +205,35 @@ class BeginWorkout extends Component {
 
   render() {
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
+    const workoutName = this.props.nextWorkoutTree.workoutName;
+    const intensityScore = this.props.nextWorkoutTree.intensityScore;
+    const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
+
     return (
       <View style={styles.viewContainer}>
         <ScrollView style={styles.container}>
-          <View style={styles.viewFlexDirection}>
-            <Text style={styles.textTop}>
-              {workOut ? workOut : 'Workout'}
-            </Text>
-            <Text style={styles.textTop}>
-              {PRE ? PRE : 'PRE'}
-            </Text>
-            <Text style={styles.textTop}>
-              {timeDate ? timeDate : 'Date'}
-            </Text>
-            <Image style={styles.imagePencil} source={pencil}/>
-          </View>
-          <View style={styles.viewFocus}>
-            <Text style={styles.textFocus}>
-              Focus: {nextWorkoutTree.goal}
-            </Text>
+          <View style={styles.viewHead}>
+            <View>
+              <Text style={styles.textTop}>
+                Workout Name:
+              </Text>
+            </View>
+            <View style={styles.viewHeadItem}>
+              <Text style={styles.textTop}>
+                Date: {workoutDate}
+              </Text>
+            </View>
+            <View style={styles.viewHeadItem}>
+              <Text style={styles.textTop}>
+                Intensity Score: {intensityScore}
+              </Text>
+            </View>
+            {/* <Image style={styles.imagePencil} source={pencil}/> */}
+            <View style={styles.viewHeadItem}>
+              <Text onPress={() => {this.pop()}} style={styles.textTop}>
+                Focus: {nextWorkoutTree.goal}
+              </Text>
+            </View>
           </View>
           <View style={styles.viewTouchOpacityComplete}>
             <TouchableOpacity
@@ -271,45 +282,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  viewFlexDirection: {
+  viewHead: {
     paddingHorizontal: 20,
-    width,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
   },
-  viewLogo: {
-    width,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 30,
+  viewHeadItem: {
+    marginTop: 10,
   },
-  textLogo: {
-    marginLeft: 2,
-    fontWeight: '600',
-    fontSize: 23,
-  },
-  imageLogo: {
-    width: 30,
-    height: 50,
-  },
-  imagePencil: {
-    marginTop: 2,
-    width: 18,
-    height: 18,
-  },
+  // viewLogo: {
+  //   width,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   paddingBottom: 30,
+  // },
+  // textLogo: {
+  //   marginLeft: 2,
+  //   fontWeight: '600',
+  //   fontSize: 23,
+  // },
+  // imageLogo: {
+  //   width: 30,
+  //   height: 50,
+  // },
+  // imagePencil: {
+  //   marginTop: 2,
+  //   width: 18,
+  //   height: 18,
+  // },
   textTop: {
     color: '#7b7b7b',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  viewFocus: {
-    marginTop: 15,
-    paddingHorizontal: (width / 9.2),  // need test on otheid devices
-  },
-  textFocus: {
-    color: '#7b7b7b',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
   },
   viewTouchOpacityComplete: {
