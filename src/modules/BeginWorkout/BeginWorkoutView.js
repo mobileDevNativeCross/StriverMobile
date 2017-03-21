@@ -10,17 +10,80 @@ import {
   Image,
   TouchableOpacity,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
+import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 
 import * as CounterState from '../counter/CounterState';
 import * as BeginWorkoutState from './BeginWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
+import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
 const liveWorkoutTimer = null;
+
+const liveWorkoutComponents = [
+  {
+    sets: [
+      {
+        weight: 25,
+        repetitions: 5,
+        intervalTime: 35,
+      },
+      {
+        weight: 30,
+        repetitions: 4,
+        intervalTime: 40,
+      },
+      {
+        weight: 30,
+        repetitions: 5,
+        intervalTime: 50,
+      },
+    ],
+  },
+  {
+    sets: [
+      {
+        weight: 4,
+        repetitions: 15,
+        intervalTime: 55,
+      },
+      {
+        weight: 10,
+        repetitions: 10,
+        intervalTime: 50,
+      },
+      {
+        weight: 15,
+        repetitions: 5,
+        intervalTime: 25,
+      },
+    ],
+  },
+  {
+    sets: [
+      {
+        weight: 55,
+        repetitions: 2,
+        intervalTime: 10,
+      },
+      {
+        weight: 70,
+        repetitions: 1,
+        intervalTime: 5,
+      },
+      {
+        weight: 70,
+        repetitions: 1,
+        intervalTime: 5,
+      },
+    ],
+  },
+];
 
 class BeginWorkout extends Component {
   componentDidMount(){
@@ -30,18 +93,39 @@ class BeginWorkout extends Component {
       this.props.dispatch(CounterState.timerIncrement());
     }, 1000);
   }
+  componentWillReceiveProps() {
+    this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
+  }
 
   state={
     check: [],
-    disable: false,
+    disable: true,
+    len: 0,
+    modalFinishVisible: false,
   }
 
-  pop() {
+  pop = () => {
     //stopping timer
-    BackgroundTimer.clearInterval(liveWorkoutTimer);
-    this.props.dispatch(CounterState.timerReset());
-    console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
+    // BackgroundTimer.clearInterval(liveWorkoutTimer);
+    // this.props.dispatch(CounterState.timerReset());
+    // console.warn('You finish workout for: ' + this.props.currentTimerValue + ' seconds');
     this.props.dispatch(NavigationState.popRoute());
+  }
+
+  check = () => {
+    let count = 0;
+    for (let i=0; i<=this.state.len; i++) {
+      if (this.props.check.get(i) !== undefined && this.props.check.get(i) === true) {
+        count += 1;
+      }
+    }
+    if (count === this.state.len) {
+      return false;
+    } else return true;
+  }
+
+  setModalFinishVisible = () => {
+    this.setState({modalFinishVisible : !this.state.modalFinishVisible});
   }
 
   checkExsercise = (index) => {
@@ -52,13 +136,35 @@ class BeginWorkout extends Component {
     this.props.dispatch(BeginWorkoutState.clearCheck());
   }
 
+  renderRow = (set) => {
+    return (
+      <View style={styles.viewFlexDirectionSet}>
+        <View style={styles.viewSetParam}>
+          <Text style={styles.textSetParam}>
+            {set.weight}
+          </Text>
+        </View>
+        <View style={styles.viewSetParam}>
+          <Text style={styles.textSetParam}>
+            {set.repetitions}
+          </Text>
+        </View>
+        <View style={styles.viewSetParam}>
+          <Text style={styles.textSetParam}>
+            {set.intervalTime}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   renderItem = (item, index) => {
     return (
-      <TouchableOpacity onPress={() => {this.clearCheck()}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <View onPress={() => {/* this.clearCheck() */}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
-              {item.Exercise.name}
+              {`${index + 1}. ${item.Exercise.name}`}
             </Text>
             <CheckBox
               checkboxStyle={styles.checkboxStyle}
@@ -70,111 +176,142 @@ class BeginWorkout extends Component {
           </View>
           <View style={styles.viewSets}>
             <View style={styles.viewSetsFlex}>
-              <Text style={styles.textSets}>
-                Weight
-              </Text>
-              <Text style={styles.textSets}>
-                Reps
-              </Text>
-              <Text style={styles.textSets}>
-                Time
-              </Text>
+              <View style={styles.viewSetHead}>
+                <Text style={styles.textSets}>
+                  Weight
+                </Text>
+              </View>
+              <View style={styles.viewSetHead}>
+                <Text style={styles.textSets}>
+                  Reps
+                </Text>
+              </View>
+              <View style={styles.viewSetHead}>
+                <Text style={styles.textSets}>
+                  Time
+                </Text>
+              </View>
             </View>
           </View>
+          <View style={styles.viewSetsArray}>
+            {/* {item.sets.map(set => {this.renderRow(set)})} */}
+            {liveWorkoutComponents[index].sets
+              .map(set => { return(this.renderRow(set)); })}
+          </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 
   render() {
     const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
+    const workoutName = this.props.nextWorkoutTree.workoutName;
+    const intensityScore = this.props.nextWorkoutTree.intensityScore;
+    const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
+
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.viewFlexDirection}>
-          <Text style={styles.textTop}>
-            {workOut ? workOut : 'Workout'}
-          </Text>
-          <Text style={styles.textTop}>
-            {PRE ? PRE : 'PRE'}
-          </Text>
-          <Text style={styles.textTop}>
-            {timeDate ? timeDate : 'Date'}
-          </Text>
-          <Image style={styles.imagePencil} source={pencil}/>
-        </View>
-        <View style={styles.viewFocus}>
-          <Text style={styles.textFocus}>
-            Focus: {nextWorkoutTree.goal}
-          </Text>
-        </View>
-        <View style={styles.viewTouchOpacityComplete}>
-          <TouchableOpacity
-            onPress={() => {this.pop()}}
-            disabled={this.state.disable ? true : false}
-            style={styles.touchOpacityComplete}
-          >
-            <Text style={styles.textComplete}>
-              Complete Workout
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.viewItems}>
-          {
-            Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
-            nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
-              return(this.renderItem(item, index));
-            })
-          }
-        </View>
-      </ScrollView>
+      <View style={styles.viewContainer}>
+        <ScrollView style={styles.container}>
+          <View style={styles.viewHead}>
+            <View>
+              <Text style={styles.textTop}>
+                Workout Name:
+              </Text>
+            </View>
+            <View style={styles.viewHeadItem}>
+              <Text style={styles.textTop}>
+                Date: {workoutDate}
+              </Text>
+            </View>
+            <View style={styles.viewHeadItem}>
+              <Text style={styles.textTop}>
+                Intensity Score: {intensityScore}
+              </Text>
+            </View>
+            {/* <Image style={styles.imagePencil} source={pencil}/> */}
+            <View style={styles.viewHeadItem}>
+              <Text onPress={() => {this.pop()}} style={styles.textTop}>
+                Focus: {nextWorkoutTree.goal}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.viewTouchOpacityComplete}>
+            <TouchableOpacity
+              // onPress={() => {this.pop()}}
+              onPress={() => {this.setModalFinishVisible()}}
+              disabled={this.check()}
+              style={styles.touchOpacityComplete}
+            >
+              <Text style={styles.textComplete}>
+                Complete Workout
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.viewItems}>
+            {
+              nextWorkoutTree.liveWorkoutComponents
+              ?
+                Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+                nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
+                  return(this.renderItem(item, index));
+                })
+              :
+                <View style={styles.activityIndicator}>
+                  <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 25 : "large"} />
+                </View>
+            }
+          </View>
+        </ScrollView>
+        <BeginWorkoutFinishWindow modalFinishVisible={this.state.modalFinishVisible} setModalFinishVisible={() => {this.setModalFinishVisible()}} />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  viewContainer: {
+    height,
+    width,
+  },
   container: {
     paddingTop: Platform.OS === 'android' ? 0 : 25,
     backgroundColor: 'white',
   },
-  viewFlexDirection: {
-    paddingHorizontal: 20,
-    width,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  viewLogo: {
-    width,
-    flexDirection: 'row',
+  activityIndicator: {
+    height: (height / 1.7),
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 30,
   },
-  textLogo: {
-    marginLeft: 2,
-    fontWeight: '600',
-    fontSize: 23,
+  viewHead: {
+    paddingHorizontal: 20,
   },
-  imageLogo: {
-    width: 30,
-    height: 50,
+  viewHeadItem: {
+    marginTop: 10,
   },
-  imagePencil: {
-    marginTop: 2,
-    width: 18,
-    height: 18,
-  },
+  // viewLogo: {
+  //   width,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   paddingBottom: 30,
+  // },
+  // textLogo: {
+  //   marginLeft: 2,
+  //   fontWeight: '600',
+  //   fontSize: 23,
+  // },
+  // imageLogo: {
+  //   width: 30,
+  //   height: 50,
+  // },
+  // imagePencil: {
+  //   marginTop: 2,
+  //   width: 18,
+  //   height: 18,
+  // },
   textTop: {
     color: '#7b7b7b',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  viewFocus: {
-    marginTop: 15,
-    paddingHorizontal: (width / 9.2),  // need test on otheid devices
-  },
-  textFocus: {
-    color: '#7b7b7b',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
   },
   viewTouchOpacityComplete: {
@@ -230,7 +367,7 @@ const styles = StyleSheet.create({
   },
   viewSets: {
     marginTop: 10,
-    width: ( width - 65 ),
+    width: ( width - 45 ),
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 5,
@@ -239,6 +376,32 @@ const styles = StyleSheet.create({
     color: '#7b7b7b',
     fontSize: 16,
     fontWeight: '600',
+  },
+  viewSetHead: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+  },
+  viewFlexDirectionSet: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: ( width / 1.7 ),
+  },
+  viewSetsArray: {
+    width: ( width - 45 ),
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 5,
+  },
+  viewSetParam: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    marginTop: 5,
+  },
+  textSetParam: {
+    color: '#7b7b7b',
+    fontSize: 16,
   },
 });
 
