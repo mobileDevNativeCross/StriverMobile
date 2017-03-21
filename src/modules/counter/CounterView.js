@@ -10,12 +10,14 @@ import {
   View,
   ScrollView,
   ListView,
-  Platform
+  Platform,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import store from '../../redux/store';
 import moment from 'moment';
 import BackgroundTimer from 'react-native-background-timer';
+import NavButton from '../../components/NavButton'
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
@@ -70,37 +72,46 @@ class CounterView extends Component{
 
     return (
       <View style={styles.container}>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>
-            {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
-          </Text>
-          <Text style={styles.titleText}>
-            {workoutDate}
-          </Text>
-          <Text style={styles.titleText}>
-            Intensity Score: {intensityScore}
-          </Text>
-          <Text style={styles.titleText}>
-           Focus: {Focus}
-          </Text>
-        </View>
-        <View style={styles.exercises}>
-          <Text style={styles.exText}>
-            Exercises:
-          </Text>
-          <ScrollView >
-            {
-              (Array.isArray(exercisesArr)) ?
-              exercisesArr.map(item => { return(this.renderItem(item)); }) :
-                <View />
-            }
-          </ScrollView>
-        </View>
-        <View style={styles.beginWorkoutButtonBox}>
-          <TouchableOpacity onPress={() => {this.goToLiveWorkout()}} style={styles.beginWorkoutButton}>
-            <Text style={{fontSize: 16, color: fontColor, fontWeight: '700'}}>Begin Workout</Text>
-          </TouchableOpacity>
-        </View>
+        <ScrollView>
+          <View>
+            <View style={styles.title}>
+              <Text style={styles.titleText}>
+                {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
+              </Text>
+              <Text style={styles.titleText}>
+                {workoutDate}
+              </Text>
+              <Text style={styles.titleText}>
+                Intensity Score: {intensityScore}
+              </Text>
+              <Text style={styles.titleText}>
+               Focus: {Focus}
+              </Text>
+            </View>
+            <View style={styles.exercises}>
+              <Text style={styles.exText}>
+                Exercises:
+              </Text>
+              <View >
+                {
+                  (Array.isArray(exercisesArr))
+                  ?
+                    exercisesArr.map(item => { return(this.renderItem(item)); })
+                  :
+                    <View style={styles.exercisesLoading}>
+                      <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />
+                    </View>
+                }
+              </View>
+            </View>
+          </View>
+          <View style={styles.beginWorkoutButtonBox}>
+            <TouchableOpacity onPress={() => {this.goToLiveWorkout()}} style={styles.beginWorkoutButton}>
+              <Text style={{fontSize: 16, color: fontColor, fontWeight: '700', backgroundColor: 'transparent'}}>Begin Workout</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <NavButton />
       </View>
     );
   }
@@ -134,11 +145,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   exercises: {
-    height: 200,
+    // height: 200,
     width: displayWidth,
     paddingVertical: 14,
     paddingHorizontal: 40,
     backgroundColor: 'rgb(231,231,231)',
+  },
+  exercisesLoading: {
+    height: 200,
+    width: displayWidth,
+    justifyContent: 'center',
+    marginLeft: -40,
+    alignItems: 'center',
   },
   exerciseItem: {
     alignItems: 'center',
@@ -153,15 +171,18 @@ const styles = StyleSheet.create({
     marginBottom: 17,
   },
   beginWorkoutButtonBox: {
-    position: 'absolute',
-    bottom: 55, width: displayWidth,
+    // position: 'absolute',
+    // bottom: 55,
+    width: displayWidth,
     alignItems: 'center',
+    paddingBottom: 55
   },
   beginWorkoutButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderWidth: 2,
     borderColor: 'rgb(130,130,130)',
+    marginTop: 25,
   },
 });
 
