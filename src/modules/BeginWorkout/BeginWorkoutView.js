@@ -243,7 +243,7 @@ class BeginWorkout extends Component {
             <TouchableOpacity
               // onPress={() => {this.pop()}}
               onPress={() => {this.setModalFinishVisible()}}
-              disabled={this.check()}
+              // disabled={this.check()}
               style={styles.touchOpacityComplete}
             >
               <Text style={styles.textComplete}>
