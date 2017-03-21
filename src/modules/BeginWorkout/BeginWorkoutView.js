@@ -25,7 +25,7 @@ import NavButton from '../../components/NavButton';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
-const liveWorkoutTimer = null;
+const liveWorkoutTimer = 'workOutTimer';
 
 const liveWorkoutComponents = [
   {
@@ -103,7 +103,7 @@ class BeginWorkout extends Component {
     check: [],
     disable: true,
     len: 0,
-    modalFinishVisible: false,
+    windowFinishVisible: false,
   }
 
   pop = () => {
@@ -126,8 +126,10 @@ class BeginWorkout extends Component {
     } else return true;
   }
 
-  setModalFinishVisible = () => {
-    this.setState({modalFinishVisible : !this.state.modalFinishVisible});
+  setWindowFinishVisible = () => {
+    this.setState({windowFinishVisible : !this.state.windowFinishVisible});
+    BackgroundTimer.clearInterval(liveWorkoutTimer);
+    // this.props.dispatch(CounterState.timerReset());
   }
 
   checkExsercise = (index) => {
@@ -206,7 +208,7 @@ class BeginWorkout extends Component {
   }
 
   render() {
-    const { workOut, PRE, timeDate, focus, nextWorkoutTree } = this.props;
+    const { workOut, PRE, timeDate, focus, nextWorkoutTree, currentTimerValue } = this.props;
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
@@ -242,7 +244,7 @@ class BeginWorkout extends Component {
           <View style={styles.viewTouchOpacityComplete}>
             <TouchableOpacity
               // onPress={() => {this.pop()}}
-              onPress={() => {this.setModalFinishVisible()}}
+              onPress={() => {this.setWindowFinishVisible()}}
               // disabled={this.check()}
               style={styles.touchOpacityComplete}
             >
@@ -266,7 +268,7 @@ class BeginWorkout extends Component {
             }
           </View>
         </ScrollView>
-        <BeginWorkoutFinishWindow modalFinishVisible={this.state.modalFinishVisible} setModalFinishVisible={() => {this.setModalFinishVisible()}} />
+        <BeginWorkoutFinishWindow currentTimerValue={currentTimerValue} windowFinishVisible={this.state.windowFinishVisible} setWindowFinishVisible={() => {this.setWindowFinishVisible()}} />
         <NavButton />
       </View>
     );

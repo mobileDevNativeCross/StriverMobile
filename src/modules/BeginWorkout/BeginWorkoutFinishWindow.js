@@ -24,23 +24,23 @@ class BeginWorkoutFinishWindow extends Component {
   }
 
   getHeight = () => {
-    if (this.props.modalFinishVisible) {
+    if (this.props.windowFinishVisible) {
       return height;
     }
     return 0;
   }
   render() {
-    const { modalFinishVisible, setModalFinishVisible } = this.props;
+    const { windowFinishVisible, setWindowFinishVisible, currentTimerValue } = this.props;
     return (
       <View style={{ position: 'absolute', width, height: this.getHeight()  }}>
         <Display
-          enable = {this.props.modalFinishVisible}
+          enable = {windowFinishVisible}
           enterDuration = {500}
           exitDuration = {250}
           exit = "fadeOut"
           enter = "fadeIn"
         >
-        <TouchableOpacity onPress={() => {setModalFinishVisible()}} style={styles.container}>
+        <TouchableOpacity onPress={() => {setWindowFinishVisible()}} style={styles.container}>
         </TouchableOpacity>
           <View style={styles.viewFinish}>
             <View style={styles.viewIntensityScore}>
@@ -71,6 +71,33 @@ class BeginWorkoutFinishWindow extends Component {
                 keyboardType="numeric"
               />
             </View>
+            <View style={styles.viewComments}>
+              <View>
+                <Text style={styles.textIntensityScore}>
+                  Comments:
+                </Text>
+              </View>
+              <TextInput
+                style={styles.inputTextComments}
+                onChangeText={(text) => this.setState({comments: text})}
+                value={this.state.comments}
+                multiline
+                // maxLength={2}
+                // keyboardType="numeric"
+              />
+            </View>
+            <View style={styles.viewTime}>
+              <Text style={styles.textIntensityScore}>
+                Time: {currentTimerValue}
+              </Text>
+            </View>
+            <View style={styles.viewFinishButton}>
+              <TouchableOpacity style={styles.touchOpacityFinish}>
+                <Text style={styles.textFinish}>
+                  Finish
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </Display>
       </View>
@@ -99,27 +126,66 @@ const styles = StyleSheet.create({
   },
   viewFocusScore: {
     width: (width - 60),
-    marginTop: 30,
+    marginTop: 10,
     marginLeft: 30,
     // paddingHorizontal: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   textIntensityScore: {
-    color: 'white',
-    fontSize: 19,
-    fontWeight: '600',
+    color: '#ececec',
+    fontSize: 18,
+    fontWeight: '700',
   },
   viewTextScore: {
     justifyContent: 'center',
   },
   inputTextScore: {
     height: 30,
+    fontSize: 19,
     width: 60,
     textAlign: 'center',
     backgroundColor: '#ededed',
     borderColor: '#696969',
     borderWidth: 3,
+  },
+  viewComments: {
+    flexDirection: 'row',
+    width: (width - 60),
+    marginTop: 10,
+    marginLeft: 30,
+  },
+  inputTextComments: {
+    marginLeft: 10,
+    paddingLeft: 5,
+    backgroundColor: '#ededed',
+    borderColor: '#696969',
+    borderWidth: 3,
+    flex: 1,
+    height: 120,
+    fontSize: 19,
+  },
+  viewTime: {
+    marginTop: 10,
+    marginLeft: 30,
+  },
+  touchOpacityFinish: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 2,
+  },
+  textFinish: {
+    color: '#5d5d5d',
+    fontSize: 15,
+    fontWeight: '600',
+    backgroundColor: 'transparent',
+  },
+  viewFinishButton: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 20,
   },
 });
 
