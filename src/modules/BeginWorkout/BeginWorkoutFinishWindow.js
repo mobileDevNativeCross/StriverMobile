@@ -5,7 +5,12 @@ import {
   Text,
   StyleSheet,
   Modal,
+  Dimensions,
+  TouchableOpacity,
+  Platform,
 } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 class BeginWorkoutFinishWindow extends Component {
   render() {
@@ -14,11 +19,11 @@ class BeginWorkoutFinishWindow extends Component {
       <Modal
         animationType="fade"
         visible={modalFinishVisible}
-        style={styles.modal}
-        bacgroundColor={'rgba(0,0,0,0.3)'}
-        // transparent={true}
+        transparent={true}
       >
-        <View style={styles.container}>
+        <TouchableOpacity onPress={() => {setModalFinishVisible()}} style={styles.container}>
+        </TouchableOpacity>
+        <View style={styles.viewFinish}>
           <Text onPress={() => {setModalFinishVisible()}}>
             Welcome to React Native!
           </Text>
@@ -30,12 +35,16 @@ class BeginWorkoutFinishWindow extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width,
+    height,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
-  modal: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  viewFinish: {
+    paddingTop: Platform.OS === 'android' ? 0 : 25,
+    backgroundColor: '#a3a3a3',
   },
 });
 
