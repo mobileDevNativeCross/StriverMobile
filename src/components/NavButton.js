@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -59,10 +60,19 @@ class NavButton extends Component {
             : styles.button}
           onPress={() => this.navMenuButtonPress()}
         >
-        <Icon name="circle-with-plus"
-        size={52}
-        color="rgb(129,129,129)"
+        <Image
+          source={require('../assets/plus.png')}
+          style={{
+            width: 25,
+            height: 25,
+            tintColor: '#FFFFFF'}}
         />
+        {
+          // <Icon name="plus"
+          // size={52}
+          // color="rgb(129,129,129)"
+          // />
+        }
         </TouchableOpacity>
       </View>
     )
@@ -72,26 +82,31 @@ class NavButton extends Component {
 const styles = StyleSheet.create({
   navMenuButtonContainer:{
     position: 'absolute',
-    bottom: 30,
-    right: 30,
-    height: 48,
-    width: 60,
+    bottom: 35,
+    right: 27,
+    height: 46,
+    width: 46,
   },
   button: {
     position: 'absolute',
+    right: 0,
     backgroundColor: 'transparent',
     // width: 46,
     // height: 46,
-    // borderRadius: 23,
     justifyContent:  'center',
     alignItems: 'center',
     transform: [
       {rotate: '0deg'},
     ],
+    height: 46,
+    width: 46,
+    borderRadius: 23,
+    backgroundColor: 'rgb(129,129,129)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonCross: {
-    // right: 10,
-    // bottom: 5,
+    right: 0,
     position: 'absolute',
     backgroundColor: 'transparent',
     justifyContent:  'center',
@@ -99,15 +114,20 @@ const styles = StyleSheet.create({
     transform: [
       {rotate: '315deg'},
     ],
+
+    height: 46,
+    width: 46,
+    borderRadius: 23,
+    backgroundColor: 'rgb(129,129,129)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   navMenuBackground:{
-    bottom: displayHeight-48-30, //displayHeight - buttonWidth - navMenuButtonContainer->bottom
-    right: displayWidth-46-44, //displayWidth - buttonWidth - navMenuButtonContainer->right
-    // right: displayWidth-46-30, //displayWidth - buttonWidth - navMenuButtonContainer->right
+    bottom: displayHeight-52-35, //displayHeight - buttonWidth - navMenuButtonContainer->bottom
+    right: displayWidth-46-27, //displayWidth - buttonWidth - navMenuButtonContainer->right
     backgroundColor: 'rgba(255,255,255,0.55)',
     height: displayHeight,
     width: displayWidth,
-    // backgroundColor: 'green',
   },
   navMenu: {
     position: 'absolute',

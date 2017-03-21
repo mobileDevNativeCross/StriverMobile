@@ -104,6 +104,7 @@ class BeginWorkout extends Component {
     disable: true,
     len: 0,
     modalFinishVisible: false,
+    beginWorkoutTime: null,
   }
 
   pop = () => {
@@ -215,11 +216,13 @@ class BeginWorkout extends Component {
       <View style={styles.viewContainer}>
         <ScrollView style={styles.container}>
           <View style={styles.viewHead}>
-            <View>
-              <Text style={styles.textTop}>
-                Workout Name:
-              </Text>
-            </View>
+          {
+            // <View>
+            //   <Text style={styles.textTop}>
+            //     Workout Name:
+            //   </Text>
+            // </View>
+          }
             <View style={styles.viewHeadItem}>
               <Text style={styles.textTop}>
                 Date: {workoutDate}
@@ -288,7 +291,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewHead: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 40,
+    // paddingVertical: 25,
   },
   viewHeadItem: {
     marginTop: 10,
@@ -358,6 +362,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     width: (width / 1.7),
+    paddingLeft: 20,
   },
   checkboxStyle: {
     tintColor: '#979797',
