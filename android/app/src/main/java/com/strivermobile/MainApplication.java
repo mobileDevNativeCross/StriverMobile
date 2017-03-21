@@ -12,6 +12,8 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
+import com.auth0.lock.react.LockReactPackage;
+import com.ocetnik.timer.BackgroundTimerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -24,7 +26,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+          new LockReactPackage(),
+          new BackgroundTimerPackage()
       );
     }
   };
