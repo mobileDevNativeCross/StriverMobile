@@ -163,11 +163,11 @@ class BeginWorkout extends Component {
 
   renderItem = (item, index) => {
     return (
-      <View onPress={() => {/* this.clearCheck() */}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <View style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
-              {`${index + 1}. ${item.Exercise.name}`}
+              {item.Exercise.name}
             </Text>
             <CheckBox
               checkboxStyle={styles.checkboxStyle}
@@ -274,6 +274,7 @@ class BeginWorkout extends Component {
           nextWorkoutTree={this.props.nextWorkoutTree}
           nextWorkoutToken={this.props.nextWorkoutToken}
           popToStartScreen={() => {this.pop()}}
+          clearCheck={() => {this.clearCheck()}}
         />
         <NavButton />
       </View>
