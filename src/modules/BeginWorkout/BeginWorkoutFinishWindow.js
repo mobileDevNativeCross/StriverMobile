@@ -101,7 +101,7 @@ class BeginWorkoutFinishWindow extends Component {
         if (response.status === 200 && response.ok === true) {
           this.props.popToStartScreen('RequestFine')
         } else {
-          AsyncStorage.setItem('resultObject', resultObject); // FINISH Error way (second request try and AsyncStorage saving)
+          AsyncStorage.setItem('resultObject', resultObject);
           console.log('There is something wrong. Server response: ', response);
           AsyncStorage.getItem('resultObject') //*** NOT NESCESSARY LINE OF CODE (just for checking 'resultObject' key in AsyncStorage)
             .then((value) => { //*** NOT NESCESSARY, for checking
