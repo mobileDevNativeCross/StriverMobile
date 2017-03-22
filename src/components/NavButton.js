@@ -27,11 +27,17 @@ class NavButton extends Component {
     return (
       <View style={styles.navMenuButtonContainer}>
         <Display
-        enable = {this.state.navMenuShow}
-        enterDuration = {500}
-        exitDuration = {250}
-        exit = "fadeOut"
-        enter = "fadeIn"
+          enable = {this.state.navMenuShow}
+          enterDuration = {500}
+          exitDuration = {250}
+          exit = "fadeOut"
+          enter = "fadeIn"
+          style={{
+            height: displayHeight,
+            width: displayWidth,
+            bottom: displayHeight-52-35,
+            right: displayWidth-46-27,
+          }}
         >
           <View style={styles.navMenuBackground}>
             <TouchableOpacity
@@ -60,13 +66,16 @@ class NavButton extends Component {
             : styles.button}
           onPress={() => this.navMenuButtonPress()}
         >
-        <Image
-          source={require('../assets/plus.png')}
-          style={{
-            width: 25,
-            height: 25,
-            tintColor: '#FFFFFF'}}
-        />
+          <View style={this.state.navMenuShow ? styles.transform : styles.transformNull}>
+            <Image
+              source={require('../assets/plus.png')}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: '#FFFFFF'
+              }}
+            />
+          </View>
         </TouchableOpacity>
       </View>
     )
@@ -74,6 +83,16 @@ class NavButton extends Component {
 }
 
 const styles = StyleSheet.create({
+  transform: {
+    transform: [
+      {rotate: '45deg'},
+    ],
+  },
+  transformNull: {
+    transform: [
+      {rotate: '0deg'},
+    ],
+  },
   navMenuButtonContainer:{
     position: 'absolute',
     bottom: 35,
@@ -84,12 +103,8 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     right: 0,
-    backgroundColor: 'transparent',
     justifyContent:  'center',
     alignItems: 'center',
-    transform: [
-      {rotate: '0deg'},
-    ],
     height: 46,
     width: 46,
     borderRadius: 23,
@@ -100,13 +115,8 @@ const styles = StyleSheet.create({
   buttonCross: {
     right: 0,
     position: 'absolute',
-    backgroundColor: 'transparent',
     justifyContent:  'center',
     alignItems: 'center',
-    transform: [
-      {rotate: '315deg'},
-    ],
-
     height: 46,
     width: 46,
     borderRadius: 23,
@@ -115,8 +125,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   navMenuBackground:{
-    bottom: displayHeight-52-35, //displayHeight - buttonWidth - navMenuButtonContainer->bottom
-    right: displayWidth-46-27, //displayWidth - buttonWidth - navMenuButtonContainer->right
     backgroundColor: 'rgba(255,255,255,0.55)',
     height: displayHeight,
     width: displayWidth,

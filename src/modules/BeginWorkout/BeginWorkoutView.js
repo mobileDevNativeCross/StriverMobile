@@ -110,9 +110,6 @@ class BeginWorkout extends Component {
   }
 
   pop = (requestCheck) => {
-    if (requestCheck === 'RequestFine') {
-      console.log('POST request passed fine')
-    }
     this.props.dispatch(NavigationState.popRoute());
     this.props.dispatch(CounterState.timerReset());
   }
@@ -124,10 +121,11 @@ class BeginWorkout extends Component {
         count += 1;
       }
     }
-    if (/*this.state.len > 0 &&*/ count === this.state.len) { //UNCOMMENT THIS PART TO AVOID A BUG (enable Complete Workout button when exercises is loading)
+    if (this.state.len > 0 && count === this.state.len) {
       return false;
     }
     return true;
+    // return !(this.state.len > 0 && count === this.state.len);
   }
 
   setWindowFinishVisible = () => {
@@ -167,11 +165,11 @@ class BeginWorkout extends Component {
 
   renderItem = (item, index) => {
     return (
-      <View onPress={() => {/* this.clearCheck() */}} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <View style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
-              {`${index + 1}. ${item.Exercise.name}`}
+              {item.Exercise.name}
             </Text>
             <CheckBox
               checkboxStyle={styles.checkboxStyle}
@@ -278,6 +276,7 @@ class BeginWorkout extends Component {
           nextWorkoutTree={this.props.nextWorkoutTree}
           nextWorkoutToken={this.props.nextWorkoutToken}
           popToStartScreen={(requestCheck) => {this.pop(requestCheck)}}
+          clearCheck={() => {this.clearCheck()}}
         />
         <NavButton />
       </View>
