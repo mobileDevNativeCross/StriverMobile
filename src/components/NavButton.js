@@ -60,13 +60,15 @@ class NavButton extends Component {
             : styles.button}
           onPress={() => this.navMenuButtonPress()}
         >
-        <Image
-          source={require('../assets/plus.png')}
-          style={{
-            width: 25,
-            height: 25,
-            tintColor: '#FFFFFF'}}
-        />
+          <View style={this.state.navMenuShow ? styles.transform : styles.transformNull}>
+            <Image
+              source={require('../assets/plus.png')}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: '#FFFFFF'}}
+            />
+          </View>
         </TouchableOpacity>
       </View>
     )
@@ -74,6 +76,16 @@ class NavButton extends Component {
 }
 
 const styles = StyleSheet.create({
+  transform: {
+    transform: [
+      {rotate: '315deg'},
+    ],
+  },
+  transformNull: {
+    transform: [
+      {rotate: '0deg'},
+    ],
+  },
   navMenuButtonContainer:{
     position: 'absolute',
     bottom: 35,
@@ -87,9 +99,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent:  'center',
     alignItems: 'center',
-    transform: [
-      {rotate: '0deg'},
-    ],
+    // transform: [
+    //   {rotate: '0deg'},
+    // ],
     height: 46,
     width: 46,
     borderRadius: 23,
@@ -103,9 +115,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent:  'center',
     alignItems: 'center',
-    transform: [
-      {rotate: '315deg'},
-    ],
+    // transform: [
+    //   {rotate: '315deg'},
+    // ],
 
     height: 46,
     width: 46,
