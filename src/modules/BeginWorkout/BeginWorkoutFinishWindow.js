@@ -87,15 +87,16 @@ class BeginWorkoutFinishWindow extends Component {
   render() {
     const { windowFinishVisible, setWindowFinishVisible, currentTimerValue } = this.props;
     return (
-      <View style={{ position: 'absolute', width, height: this.getHeight()  }}>
+      <View style={{ position: 'absolute', width, height: this.getHeight() }}>
         <Display
           enable = {windowFinishVisible}
           enterDuration = {500}
           exitDuration = {250}
           exit = "fadeOut"
           enter = "fadeIn"
+          style= {{ width, height, backgroundColor: 'red' }}
         >
-        <View style={styles.container} />
+          <View style={styles.container} />
           <View style={styles.viewFinish}>
             <View style={styles.viewIntensityScore}>
               <View style={styles.viewTextScore}>
