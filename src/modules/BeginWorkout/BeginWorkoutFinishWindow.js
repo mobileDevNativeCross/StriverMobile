@@ -55,6 +55,7 @@ class BeginWorkoutFinishWindow extends Component {
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     this.setState({windowFinishVisible : !this.state.windowFinishVisible});
     BackgroundTimer.clearInterval(this.liveWorkoutTimer);
+    this.props.clearCheck();
     let controlPostObject = JSON.stringify({
       "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
       "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
@@ -94,7 +95,7 @@ class BeginWorkoutFinishWindow extends Component {
           exitDuration = {250}
           exit = "fadeOut"
           enter = "fadeIn"
-          style= {{ width, height, backgroundColor: 'red' }}
+          style= {{ width, height, bottom: 0,}}
         >
           <View style={styles.container} />
           <View style={styles.viewFinish}>
@@ -171,6 +172,9 @@ const styles = StyleSheet.create({
     height,
     position: 'absolute',
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  display: {
+
   },
   viewFinish: {
     paddingTop: Platform.OS === 'android' ? 0 : 25,
