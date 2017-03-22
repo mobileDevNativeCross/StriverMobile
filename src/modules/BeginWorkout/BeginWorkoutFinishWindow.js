@@ -81,8 +81,8 @@ class BeginWorkoutFinishWindow extends Component {
       "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
       "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
       "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
-      "PerceivedIntensityScore": this.state.intensityScoreText, //scaled 1-10
-      "PerceivedFocusScore": this.state.focusScoreText, //scaled 1-10
+      "PerceivedIntensityScore": Number(this.state.intensityScoreText), //scaled 1-10
+      "PerceivedFocusScore": Number(this.state.focusScoreText), //scaled 1-10
       "Notes": this.state.comments, //string
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
@@ -163,7 +163,6 @@ class BeginWorkoutFinishWindow extends Component {
                 <TextInput
                   style={styles.inputTextScore}
                   onChangeText={this.setIntensityScore}
-                  // onChangeText={(text) => this.setState({intensityScoreText: text})}
                   value={this.state.intensityScoreText}
                   maxLength={2}
                   keyboardType="numeric"
@@ -190,7 +189,6 @@ class BeginWorkoutFinishWindow extends Component {
                 <TextInput
                   style={styles.inputTextScore}
                   onChangeText={this.setFocusScore}
-                  // onChangeText={(text) => this.setState({focusScoreText: text})}
                   value={this.state.focusScoreText}
                   maxLength={2}
                   keyboardType="numeric"
@@ -294,6 +292,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ededed',
     borderColor: '#696969',
     borderWidth: 3,
+    ...Platform.select({
+      ios: {},
+      android: {
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    }),
   },
   viewComments: {
     flexDirection: 'row',
@@ -310,6 +315,14 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 120,
     fontSize: 19,
+    ...Platform.select({
+      ios: {},
+      android: {
+        textAlignVertical: 'top',
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    }),
   },
   viewTime: {
     marginTop: 10,
