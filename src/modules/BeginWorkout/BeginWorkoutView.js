@@ -167,7 +167,7 @@ class BeginWorkout extends Component {
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
-              {`${index + 1}. ${item.Exercise.name}`}
+              {item.Exercise.name}
             </Text>
             <CheckBox
               checkboxStyle={styles.checkboxStyle}

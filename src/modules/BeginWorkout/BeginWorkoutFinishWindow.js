@@ -24,6 +24,9 @@ class BeginWorkoutFinishWindow extends Component {
       intensityScoreText: '',
       focusScoreText: '',
       comments: '',
+      errorIntensityScore: '',
+      errorFocusScore: '',
+      errorComents: '',
   }
 
   getCurrentTimerValue = () => {
@@ -49,6 +52,24 @@ class BeginWorkoutFinishWindow extends Component {
       return height;
     }
     return 0;
+  }
+
+  onFinish = () => {
+    const {intensityScoreText, focusScoreText, comments, errorIntensityScore, errorFocusScore, errorComents} = this.state;
+    if (intensityScoreText.length === 0 || focusScoreText.length === 0 || comments.length === 0) {
+      if (intensityScoreText.length === 0) {
+        this.setState({errorIntensityScore: 'Enter this score.'});
+      }
+      if (focusScoreText.length === 0) {
+        this.setState({errorFocusScore: 'Enter this score.'});
+      }
+      if (comments.length === 0) {
+        this.setState({errorComents: 'Enter comments.'});
+      }
+    } else if (errorIntensityScore.length === 0 || errorFocusScore.length === 0 || errorComents.length === 0) {
+      this.handleFinishPress();
+    }
+
   }
 
   handleFinishPress = () => {
@@ -85,6 +106,39 @@ class BeginWorkoutFinishWindow extends Component {
     });
   }
 
+  setIntensityScore = (text) => {
+    this.setState({intensityScoreText: text});
+    if (text.length > 0) {
+      if (Number(text) > 10 || Number(text) < 1 || text[0] === '.') {
+        this.setState({errorIntensityScore: 'Must be from 1 to 10.'});
+      } else {
+        this.setState({errorIntensityScore: ''})
+      }
+    } else {
+      this.setState({errorIntensityScore: ''})
+    }
+  }
+
+  setFocusScore = (text) => {
+    this.setState({focusScoreText: text});
+    if (text.length > 0) {
+      if (Number(text) > 10 || Number(text) < 1 || text[0] === '.') {
+        this.setState({errorFocusScore: 'Must be from 1 to 10.'});
+      } else {
+        this.setState({errorFocusScore: ''})
+      }
+    } else {
+      this.setState({errorFocusScore: ''})
+    }
+  }
+
+  setComments = (text) => {
+    this.setState({
+      comments: text,
+      errorComents: '',
+    });
+  }
+
   render() {
     const { windowFinishVisible, setWindowFinishVisible, currentTimerValue } = this.props;
     return (
@@ -108,13 +162,23 @@ class BeginWorkoutFinishWindow extends Component {
               <View style={styles.viewInputScore}>
                 <TextInput
                   style={styles.inputTextScore}
-                  onChangeText={(text) => this.setState({intensityScoreText: text})}
+                  onChangeText={this.setIntensityScore}
+                  // onChangeText={(text) => this.setState({intensityScoreText: text})}
                   value={this.state.intensityScoreText}
                   maxLength={2}
                   keyboardType="numeric"
                   underlineColorAndroid="transparent"
                 />
               </View>
+            </View>
+            <View style={styles.viewError}>
+              {
+                this.state.errorIntensityScore !== '' &&
+
+                <Text style={styles.textError}>
+                  {this.state.errorIntensityScore}
+                </Text>
+              }
             </View>
             <View style={styles.viewFocusScore}>
               <View style={styles.viewTextScore}>
@@ -125,13 +189,23 @@ class BeginWorkoutFinishWindow extends Component {
               <View style={styles.viewInputScore}>
                 <TextInput
                   style={styles.inputTextScore}
-                  onChangeText={(text) => this.setState({focusScoreText: text})}
+                  onChangeText={this.setFocusScore}
+                  // onChangeText={(text) => this.setState({focusScoreText: text})}
                   value={this.state.focusScoreText}
                   maxLength={2}
                   keyboardType="numeric"
                   underlineColorAndroid="transparent"
                 />
               </View>
+            </View>
+            <View style={styles.viewError}>
+              {
+                this.state.errorFocusScore !== '' &&
+
+                <Text style={styles.textError}>
+                  {this.state.errorFocusScore}
+                </Text>
+              }
             </View>
             <View style={styles.viewComments}>
               <View>
@@ -141,11 +215,20 @@ class BeginWorkoutFinishWindow extends Component {
               </View>
               <TextInput
                 style={styles.inputTextComments}
-                onChangeText={(text) => this.setState({comments: text})}
+                onChangeText={this.setComments}
                 value={this.state.comments}
                 multiline
                 underlineColorAndroid="transparent"
               />
+            </View>
+            <View style={styles.viewError}>
+              {
+                this.state.errorComents !== '' &&
+
+                <Text style={styles.textError}>
+                  {this.state.errorComents}
+                </Text>
+              }
             </View>
             <View style={styles.viewTime}>
               <Text style={styles.textIntensityScore}>
@@ -153,7 +236,7 @@ class BeginWorkoutFinishWindow extends Component {
               </Text>
             </View>
             <View style={styles.viewFinishButton}>
-              <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.handleFinishPress()}}>
+              <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
                 <Text style={styles.textFinish}>
                   Finish
                 </Text>
@@ -252,6 +335,17 @@ const styles = StyleSheet.create({
   },
   viewInputScore: {
     justifyContent: 'center',
+  },
+  viewError: {
+    width: (width - 60),
+    marginTop: 3,
+    marginLeft: 30,
+    alignItems: 'flex-end'
+  },
+  textError: {
+    fontSize: 16,
+    color: 'red',
+    fontWeight: '600',
   },
 });
 
