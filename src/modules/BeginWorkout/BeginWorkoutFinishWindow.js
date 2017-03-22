@@ -10,6 +10,7 @@ import {
   Platform,
   TextInput,
   ScrollView,
+  AsyncStorage,
 } from 'react-native';
 import Display from 'react-native-display';
 import NavButton from '../../components/NavButton';
@@ -44,7 +45,7 @@ class BeginWorkoutFinishWindow extends Component {
     return showTime;
   }
 
-  getHeight = () => {
+   getHeight = () => {
     if (this.props.windowFinishVisible) {
       return height;
     }
@@ -55,7 +56,7 @@ class BeginWorkoutFinishWindow extends Component {
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     this.setState({windowFinishVisible : !this.state.windowFinishVisible});
     BackgroundTimer.clearInterval(this.liveWorkoutTimer);
-    let controlPostObject = JSON.stringify({
+    let resultObject = JSON.stringify({
       "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
       "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
       "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
@@ -65,23 +66,50 @@ class BeginWorkoutFinishWindow extends Component {
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
     });
-    console.log('sending next object: ', controlPostObject);
-    fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
-        'Content-Type': 'application/json',
-      },
-      body: controlPostObject
-    })
-    .then((response) => {
-      (response.status == 200 && response.ok == true)
-        ? this.props.popToStartScreen()
-        : console.warn('There is some error');// FINISH Error way (second request try and AsyncStorage saving)
-    })
-    .catch((e) => {
-      console.log('error in POST request: ', e);
-    });
+    console.log('sending next object: ', JSON.parse(resultObject));
+      fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + this.props.nextWorkoutToken + 1,
+          'Content-Type': 'application/json',
+        },
+        body: resultObject
+      })
+      .then((response) => {
+        if (response.status === 200 && response.ok === true) {
+          this.props.popToStartScreen('RequestFine')
+        } else {
+          AsyncStorage.setItem('resultObject', resultObject); // FINISH Error way (second request try and AsyncStorage saving)
+          console.log('There is something wrong. Server response: ', response);
+          AsyncStorage.getItem('resultObject') //*** NOT NESCESSARY LINE OF CODE (just for checking 'resultObject' key in AsyncStorage)
+            .then((value) => { //*** NOT NESCESSARY, for checking
+              console.log('Cashing workout next result object in AsyncStorage: ', JSON.parse(value)) //*** NOT NESCESSARY, for checking
+              console.log('POST request reattempt');
+              fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
+                method: 'POST',
+                headers: {
+                  'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
+                  'Content-Type': 'application/json',
+                },
+                body: resultObject
+              })
+              .then((secondResponse) => {
+                if (secondResponse.status === 200 && secondResponse.ok === true) {
+                  this.props.popToStartScreen('RequestFine')
+                } else {
+                  console.log('Reattempt failed. Second server response: ', secondResponse);
+                }
+              })
+              .catch(error => console.log('error in reattempt POST request: ', error));
+            }) //*** NOT NESCESSARY, for checking
+            .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error)); //*** NOT NESCESSARY, for checking
+
+        }
+      })
+      .catch((e) => {
+        AsyncStorage.setItem('resultObject', resultObject);
+        console.log('error in first POST request: ', e);
+      });
   }
 
   render() {

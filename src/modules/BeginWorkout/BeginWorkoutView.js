@@ -109,7 +109,10 @@ class BeginWorkout extends Component {
     beginWorkoutTime: null,
   }
 
-  pop = () => {
+  pop = (requestCheck) => {
+    if (requestCheck === 'RequestFine') {
+      console.log('POST request passed fine')
+    }
     this.props.dispatch(NavigationState.popRoute());
     this.props.dispatch(CounterState.timerReset());
   }
@@ -121,9 +124,10 @@ class BeginWorkout extends Component {
         count += 1;
       }
     }
-    if (count === this.state.len) {
+    if (/*this.state.len > 0 &&*/ count === this.state.len) { //UNCOMMENT THIS PART TO AVOID A BUG (enable Complete Workout button when exercises is loading)
       return false;
-    } else return true;
+    }
+    return true;
   }
 
   setWindowFinishVisible = () => {
@@ -273,7 +277,7 @@ class BeginWorkout extends Component {
           athleteId={this.props.athleteId}
           nextWorkoutTree={this.props.nextWorkoutTree}
           nextWorkoutToken={this.props.nextWorkoutToken}
-          popToStartScreen={() => {this.pop()}}
+          popToStartScreen={(requestCheck) => {this.pop(requestCheck)}}
         />
         <NavButton />
       </View>
