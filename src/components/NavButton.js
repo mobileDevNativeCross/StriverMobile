@@ -10,6 +10,85 @@ import {
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/Entypo';
 
+
+const styles = StyleSheet.create({
+  col: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  transform: {
+    transform: [
+      {rotate: '45deg'},
+    ],
+  },
+  transformNull: {
+    transform: [
+      {rotate: '0deg'},
+    ],
+  },
+  navMenuButtonContainer:{
+    position: 'absolute',
+    bottom: 35,
+    right: 27,
+    height: 46,
+    width: 46,
+  },
+  button: {
+    position: 'absolute',
+    right: 0,
+    justifyContent:  'center',
+    alignItems: 'center',
+    height: 46,
+    width: 46,
+    borderRadius: 23,
+    backgroundColor: 'rgb(129,129,129)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonCross: {
+    position: 'absolute',
+    right: 0,
+    justifyContent:  'center',
+    alignItems: 'center',
+    height: 46,
+    width: 46,
+    borderRadius: 23,
+    backgroundColor: 'rgb(129,129,129)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  navMenuBackground:{
+    backgroundColor: 'rgba(255,255,255,0.55)',
+    height: displayHeight,
+    width: displayWidth,
+  },
+  navMenu: {
+    position: 'absolute',
+    bottom: 20,
+    right: 10,
+    height: 153,
+    width: 180,
+    backgroundColor: 'rgb(167, 167, 167)',
+    padding: 15,
+  },
+  navMenuText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '700',
+    margin: 10,
+  },
+});
+
+const MK = require('react-native-material-kit');
+const {
+ MKButton,
+ MKColor,
+} = MK;
+const ColoredFab = MKButton.coloredFab()
+  .withStyle()
+  .build();
+
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 
@@ -60,90 +139,45 @@ class NavButton extends Component {
             </View>
           </View>
         </Display>
-        <TouchableOpacity
-          style={this.state.navMenuShow
-            ? styles.buttonCross
-            : styles.button}
-          onPress={() => this.navMenuButtonPress()}
+        <View
+          style={[
+            styles.col,
+            this.state.navMenuShow
+              ? styles.transform
+              : styles.transformNull,
+            this.state.navMenuShow
+              ? styles.buttonCross
+              : styles.button]}
         >
-          <View style={this.state.navMenuShow ? styles.transform : styles.transformNull}>
-            <Image
-              source={require('../assets/plus.png')}
-              style={{
-                width: 25,
-                height: 25,
-                tintColor: '#FFFFFF'
-              }}
-            />
-          </View>
-        </TouchableOpacity>
+          <ColoredFab onPress={() => this.navMenuButtonPress()}>
+            <Image pointerEvents="none" source={require('../assets/plus_white.png')}/>
+          </ColoredFab>
+        </View>
+      {
+        //ORIGINAL:
+        // <TouchableOpacity
+        //   style={this.state.navMenuShow
+        //     ? styles.buttonCross
+        //     : styles.button}
+        //   onPress={() => this.navMenuButtonPress()}
+        // >
+        //   <View style={this.state.navMenuShow ? styles.transform : styles.transformNull}>
+        //     <Image
+        //       source={require('../assets/plus.png')}
+        //       style={{
+        //         width: 25,
+        //         height: 25,
+        //         tintColor: '#FFFFFF'
+        //       }}
+        //     />
+        //   </View>
+        // </TouchableOpacity>
+      }
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  transform: {
-    transform: [
-      {rotate: '45deg'},
-    ],
-  },
-  transformNull: {
-    transform: [
-      {rotate: '0deg'},
-    ],
-  },
-  navMenuButtonContainer:{
-    position: 'absolute',
-    bottom: 35,
-    right: 27,
-    height: 46,
-    width: 46,
-  },
-  button: {
-    position: 'absolute',
-    right: 0,
-    justifyContent:  'center',
-    alignItems: 'center',
-    height: 46,
-    width: 46,
-    borderRadius: 23,
-    backgroundColor: 'rgb(129,129,129)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonCross: {
-    right: 0,
-    position: 'absolute',
-    justifyContent:  'center',
-    alignItems: 'center',
-    height: 46,
-    width: 46,
-    borderRadius: 23,
-    backgroundColor: 'rgb(129,129,129)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navMenuBackground:{
-    backgroundColor: 'rgba(255,255,255,0.55)',
-    height: displayHeight,
-    width: displayWidth,
-  },
-  navMenu: {
-    position: 'absolute',
-    bottom: 20,
-    right: 10,
-    height: 153,
-    width: 180,
-    backgroundColor: 'rgb(167, 167, 167)',
-    padding: 15,
-  },
-  navMenuText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '700',
-    margin: 10,
-  },
-});
+
 
 export default NavButton;
