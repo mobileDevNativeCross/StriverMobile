@@ -18,10 +18,85 @@ import store from '../../redux/store';
 import moment from 'moment';
 import BackgroundTimer from 'react-native-background-timer';
 import NavButton from '../../components/NavButton'
+import * as MK from 'react-native-material-kit';
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 const fontColor = 'rgb(110,110,110)';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  title: {
+    width: displayWidth,
+    paddingVertical: 25,
+    paddingHorizontal: 40,
+    backgroundColor: 'white',
+  },
+  titleText: {
+    fontSize: 20,
+    color: fontColor,
+    fontWeight: '700',
+    marginVertical: 5,
+    backgroundColor: 'white',
+  },
+  exListMarker:{
+    height: 10,
+    width: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+  },
+  exercises: {
+    width: displayWidth,
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    backgroundColor: 'rgb(231,231,231)',
+  },
+  exercisesLoading: {
+    height: 200,
+    width: displayWidth,
+    justifyContent: 'center',
+    marginLeft: -40,
+    alignItems: 'center',
+  },
+  exerciseItem: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 4,
+    marginVertical: 6,
+  },
+  exText: {
+    fontSize: 18,
+    color: 'rgb(110,110,110)',
+    fontWeight: '700',
+    marginBottom: 17,
+  },
+  beginWorkoutButtonBox: {
+    width: displayWidth,
+    alignItems: 'center',
+    paddingBottom: 55
+  },
+  beginWorkoutButton: {
+    paddingHorizontal: 16,
+    marginTop: 25,
+  },
+});
+
+const {
+  MKButton,
+  MKColor,
+} = MK;
+const BeginWorkout = MKButton.coloredButton()
+  .withBackgroundColor(MKColor.Blue)
+  .withStyle([styles.beginWorkoutButton, {height: 36,}])
+  // .withText('Begin Workout')
+  .build();
+
 
 class CounterView extends Component{
   state = {
@@ -112,9 +187,19 @@ class CounterView extends Component{
             </View>
           </View>
           <View style={styles.beginWorkoutButtonBox}>
-            <TouchableOpacity onPress={() => {this.goToLiveWorkout()}} style={styles.beginWorkoutButton}>
-              <Text style={{fontSize: 16, color: fontColor, fontWeight: '700', backgroundColor: 'transparent'}}>Begin Workout</Text>
-            </TouchableOpacity>
+          {
+            <BeginWorkout onPress={() => {this.goToLiveWorkout()}}>
+              <Text
+                pointerEvents="none"
+                style={{color: 'white', fontWeight: 'bold', fontSize: 14}}
+              >
+                Begin Workout
+              </Text>
+            </BeginWorkout>
+            // <TouchableOpacity onPress={() => {this.goToLiveWorkout()}} style={styles.beginWorkoutButton}>
+            //   <Text style={{fontSize: 16, color: fontColor, fontWeight: '700', backgroundColor: 'transparent'}}>Begin Workout</Text>
+            // </TouchableOpacity>
+          }
           </View>
         </ScrollView>
         <NavButton />
@@ -122,71 +207,5 @@ class CounterView extends Component{
     );
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  title: {
-    width: displayWidth,
-    paddingVertical: 25,
-    paddingHorizontal: 40,
-    backgroundColor: 'white',
-  },
-  titleText: {
-    fontSize: 20,
-    color: fontColor,
-    fontWeight: '700',
-    marginVertical: 5,
-    backgroundColor: 'white',
-  },
-  exListMarker:{
-    height: 10,
-    width: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-  },
-  exercises: {
-    width: displayWidth,
-    paddingVertical: 14,
-    paddingHorizontal: 40,
-    backgroundColor: 'rgb(231,231,231)',
-  },
-  exercisesLoading: {
-    height: 200,
-    width: displayWidth,
-    justifyContent: 'center',
-    marginLeft: -40,
-    alignItems: 'center',
-  },
-  exerciseItem: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginLeft: 4,
-    marginVertical: 6,
-  },
-  exText: {
-    fontSize: 18,
-    color: 'rgb(110,110,110)',
-    fontWeight: '700',
-    marginBottom: 17,
-  },
-  beginWorkoutButtonBox: {
-    width: displayWidth,
-    alignItems: 'center',
-    paddingBottom: 55
-  },
-  beginWorkoutButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 2,
-    borderColor: 'rgb(130,130,130)',
-    marginTop: 25,
-  },
-});
 
 export default CounterView;

@@ -21,12 +21,139 @@ import * as BeginWorkoutState from './BeginWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
 import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
-
+import * as MK from 'react-native-material-kit';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
 const liveWorkoutTimer = 'workOutTimer';
+const {
+  MKButton,
+  MKColor,
+} = MK;
 
+const styles = StyleSheet.create({
+  viewContainer: {
+    height: Platform.OS === 'android' ? (height - 105) : (height - 80),
+    width,
+  },
+  container: {
+    paddingTop: Platform.OS === 'android' ? 0 : 25,
+    backgroundColor: 'white',
+  },
+  activityIndicator: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  viewHead: {
+    paddingHorizontal: 20,
+  },
+  viewHeadItem: {
+    marginTop: 10,
+  },
+  textTop: {
+    color: '#7b7b7b',
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  viewTouchOpacityComplete: {
+    width,
+    alignItems: 'center',
+  },
+  // touchOpacityComplete: {
+  //   width: 200,
+  //   alignItems: 'center',
+  //   paddingBottom: 10,
+  //   paddingTop: 15,
+  //   borderWidth: 2,
+  //   borderRadius: 3,
+  //   borderColor: '#7b7b7b',
+  // },
+  completeWorkoutButton: {
+    paddingHorizontal: 16,
+    marginTop: 25,
+  },
+  textComplete: {
+    fontSize: 15,
+    color: '#7b7b7b',
+    fontWeight: '600',
+  },
+  touchableItem: {
+    paddingVertical: 20,
+  },
+  viewRow: {
+    marginLeft: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: (width - 30),
+  },
+  viewItems: {
+    marginTop: 30,
+  },
+  viewItem: {
+    justifyContent: 'center',
+
+    width: (width),
+  },
+  textExercizeName: {
+    color: '#7b7b7b',
+    fontWeight: '700',
+    fontSize: 17,
+    width: (width / 1.4),
+  },
+  checkboxStyle: {
+    tintColor: '#979797',
+    borderWidth: 2.8,
+    borderColor: '#979797',
+    backgroundColor: '#ededed',
+  },
+  viewSetsFlex: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: (width / 1.5),
+  },
+  viewSets: {
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 5,
+  },
+  textSets: {
+    color: '#7b7b7b',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  viewSetHead: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+  },
+  viewFlexDirectionSet: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: (width / 1.5),
+  },
+  viewSetsArray: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 5,
+  },
+  viewSetParam: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    marginTop: 5,
+  },
+  textSetParam: {
+    color: '#7b7b7b',
+    fontSize: 16,
+  },
+  textCompleteButton: {
+    // color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+});
 const liveWorkoutComponents = [
   {
     sets: [
@@ -108,6 +235,22 @@ class BeginWorkout extends Component {
     len: 0,
     windowFinishVisible: false,
     beginWorkoutTime: null,
+    // completeButtonBackground: 'rgba(0,0,0,)'
+  }
+
+  renderButton = () => {
+    const CompleteWorkout = MKButton.coloredButton()
+      .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
+      .withStyle([styles.completeWorkoutButton, {height: 36,}])
+      .withTextStyle([styles.textCompleteButton, this.check() ? {color: 'rgba(0,0,0,0.12)'} : {color: 'white'}])
+      .withText('Complete Workout')
+      .build();
+      return (
+        <CompleteWorkout
+          onPress={() => {this.setWindowFinishVisible()}}
+          disabled={this.check()}
+        />
+      );
   }
 
   pop = (requestCheck) => {
@@ -122,7 +265,8 @@ class BeginWorkout extends Component {
         count += 1;
       }
     }
-    if (this.state.len > 0 && count === this.state.len) {
+    // return false;
+    if (this.state.len > 0 && count === this.state.len) { //For fast developing
       return false;
     }
     return true;
@@ -243,15 +387,31 @@ class BeginWorkout extends Component {
             </View>
           </View>
           <View style={styles.viewTouchOpacityComplete}>
-            <TouchableOpacity
-              onPress={() => {this.setWindowFinishVisible()}}
-              disabled={this.check()}
-              style={styles.touchOpacityComplete}
-            >
-              <Text style={styles.textComplete}>
-                Complete Workout
-              </Text>
-            </TouchableOpacity>
+          {this.renderButton()}
+          {
+            // <CompleteWorkout
+            //   onPress={() => {this.setWindowFinishVisible()}}
+            //   disabled={this.check()}
+            // >
+            //   <Text
+            //     pointerEvents="none"
+            //     style={{color: 'white', fontWeight: 'bold', fontSize: 14}}
+            //   >
+            //     Complete Workout
+            //   </Text>
+            // </CompleteWorkout>
+          }
+          {
+            // <TouchableOpacity
+            //   onPress={() => {this.setWindowFinishVisible()}}
+            //   disabled={this.check()}
+            //   style={styles.touchOpacityComplete}
+            // >
+            //   <Text style={styles.textComplete}>
+            //     Complete Workout
+            //   </Text>
+            // </TouchableOpacity>
+          }
           </View>
           <View style={styles.viewItems}>
             {
@@ -284,122 +444,6 @@ class BeginWorkout extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  viewContainer: {
-    height: Platform.OS === 'android' ? (height - 105) : (height - 80),
-    width,
-  },
-  container: {
-    paddingTop: Platform.OS === 'android' ? 0 : 25,
-    backgroundColor: 'white',
-  },
-  activityIndicator: {
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  viewHead: {
-    paddingHorizontal: 20,
-  },
-  viewHeadItem: {
-    marginTop: 10,
-  },
-  textTop: {
-    color: '#7b7b7b',
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  viewTouchOpacityComplete: {
-    marginTop: 25,
-    width,
-    alignItems: 'center',
-  },
-  touchOpacityComplete: {
-    width: 200,
-    alignItems: 'center',
-    paddingBottom: 10,
-    paddingTop: 15,
-    borderWidth: 2,
-    borderRadius: 3,
-    borderColor: '#7b7b7b',
-  },
-  textComplete: {
-    fontSize: 15,
-    color: '#7b7b7b',
-    fontWeight: '600',
-  },
-  touchableItem: {
-    paddingVertical: 20,
-  },
-  viewRow: {
-    marginLeft: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width - 30),
-  },
-  viewItems: {
-    marginTop: 30,
-  },
-  viewItem: {
-    justifyContent: 'center',
-
-    width: (width),
-  },
-  textExercizeName: {
-    color: '#7b7b7b',
-    fontWeight: '700',
-    fontSize: 17,
-    width: (width / 1.4),
-  },
-  checkboxStyle: {
-    tintColor: '#979797',
-    borderWidth: 2.8,
-    borderColor: '#979797',
-    backgroundColor: '#ededed',
-  },
-  viewSetsFlex: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width / 1.5),
-  },
-  viewSets: {
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 5,
-  },
-  textSets: {
-    color: '#7b7b7b',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  viewSetHead: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 60,
-  },
-  viewFlexDirectionSet: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width / 1.5),
-  },
-  viewSetsArray: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 5,
-  },
-  viewSetParam: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 60,
-    marginTop: 5,
-  },
-  textSetParam: {
-    color: '#7b7b7b',
-    fontSize: 16,
-  },
-});
 
 BeginWorkout.propTypes = {
   workOut: PropTypes.string,

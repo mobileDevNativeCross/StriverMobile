@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
-  Image
+  Image,
+  Platform,
 } from 'react-native';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/Entypo';
-
+import * as MK from 'react-native-material-kit';
 
 const styles = StyleSheet.create({
   col: {
@@ -39,22 +40,7 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent:  'center',
     alignItems: 'center',
-    height: 46,
-    width: 46,
-    borderRadius: 23,
-    backgroundColor: 'rgb(129,129,129)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonCross: {
-    position: 'absolute',
-    right: 0,
-    justifyContent:  'center',
-    alignItems: 'center',
-    height: 46,
-    width: 46,
-    borderRadius: 23,
-    backgroundColor: 'rgb(129,129,129)',
+    borderRadius: Platform.OS === 'android' ? 46 : 23,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -80,13 +66,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const MK = require('react-native-material-kit');
 const {
  MKButton,
  MKColor,
 } = MK;
 const ColoredFab = MKButton.coloredFab()
-  .withStyle()
+  .withBackgroundColor(MKColor.Blue)
+  .withStyle({height: 56, width: 56})
   .build();
 
 const displayWidth = Dimensions.get('window').width;
@@ -145,12 +131,15 @@ class NavButton extends Component {
             this.state.navMenuShow
               ? styles.transform
               : styles.transformNull,
-            this.state.navMenuShow
-              ? styles.buttonCross
-              : styles.button]}
+            styles.button]}
         >
-          <ColoredFab onPress={() => this.navMenuButtonPress()}>
-            <Image pointerEvents="none" source={require('../assets/plus_white.png')}/>
+          <ColoredFab
+            onPress={() => this.navMenuButtonPress()}
+          >
+            <Image
+              pointerEvents="none"
+              source={require('../assets/plus_white.png')}
+            />
           </ColoredFab>
         </View>
       {
