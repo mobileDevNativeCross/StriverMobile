@@ -72,7 +72,7 @@ class BeginWorkoutFinishWindow extends Component {
       if (comments.length === 0) {
         this.setState({errorComents: 'Enter comments.'});
       }
-    } else if (errorIntensityScore.length === 0 || errorFocusScore.length === 0 || errorComents.length === 0) {
+    } else if (errorIntensityScore.length === 0 && errorFocusScore.length === 0 && errorComents.length === 0) {
       this.handleFinishPress();
     }
   }
@@ -140,7 +140,6 @@ class BeginWorkoutFinishWindow extends Component {
 
   setIntensityScore = (text) => {
     this.setState({intensityScoreText: text});
-    // console.warn(Number(text));
     if (text.length > 0) {
       if (Number(text) > 0 && Number(text) < 11) {
         this.setState({errorIntensityScore: ''});
