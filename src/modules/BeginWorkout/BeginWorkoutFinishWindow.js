@@ -52,7 +52,7 @@ class BeginWorkoutFinishWindow extends Component {
     return showTime;
   }
 
-   getHeight = () => {
+  getHeight = () => {
     if (this.props.windowFinishVisible) {
       return height;
     }
