@@ -97,7 +97,6 @@ class BeginWorkout extends Component {
     }, 1000);
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
-  
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
   }
