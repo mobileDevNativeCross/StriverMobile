@@ -24,7 +24,7 @@ import * as CounterState from '../counter/CounterState';
 const { width, height } = Dimensions.get('window');
 
 class BeginWorkoutFinishWindow extends Component {
-  
+
   state={
       intensityScoreText: '',
       focusScoreText: '',
@@ -75,7 +75,6 @@ class BeginWorkoutFinishWindow extends Component {
     } else if (errorIntensityScore.length === 0 || errorFocusScore.length === 0 || errorComents.length === 0) {
       this.handleFinishPress();
     }
-
   }
 
   handleFinishPress = () => {
@@ -275,7 +274,7 @@ class BeginWorkoutFinishWindow extends Component {
                   Time: {this.getCurrentTimerValue()}
                 </Text>
               </View>
-              <View style={[styles.viewFinishButton /*,  { paddingBottom: Platform.OS === 'android' && this.state.scroll ? 100 : 20} */]}>
+              <View style={styles.viewFinishButton}>
                 <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
                   <Text style={styles.textFinish}>
                     Finish
