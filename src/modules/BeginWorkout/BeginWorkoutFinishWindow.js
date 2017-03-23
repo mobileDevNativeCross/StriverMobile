@@ -24,6 +24,7 @@ import * as CounterState from '../counter/CounterState';
 const { width, height } = Dimensions.get('window');
 
 class BeginWorkoutFinishWindow extends Component {
+  
   state={
       intensityScoreText: '',
       focusScoreText: '',
