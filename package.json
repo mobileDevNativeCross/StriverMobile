@@ -34,7 +34,6 @@
     "react-native-background-timer": "^1.0.0",
     "react-native-checkbox": "^1.1.0",
     "react-native-display": "^1.0.8",
-    "react-native-keyboard-spacer": "^0.3.1",
     "react-native-lock": "futurice/react-native-lock#feature/customizedTheme",
     "react-native-material-kit": "^0.4.1",
     "react-native-vector-icons": "^3.0.0",
