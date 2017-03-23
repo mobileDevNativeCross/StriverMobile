@@ -142,26 +142,6 @@ class NavButton extends Component {
             />
           </ColoredFab>
         </View>
-      {
-        //ORIGINAL:
-        // <TouchableOpacity
-        //   style={this.state.navMenuShow
-        //     ? styles.buttonCross
-        //     : styles.button}
-        //   onPress={() => this.navMenuButtonPress()}
-        // >
-        //   <View style={this.state.navMenuShow ? styles.transform : styles.transformNull}>
-        //     <Image
-        //       source={require('../assets/plus.png')}
-        //       style={{
-        //         width: 25,
-        //         height: 25,
-        //         tintColor: '#FFFFFF'
-        //       }}
-        //     />
-        //   </View>
-        // </TouchableOpacity>
-      }
       </View>
     )
   }

@@ -94,7 +94,6 @@ const {
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
   .withStyle([styles.beginWorkoutButton, {height: 36,}])
-  // .withText('Begin Workout')
   .build();
 
 
@@ -187,7 +186,6 @@ class CounterView extends Component{
             </View>
           </View>
           <View style={styles.beginWorkoutButtonBox}>
-          {
             <BeginWorkout onPress={() => {this.goToLiveWorkout()}}>
               <Text
                 pointerEvents="none"
@@ -196,10 +194,6 @@ class CounterView extends Component{
                 Begin Workout
               </Text>
             </BeginWorkout>
-            // <TouchableOpacity onPress={() => {this.goToLiveWorkout()}} style={styles.beginWorkoutButton}>
-            //   <Text style={{fontSize: 16, color: fontColor, fontWeight: '700', backgroundColor: 'transparent'}}>Begin Workout</Text>
-            // </TouchableOpacity>
-          }
           </View>
         </ScrollView>
         <NavButton />
