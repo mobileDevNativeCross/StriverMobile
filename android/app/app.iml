@@ -143,12 +143,13 @@
     <orderEntry type="library" exported="" name="core-1.16.1" level="project" />
     <orderEntry type="module" module-name="react-native-lock" exported="" />
     <orderEntry type="module" module-name="react-native-background-timer" exported="" />
+    <orderEntry type="module" module-name="react-native-material-kit" exported="" />
     <orderEntry type="library" exported="" scope="TEST" name="javassist-3.20.0-GA" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-commons-5.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-5.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="robolectric-utils-3.0-rc3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="fest-android-1.0.8" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="robolectric-utils-3.0-rc3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-reflect-1.6.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.19" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-rule-1.6.3" level="project" />

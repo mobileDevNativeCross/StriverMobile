@@ -60,15 +60,6 @@ const styles = StyleSheet.create({
     width,
     alignItems: 'center',
   },
-  // touchOpacityComplete: {
-  //   width: 200,
-  //   alignItems: 'center',
-  //   paddingBottom: 10,
-  //   paddingTop: 15,
-  //   borderWidth: 2,
-  //   borderRadius: 3,
-  //   borderColor: '#7b7b7b',
-  // },
   completeWorkoutButton: {
     paddingHorizontal: 16,
     marginTop: 25,
@@ -149,7 +140,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textCompleteButton: {
-    // color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
   },
@@ -235,7 +225,6 @@ class BeginWorkout extends Component {
     len: 0,
     windowFinishVisible: false,
     beginWorkoutTime: null,
-    // completeButtonBackground: 'rgba(0,0,0,)'
   }
 
   renderButton = () => {
@@ -265,8 +254,8 @@ class BeginWorkout extends Component {
         count += 1;
       }
     }
-    // return false;
-    if (this.state.len > 0 && count === this.state.len) { //For fast developing
+
+    if (this.state.len > 0 && count === this.state.len) {
       return false;
     }
     return true;
@@ -388,30 +377,6 @@ class BeginWorkout extends Component {
           </View>
           <View style={styles.viewTouchOpacityComplete}>
           {this.renderButton()}
-          {
-            // <CompleteWorkout
-            //   onPress={() => {this.setWindowFinishVisible()}}
-            //   disabled={this.check()}
-            // >
-            //   <Text
-            //     pointerEvents="none"
-            //     style={{color: 'white', fontWeight: 'bold', fontSize: 14}}
-            //   >
-            //     Complete Workout
-            //   </Text>
-            // </CompleteWorkout>
-          }
-          {
-            // <TouchableOpacity
-            //   onPress={() => {this.setWindowFinishVisible()}}
-            //   disabled={this.check()}
-            //   style={styles.touchOpacityComplete}
-            // >
-            //   <Text style={styles.textComplete}>
-            //     Complete Workout
-            //   </Text>
-            // </TouchableOpacity>
-          }
           </View>
           <View style={styles.viewItems}>
             {
