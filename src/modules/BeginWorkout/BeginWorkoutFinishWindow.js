@@ -26,6 +26,7 @@ import {
 
 import NavButton from '../../components/NavButton';
 import * as CounterState from '../counter/CounterState';
+import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
 
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   textIntensityScore: {
     color: '#ececec',
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: bold,
   },
   viewFocusScoreText: {
     width: (width - 120),
@@ -128,9 +129,10 @@ const styles = StyleSheet.create({
   },
   textFinish: {
     color: '#5d5d5d',
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     backgroundColor: 'transparent',
+    fontFamily: medium,
   },
   viewFinishButton: {
     marginTop: 20,
@@ -151,21 +153,47 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'red',
     fontWeight: '600',
+    fontFamily: medium,
+  },
+  button: {
+    paddingHorizontal: 16,
+    height: 36,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowRadius: 3,
+        shadowOffset: {
+          height: 4,
+          width: 0,
+        },
+        shadowOpacity: 0.2,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
   },
 });
 
 const TextfieldScore = MKTextField.textfield()
   .withStyle(styles.inputIntencityScore)
-  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', color: '#ececec', fontSize: 19, textAlign: 'center'})
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', color: '#ececec', fontFamily: medium, fontSize: 16, textAlign: 'center'})
   .withTintColor('#ececec')
   .withHighlightColor('#409ac9')
   .build();
 
 const TextfieldComment = MKTextField.textfield()
   .withStyle(styles.inputTextComments)
-  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, color: '#ececec', fontSize: 19, textAlignVertical: 'top'})
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, fontFamily: medium, color: '#ececec', fontSize: 16, textAlignVertical: 'top'})
   .withTintColor('#ececec')
   .withHighlightColor('#409ac9')
+  .build();
+
+const CustomButton = MKButton.button()
+  .withBackgroundColor('#ececec')
+  .withStyle(styles.button)
+  .withTextStyle(styles.textFinish)
+  .withText('Finish')
   .build();
 
 class BeginWorkoutFinishWindow extends Component {
@@ -396,10 +424,10 @@ class BeginWorkoutFinishWindow extends Component {
                   </Text>
                 </View>
                 <TextfieldComment
-                  // style={styles.inputTextComments}
                   onChangeText={this.setComments}
                   value={this.state.comments}
                   multiline
+                  underlineSize={3}
                   autoCorrect={false}
                   selectionColor={'#409ac9'}
                   underlineColorAndroid="transparent"
@@ -422,11 +450,9 @@ class BeginWorkoutFinishWindow extends Component {
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                {/* <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
-                  <Text style={styles.textFinish}>
-                    Finish
-                  </Text>
-                </TouchableOpacity> */}
+                <CustomButton
+                  onPress={() => {this.onFinish()}}
+                />
               </View>
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
