@@ -25,6 +25,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		84C6B6171E7BEF06000F1D2C /* libRNBackgroundTimer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C6B6161E7BEEF3000F1D2C /* libRNBackgroundTimer.a */; };
+		84D524771E83BCC300FE6EC0 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AF3FF81E83BB5E00B35CD1 /* libRCTMaterialKit.a */; };
 		84EE6F2B1E76D4B200D2ADF1 /* libA0RNLock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EE6F2A1E76D49200D2ADF1 /* libA0RNLock.a */; };
 		84EE6F381E76D7D100D2ADF1 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE6F2F1E76D7D100D2ADF1 /* Entypo.ttf */; };
 		84EE6F391E76D7D100D2ADF1 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE6F2F1E76D7D100D2ADF1 /* Entypo.ttf */; };
@@ -231,6 +232,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		84AF3FF71E83BB5E00B35CD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31198DF5961A4F57968A4425 /* RCTMaterialKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8A1B8E771B22E4E300DB45C2;
+			remoteInfo = RCTMaterialKit;
+		};
 		84C6B6151E7BEEF3000F1D2C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84C6B6111E7BEEF3000F1D2C /* RNBackgroundTimer.xcodeproj */;
@@ -269,6 +277,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = StriverMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = StriverMobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		31198DF5961A4F57968A4425 /* RCTMaterialKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTMaterialKit.xcodeproj; path = "../node_modules/react-native-material-kit/iOS/RCTMaterialKit.xcodeproj"; sourceTree = "<group>"; };
 		4587CACA46D4337B56C9D8BC /* libPods-StriverMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StriverMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		7185C9488A6D432BC16EF7C7 /* Pods-StriverMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StriverMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-StriverMobile/Pods-StriverMobile.release.xcconfig"; sourceTree = "<group>"; };
@@ -303,6 +312,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D524771E83BCC300FE6EC0 /* libRCTMaterialKit.a in Frameworks */,
 				84C6B6171E7BEF06000F1D2C /* libRNBackgroundTimer.a in Frameworks */,
 				84EE6F2B1E76D4B200D2ADF1 /* libA0RNLock.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -472,6 +482,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
+				31198DF5961A4F57968A4425 /* RCTMaterialKit.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -505,6 +516,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* StriverMobile.app */,
 				00E356EE1AD99517003FC87E /* StriverMobileTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84AF3FEB1E83BB5E00B35CD1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84AF3FF81E83BB5E00B35CD1 /* libRCTMaterialKit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -604,7 +623,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -648,6 +667,10 @@
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
+				},
+				{
+					ProductGroup = 84AF3FEB1E83BB5E00B35CD1 /* Products */;
+					ProjectRef = 31198DF5961A4F57968A4425 /* RCTMaterialKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
@@ -860,6 +883,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		84AF3FF81E83BB5E00B35CD1 /* libRCTMaterialKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTMaterialKit.a;
+			remoteRef = 84AF3FF71E83BB5E00B35CD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		84C6B6161E7BEEF3000F1D2C /* libRNBackgroundTimer.a */ = {
@@ -1075,6 +1105,10 @@
 				INFOPLIST_FILE = StriverMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StriverMobile.app/StriverMobile";
 			};
@@ -1089,6 +1123,10 @@
 				INFOPLIST_FILE = StriverMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StriverMobile.app/StriverMobile";
 			};
