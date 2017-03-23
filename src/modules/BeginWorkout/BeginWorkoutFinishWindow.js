@@ -71,32 +71,9 @@ const styles = StyleSheet.create({
     width: (width - 120),
     justifyContent: 'center',
   },
-  // inputTextScore: {
-  //   height: 30,
-  //   fontSize: 19,
-  //   width: 60,
-  //   textAlign: 'center',
-  //   backgroundColor: '#ededed',
-  //   borderColor: '#696969',
-  //   borderWidth: 3,
-  //   // ...Platform.select({
-  //   //   ios: {},
-  //   //   android: {
-  //   //     paddingTop: 0,
-  //   //     paddingBottom: 0,
-  //   //   },
-  //   // }),
-  // },
   inputIntencityScore: {
     height: 30,
     width: 60,
-    // ...Platform.select({
-    //   ios: {},
-    //   android: {
-    //     paddingTop: 0,
-    //     paddingBottom: 0,
-    //   },
-    // }),
   },
   viewComments: {
     flexDirection: 'row',
@@ -105,17 +82,9 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   inputTextComments: {
-    marginLeft: 10,
+    marginTop: 5,
     flex: 1,
-    height: 120,
-    // ...Platform.select({
-    //   ios: {},
-    //   android: {
-    //     textAlignVertical: 'top',
-    //     paddingTop: 0,
-    //     paddingBottom: 0,
-    //   },
-    // }),
+    height: 39,
   },
   viewTime: {
     marginTop: 10,
@@ -417,7 +386,7 @@ class BeginWorkoutFinishWindow extends Component {
                   </Text>
                 }
               </View>
-              <View style={styles.viewComments}>
+              {/* <View style={styles.viewComments}>
                 <View>
                   <Text style={styles.textIntensityScore}>
                     Comments:
@@ -434,6 +403,26 @@ class BeginWorkoutFinishWindow extends Component {
                   onFocus={() => {this.setState({scroll: true})}}
                   onBlur={() => {this.setState({scroll: false})}}
                 />
+              </View> */}
+              <View style={{ marginLeft: 30, width: (width - 60) }}>
+                <View>
+                  <Text style={styles.textIntensityScore}>
+                    Comments:
+                  </Text>
+                </View>
+                <View>
+                  <TextfieldComment
+                    onChangeText={this.setComments}
+                    value={this.state.comments}
+                    multiline
+                    underlineSize={3}
+                    autoCorrect={false}
+                    selectionColor={'#409ac9'}
+                    underlineColorAndroid="transparent"
+                    onFocus={() => {this.setState({scroll: true})}}
+                    onBlur={() => {this.setState({scroll: false})}}
+                  />
+                </View>
               </View>
               <View style={styles.viewError}>
                 {
