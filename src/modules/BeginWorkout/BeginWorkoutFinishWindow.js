@@ -150,15 +150,6 @@ class BeginWorkoutFinishWindow extends Component {
     } else {
       this.setState({errorIntensityScore: ''});
     }
-    // if (text.length > 0) {
-    //   if (Number(text) > 10 || Number(text) < 1 || text[0] === '.') {
-    //     this.setState({errorIntensityScore: 'Must be from 1 to 10.'});
-    //   } else {
-    //     this.setState({errorIntensityScore: ''})
-    //   }
-    // } else {
-    //   this.setState({errorIntensityScore: ''})
-    // }
   }
 
   setFocusScore = (text) => {
@@ -172,15 +163,6 @@ class BeginWorkoutFinishWindow extends Component {
     } else {
       this.setState({errorFocusScore: ''});
     }
-    // if (text.length > 0) {
-    //   if (Number(text) > 10 || Number(text) < 1 || text[0] === '.') {
-    //     this.setState({errorFocusScore: 'Must be from 1 to 10.'});
-    //   } else {
-    //     this.setState({errorFocusScore: ''})
-    //   }
-    // } else {
-    //   this.setState({errorFocusScore: ''})
-    // }
   }
 
   setComments = (text) => {
