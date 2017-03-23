@@ -122,10 +122,11 @@ class BeginWorkout extends Component {
         count += 1;
       }
     }
-    if (this.state.len > 0 && count === this.state.len) {
-      return false;
-    }
-    return true;
+    return false;
+    // if (this.state.len > 0 && count === this.state.len) {
+    //   return false;
+    // }
+    // return true;
     // return !(this.state.len > 0 && count === this.state.len);
   }
 

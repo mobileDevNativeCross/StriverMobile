@@ -17,11 +17,162 @@ import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
 import moment from 'moment';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import {
+  MKTextField,
+  MKColor,
+  mdl,
+} from 'react-native-material-kit';
 
 import NavButton from '../../components/NavButton';
 import * as CounterState from '../counter/CounterState';
 
 const { width, height } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    width,
+    height,
+    position: 'absolute',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  display: {
+
+  },
+  viewFinish: {
+    paddingTop: Platform.OS === 'android' ? 0 : 25,
+    backgroundColor: '#a3a3a3',
+  },
+  viewIntensityScore: {
+    width: (width - 60),
+    marginTop: 30,
+    marginLeft: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  viewFocusScore: {
+    width: (width - 60),
+    marginTop: 10,
+    marginLeft: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textIntensityScore: {
+    color: '#ececec',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  viewTextScore: {
+    width: (width - 120),
+    justifyContent: 'center',
+  },
+  viewIntensityScoreText: {
+    width: (width - 120),
+    justifyContent: 'center',
+  },
+  inputTextScore: {
+    height: 30,
+    fontSize: 19,
+    width: 60,
+    textAlign: 'center',
+    backgroundColor: '#ededed',
+    borderColor: '#696969',
+    borderWidth: 3,
+    ...Platform.select({
+      ios: {},
+      android: {
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    }),
+  },
+  inputIntencityScore: {
+    height: 30,
+    width: 60,
+    ...Platform.select({
+      ios: {},
+      android: {
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    }),
+  },
+  viewComments: {
+    flexDirection: 'row',
+    width: (width - 60),
+    marginTop: 10,
+    marginLeft: 30,
+  },
+  inputTextComments: {
+    // marginLeft: 10,
+    // paddingLeft: 5,
+    // marginTop: 0,
+    // paddingTop: 0,
+    // backgroundColor: '#ededed',
+    // borderColor: '#696969',
+    // borderWidth: 3,
+    flex: 1,
+    height: 120,
+    // fontSize: 19,
+    ...Platform.select({
+      ios: {},
+      android: {
+        textAlignVertical: 'top',
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    }),
+  },
+  viewTime: {
+    marginTop: 10,
+    marginLeft: 30,
+  },
+  touchOpacityFinish: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 2,
+  },
+  textFinish: {
+    color: '#5d5d5d',
+    fontSize: 15,
+    fontWeight: '600',
+    backgroundColor: 'transparent',
+  },
+  viewFinishButton: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  viewInputScore: {
+    justifyContent: 'center',
+  },
+  viewError: {
+    width: (width - 60),
+    marginTop: 3,
+    marginLeft: 30,
+    alignItems: 'flex-end'
+  },
+  textError: {
+    fontSize: 16,
+    color: 'red',
+    fontWeight: '600',
+  },
+});
+
+const TextfieldScore = MKTextField.textfield()
+  .withStyle(styles.inputIntencityScore)
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', color: '#ececec', fontSize: 19, textAlign: 'center'})
+  .withTintColor('#ececec')
+  .withHighlightColor('#409ac9')
+  .build();
+
+const TextfieldComment = MKTextField.textfield()
+  .withStyle(styles.inputTextComments)
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', color: '#ececec', fontSize: 19, textAlignVertical: 'top'})
+  .withTintColor('#ececec')
+  .withHighlightColor('#409ac9')
+  .build();
 
 class BeginWorkoutFinishWindow extends Component {
 
@@ -187,18 +338,19 @@ class BeginWorkoutFinishWindow extends Component {
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
             <KeyboardAvoidingView behavior={'padding'} style={styles.viewFinish}>
               <View style={styles.viewIntensityScore}>
-                <View style={styles.viewTextScore}>
+                <View style={styles.viewIntensityScoreText}>
                   <Text style={styles.textIntensityScore}>
                     Perceived Intensity Score/PRE:
                   </Text>
                 </View>
                 <View style={styles.viewInputScore}>
-                  <TextInput
-                    style={styles.inputTextScore}
+                  <TextfieldScore
                     onChangeText={this.setIntensityScore}
                     value={this.state.intensityScoreText}
                     maxLength={2}
+                    selectionColor={'#409ac9'}
                     keyboardType="numeric"
+                    underlineSize={3}
                     underlineColorAndroid="transparent"
                     onFocus={() => {this.setState({scroll: true})}}
                     onBlur={() => {this.setState({scroll: false})}}
@@ -221,12 +373,13 @@ class BeginWorkoutFinishWindow extends Component {
                   </Text>
                 </View>
                 <View style={styles.viewInputScore}>
-                  <TextInput
-                    style={styles.inputTextScore}
+                  <TextfieldScore
                     onChangeText={this.setFocusScore}
                     value={this.state.focusScoreText}
                     maxLength={2}
                     keyboardType="numeric"
+                    underlineSize={3}
+                    selectionColor={'#409ac9'}
                     underlineColorAndroid="transparent"
                     onFocus={() => {this.setState({scroll: true})}}
                     onBlur={() => {this.setState({scroll: false})}}
@@ -248,12 +401,13 @@ class BeginWorkoutFinishWindow extends Component {
                     Comments:
                   </Text>
                 </View>
-                <TextInput
-                  style={styles.inputTextComments}
+                <TextfieldComment
+                  // style={styles.inputTextComments}
                   onChangeText={this.setComments}
                   value={this.state.comments}
                   multiline
                   autoCorrect={false}
+                  selectionColor={'#409ac9'}
                   underlineColorAndroid="transparent"
                   onFocus={() => {this.setState({scroll: true})}}
                   onBlur={() => {this.setState({scroll: false})}}
@@ -268,7 +422,7 @@ class BeginWorkoutFinishWindow extends Component {
                   </Text>
                 }
               </View>
-              <View style={styles.viewTime}>
+              {/* <View style={styles.viewTime}>
                 <Text style={styles.textIntensityScore}>
                   Time: {this.getCurrentTimerValue()}
                 </Text>
@@ -279,7 +433,7 @@ class BeginWorkoutFinishWindow extends Component {
                     Finish
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
           </ScrollView>
@@ -288,120 +442,5 @@ class BeginWorkoutFinishWindow extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width,
-    height,
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-  },
-  display: {
-
-  },
-  viewFinish: {
-    paddingTop: Platform.OS === 'android' ? 0 : 25,
-    backgroundColor: '#a3a3a3',
-  },
-  viewIntensityScore: {
-    width: (width - 60),
-    marginTop: 30,
-    marginLeft: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  viewFocusScore: {
-    width: (width - 60),
-    marginTop: 10,
-    marginLeft: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  textIntensityScore: {
-    color: '#ececec',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  viewTextScore: {
-    width: (width - 120),
-    justifyContent: 'center',
-  },
-  inputTextScore: {
-    height: 30,
-    fontSize: 19,
-    width: 60,
-    textAlign: 'center',
-    backgroundColor: '#ededed',
-    borderColor: '#696969',
-    borderWidth: 3,
-    ...Platform.select({
-      ios: {},
-      android: {
-        paddingTop: 0,
-        paddingBottom: 0,
-      },
-    }),
-  },
-  viewComments: {
-    flexDirection: 'row',
-    width: (width - 60),
-    marginTop: 10,
-    marginLeft: 30,
-  },
-  inputTextComments: {
-    marginLeft: 10,
-    paddingLeft: 5,
-    backgroundColor: '#ededed',
-    borderColor: '#696969',
-    borderWidth: 3,
-    flex: 1,
-    height: 120,
-    fontSize: 19,
-    ...Platform.select({
-      ios: {},
-      android: {
-        textAlignVertical: 'top',
-        paddingTop: 0,
-        paddingBottom: 0,
-      },
-    }),
-  },
-  viewTime: {
-    marginTop: 10,
-    marginLeft: 30,
-  },
-  touchOpacityFinish: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: 'white',
-    borderRadius: 2,
-  },
-  textFinish: {
-    color: '#5d5d5d',
-    fontSize: 15,
-    fontWeight: '600',
-    backgroundColor: 'transparent',
-  },
-  viewFinishButton: {
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 20,
-  },
-  viewInputScore: {
-    justifyContent: 'center',
-  },
-  viewError: {
-    width: (width - 60),
-    marginTop: 3,
-    marginLeft: 30,
-    alignItems: 'flex-end'
-  },
-  textError: {
-    fontSize: 16,
-    color: 'red',
-    fontWeight: '600',
-  },
-});
 
 export default BeginWorkoutFinishWindow;
