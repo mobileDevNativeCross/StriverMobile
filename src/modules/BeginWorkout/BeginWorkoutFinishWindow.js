@@ -282,7 +282,7 @@ class BeginWorkoutFinishWindow extends Component {
                 </TouchableOpacity>
               </View>
             </KeyboardAvoidingView>
-            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 0} />
+            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
           </ScrollView>
         </Display>
       </View>
