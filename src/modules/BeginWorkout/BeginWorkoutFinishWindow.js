@@ -20,6 +20,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {
   MKTextField,
   MKColor,
+  MKButton,
   mdl,
 } from 'react-native-material-kit';
 
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
-  viewTextScore: {
+  viewFocusScoreText: {
     width: (width - 120),
     justifyContent: 'center',
   },
@@ -69,32 +70,32 @@ const styles = StyleSheet.create({
     width: (width - 120),
     justifyContent: 'center',
   },
-  inputTextScore: {
-    height: 30,
-    fontSize: 19,
-    width: 60,
-    textAlign: 'center',
-    backgroundColor: '#ededed',
-    borderColor: '#696969',
-    borderWidth: 3,
-    ...Platform.select({
-      ios: {},
-      android: {
-        paddingTop: 0,
-        paddingBottom: 0,
-      },
-    }),
-  },
+  // inputTextScore: {
+  //   height: 30,
+  //   fontSize: 19,
+  //   width: 60,
+  //   textAlign: 'center',
+  //   backgroundColor: '#ededed',
+  //   borderColor: '#696969',
+  //   borderWidth: 3,
+  //   // ...Platform.select({
+  //   //   ios: {},
+  //   //   android: {
+  //   //     paddingTop: 0,
+  //   //     paddingBottom: 0,
+  //   //   },
+  //   // }),
+  // },
   inputIntencityScore: {
     height: 30,
     width: 60,
-    ...Platform.select({
-      ios: {},
-      android: {
-        paddingTop: 0,
-        paddingBottom: 0,
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {},
+    //   android: {
+    //     paddingTop: 0,
+    //     paddingBottom: 0,
+    //   },
+    // }),
   },
   viewComments: {
     flexDirection: 'row',
@@ -103,24 +104,17 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   inputTextComments: {
-    // marginLeft: 10,
-    // paddingLeft: 5,
-    // marginTop: 0,
-    // paddingTop: 0,
-    // backgroundColor: '#ededed',
-    // borderColor: '#696969',
-    // borderWidth: 3,
+    marginLeft: 10,
     flex: 1,
     height: 120,
-    // fontSize: 19,
-    ...Platform.select({
-      ios: {},
-      android: {
-        textAlignVertical: 'top',
-        paddingTop: 0,
-        paddingBottom: 0,
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {},
+    //   android: {
+    //     textAlignVertical: 'top',
+    //     paddingTop: 0,
+    //     paddingBottom: 0,
+    //   },
+    // }),
   },
   viewTime: {
     marginTop: 10,
@@ -169,7 +163,7 @@ const TextfieldScore = MKTextField.textfield()
 
 const TextfieldComment = MKTextField.textfield()
   .withStyle(styles.inputTextComments)
-  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', color: '#ececec', fontSize: 19, textAlignVertical: 'top'})
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, color: '#ececec', fontSize: 19, textAlignVertical: 'top'})
   .withTintColor('#ececec')
   .withHighlightColor('#409ac9')
   .build();
@@ -367,7 +361,7 @@ class BeginWorkoutFinishWindow extends Component {
                 }
               </View>
               <View style={styles.viewFocusScore}>
-                <View style={styles.viewTextScore}>
+                <View style={styles.viewFocusScoreText}>
                   <Text style={styles.textIntensityScore}>
                     Perceived Focus Score:
                   </Text>
@@ -422,18 +416,18 @@ class BeginWorkoutFinishWindow extends Component {
                   </Text>
                 }
               </View>
-              {/* <View style={styles.viewTime}>
+              <View style={styles.viewTime}>
                 <Text style={styles.textIntensityScore}>
                   Time: {this.getCurrentTimerValue()}
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
+                {/* <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
                   <Text style={styles.textFinish}>
                     Finish
                   </Text>
-                </TouchableOpacity>
-              </View> */}
+                </TouchableOpacity> */}
+              </View>
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
           </ScrollView>
