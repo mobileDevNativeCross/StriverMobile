@@ -11,17 +11,20 @@ import {
   TextInput,
   ScrollView,
   AsyncStorage,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Display from 'react-native-display';
-import NavButton from '../../components/NavButton';
-import moment from 'moment';
 import BackgroundTimer from 'react-native-background-timer';
+import moment from 'moment';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
+import NavButton from '../../components/NavButton';
 import * as CounterState from '../counter/CounterState';
 
 const { width, height } = Dimensions.get('window');
 
 class BeginWorkoutFinishWindow extends Component {
-  
+
   state={
       intensityScoreText: '',
       focusScoreText: '',
@@ -29,6 +32,7 @@ class BeginWorkoutFinishWindow extends Component {
       errorIntensityScore: '',
       errorFocusScore: '',
       errorComents: '',
+      scroll: false,
   }
 
   getCurrentTimerValue = () => {
@@ -71,7 +75,6 @@ class BeginWorkoutFinishWindow extends Component {
     } else if (errorIntensityScore.length === 0 || errorFocusScore.length === 0 || errorComents.length === 0) {
       this.handleFinishPress();
     }
-
   }
 
   handleFinishPress = () => {
@@ -137,27 +140,28 @@ class BeginWorkoutFinishWindow extends Component {
 
   setIntensityScore = (text) => {
     this.setState({intensityScoreText: text});
+    // console.warn(Number(text));
     if (text.length > 0) {
-      if (Number(text) > 10 || Number(text) < 1 || text[0] === '.') {
-        this.setState({errorIntensityScore: 'Must be from 1 to 10.'});
+      if (Number(text) > 0 && Number(text) < 11) {
+        this.setState({errorIntensityScore: ''});
       } else {
-        this.setState({errorIntensityScore: ''})
+        this.setState({errorIntensityScore: 'Must be from 1 to 10.'});
       }
     } else {
-      this.setState({errorIntensityScore: ''})
+      this.setState({errorIntensityScore: ''});
     }
   }
 
   setFocusScore = (text) => {
     this.setState({focusScoreText: text});
     if (text.length > 0) {
-      if (Number(text) > 10 || Number(text) < 1 || text[0] === '.') {
-        this.setState({errorFocusScore: 'Must be from 1 to 10.'});
+      if (Number(text) > 0 && Number(text) < 11) {
+        this.setState({errorFocusScore: ''});
       } else {
-        this.setState({errorFocusScore: ''})
+        this.setState({errorFocusScore: 'Must be from 1 to 10.'});
       }
     } else {
-      this.setState({errorFocusScore: ''})
+      this.setState({errorFocusScore: ''});
     }
   }
 
@@ -181,95 +185,105 @@ class BeginWorkoutFinishWindow extends Component {
           style= {{ width, height, bottom: 0,}}
         >
           <View style={styles.container} />
-          <View style={styles.viewFinish}>
-            <View style={styles.viewIntensityScore}>
-              <View style={styles.viewTextScore}>
-                <Text style={styles.textIntensityScore}>
-                  Perceived Intensity Score/PRE:
-                </Text>
+          <ScrollView scrollEnabled={this.state.scroll ? true : false }>
+            <KeyboardAvoidingView behavior={'padding'} style={styles.viewFinish}>
+              <View style={styles.viewIntensityScore}>
+                <View style={styles.viewTextScore}>
+                  <Text style={styles.textIntensityScore}>
+                    Perceived Intensity Score/PRE:
+                  </Text>
+                </View>
+                <View style={styles.viewInputScore}>
+                  <TextInput
+                    style={styles.inputTextScore}
+                    onChangeText={this.setIntensityScore}
+                    value={this.state.intensityScoreText}
+                    maxLength={2}
+                    keyboardType="numeric"
+                    underlineColorAndroid="transparent"
+                    onFocus={() => {this.setState({scroll: true})}}
+                    onBlur={() => {this.setState({scroll: false})}}
+                  />
+                </View>
               </View>
-              <View style={styles.viewInputScore}>
+              <View style={styles.viewError}>
+                {
+                  this.state.errorIntensityScore !== '' &&
+
+                  <Text style={styles.textError}>
+                    {this.state.errorIntensityScore}
+                  </Text>
+                }
+              </View>
+              <View style={styles.viewFocusScore}>
+                <View style={styles.viewTextScore}>
+                  <Text style={styles.textIntensityScore}>
+                    Perceived Focus Score:
+                  </Text>
+                </View>
+                <View style={styles.viewInputScore}>
+                  <TextInput
+                    style={styles.inputTextScore}
+                    onChangeText={this.setFocusScore}
+                    value={this.state.focusScoreText}
+                    maxLength={2}
+                    keyboardType="numeric"
+                    underlineColorAndroid="transparent"
+                    onFocus={() => {this.setState({scroll: true})}}
+                    onBlur={() => {this.setState({scroll: false})}}
+                  />
+                </View>
+              </View>
+              <View style={styles.viewError}>
+                {
+                  this.state.errorFocusScore !== '' &&
+
+                  <Text style={styles.textError}>
+                    {this.state.errorFocusScore}
+                  </Text>
+                }
+              </View>
+              <View style={styles.viewComments}>
+                <View>
+                  <Text style={styles.textIntensityScore}>
+                    Comments:
+                  </Text>
+                </View>
                 <TextInput
-                  style={styles.inputTextScore}
-                  onChangeText={this.setIntensityScore}
-                  value={this.state.intensityScoreText}
-                  maxLength={2}
-                  keyboardType="numeric"
+                  style={styles.inputTextComments}
+                  onChangeText={this.setComments}
+                  value={this.state.comments}
+                  multiline
+                  autoCorrect={false}
                   underlineColorAndroid="transparent"
+                  onFocus={() => {this.setState({scroll: true})}}
+                  onBlur={() => {this.setState({scroll: false})}}
                 />
               </View>
-            </View>
-            <View style={styles.viewError}>
-              {
-                this.state.errorIntensityScore !== '' &&
+              <View style={styles.viewError}>
+                {
+                  this.state.errorComents !== '' &&
 
-                <Text style={styles.textError}>
-                  {this.state.errorIntensityScore}
-                </Text>
-              }
-            </View>
-            <View style={styles.viewFocusScore}>
-              <View style={styles.viewTextScore}>
+                  <Text style={styles.textError}>
+                    {this.state.errorComents}
+                  </Text>
+                }
+              </View>
+              <View style={styles.viewTime}>
                 <Text style={styles.textIntensityScore}>
-                  Perceived Focus Score:
+                  Time: {this.getCurrentTimerValue()}
                 </Text>
               </View>
-              <View style={styles.viewInputScore}>
-                <TextInput
-                  style={styles.inputTextScore}
-                  onChangeText={this.setFocusScore}
-                  value={this.state.focusScoreText}
-                  maxLength={2}
-                  keyboardType="numeric"
-                  underlineColorAndroid="transparent"
-                />
+              <View style={styles.viewFinishButton}>
+                <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
+                  <Text style={styles.textFinish}>
+                    Finish
+                  </Text>
+                </TouchableOpacity>
               </View>
-            </View>
-            <View style={styles.viewError}>
-              {
-                this.state.errorFocusScore !== '' &&
-
-                <Text style={styles.textError}>
-                  {this.state.errorFocusScore}
-                </Text>
-              }
-            </View>
-            <View style={styles.viewComments}>
-              <View>
-                <Text style={styles.textIntensityScore}>
-                  Comments:
-                </Text>
-              </View>
-              <TextInput
-                style={styles.inputTextComments}
-                onChangeText={this.setComments}
-                value={this.state.comments}
-                multiline
-                underlineColorAndroid="transparent"
-              />
-            </View>
-            <View style={styles.viewError}>
-              {
-                this.state.errorComents !== '' &&
-
-                <Text style={styles.textError}>
-                  {this.state.errorComents}
-                </Text>
-              }
-            </View>
-            <View style={styles.viewTime}>
-              <Text style={styles.textIntensityScore}>
-                Time: {this.getCurrentTimerValue()}
-              </Text>
-            </View>
-            <View style={styles.viewFinishButton}>
-              <TouchableOpacity style={styles.touchOpacityFinish} onPress={() => {this.onFinish()}}>
-                <Text style={styles.textFinish}>
-                  Finish
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+            </KeyboardAvoidingView>
+            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 0} />
+          </ScrollView>
         </Display>
       </View>
     );
