@@ -294,12 +294,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   activityIndicator: {
-    height: (height / 1.7),
+    marginTop: 20,
+    // height: (height / 2),
     justifyContent: 'center',
     alignItems: 'center',
   },
   viewHead: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
   },
   viewHeadItem: {
     marginTop: 10,
@@ -335,20 +336,22 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: (width - 30),
   },
   viewItems: {
     marginTop: 30,
   },
   viewItem: {
     justifyContent: 'center',
-    width: (width / 1.4),
+
+    width: (width),
   },
   textExercizeName: {
     color: '#7b7b7b',
     fontWeight: '700',
     fontSize: 17,
-    width: (width / 1.7),
-    paddingLeft: 20,
+    width: (width / 1.4),
+    // paddingLeft: 20,
   },
   checkboxStyle: {
     tintColor: '#979797',
@@ -359,11 +362,12 @@ const styles = StyleSheet.create({
   viewSetsFlex: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: ( width / 1.7 ),
+    // width: ( width / 1.7 ),
+    width: (width / 1.5),
   },
   viewSets: {
     marginTop: 10,
-    width: ( width - 45 ),
+    // width: ( width - 45 ),
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 5,
@@ -381,10 +385,11 @@ const styles = StyleSheet.create({
   viewFlexDirectionSet: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: ( width / 1.7 ),
+    width: (width / 1.5),
+    // width: ( width / 1.7 ),
   },
   viewSetsArray: {
-    width: ( width - 45 ),
+    // width: ( width - 45 ),
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 5,
