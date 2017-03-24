@@ -13,6 +13,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "bundle:ios": "node ./node_modules/react-native/local-cli/cli.js bundle --platform ios --entry-file index.ios.js --bundle-output ios/StriverMobile/main.jsbundle --dev=false --minify --verbose",
+    "android:bundle": "curl 'http://localhost:8081/index.android.bundle?platform=android&dev=false' -o 'android/app/src/main/assets/index.android.bundle'",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint src test",

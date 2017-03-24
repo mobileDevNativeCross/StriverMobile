@@ -34,15 +34,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 35,
     right: 27,
-    height: 46,
-    width: 46,
+    height: 56,
+    width: 56,
+    // backgroundColor: 'red'
   },
   button: {
+
+    height: 70,
+    width: 70,
     position: 'absolute',
     right: 0,
     justifyContent:  'center',
     alignItems: 'center',
-    borderRadius: Platform.OS === 'android' ? 46 : 23,
+    borderRadius: Platform.OS === 'android' ? 70 : 35,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -152,8 +156,9 @@ class NavButton extends Component {
         </Display>
         <Animated.View
           style={[
-            styles.col,
-            styles.button]}
+            // styles.col,
+            styles.button
+          ]}
         >
           <ColoredFab
             onPress={() => this.navMenuButtonPress()}
