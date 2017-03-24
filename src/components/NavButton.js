@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   Platform,
+  Animated,
 } from 'react-native';
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -64,6 +65,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     margin: 10,
   },
+  navButton: {
+    height: 56,
+    width: 56,
+  },
 });
 
 const {
@@ -72,23 +77,43 @@ const {
 } = MK;
 const ColoredFab = MKButton.coloredFab()
   .withBackgroundColor(MKColor.Blue)
-  .withStyle({height: 56, width: 56})
+  .withStyle(styles.navButton)
   .build();
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 
 class NavButton extends Component {
+
   state = {
     navMenuShow: false,
+    spinValue: new Animated.Value(0),
   };
 
   navMenuButtonPress = () => {
     let toggle = !this.state.navMenuShow;
-    this.setState({navMenuShow: toggle})
+    this.setState({navMenuShow: toggle});
+
+    this.spin(toggle ? 1 : 0);
   }
 
+  spin (toValue) {
+    // this.state.spinValue.setValue(0);
+  	Animated.timing(
+    	this.state.spinValue,
+      {
+      	toValue,
+        duration: 300,
+      }
+    ).start()
+  }
+
+
   render() {
+    const spin = this.state.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '45deg']
+    })
     return (
       <View style={styles.navMenuButtonContainer}>
         <Display
@@ -125,23 +150,21 @@ class NavButton extends Component {
             </View>
           </View>
         </Display>
-        <View
+        <Animated.View
           style={[
             styles.col,
-            this.state.navMenuShow
-              ? styles.transform
-              : styles.transformNull,
             styles.button]}
         >
           <ColoredFab
             onPress={() => this.navMenuButtonPress()}
           >
-            <Image
+            <Animated.Image
+              style={{ width: 30, height: 30, transform: [{rotate: spin}]}}
               pointerEvents="none"
               source={require('../assets/plus_white.png')}
             />
           </ColoredFab>
-        </View>
+        </Animated.View>
       </View>
     )
   }

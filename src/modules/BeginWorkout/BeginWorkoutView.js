@@ -29,6 +29,7 @@ const liveWorkoutTimer = 'workOutTimer';
 const {
   MKButton,
   MKColor,
+  MKCheckbox,
 } = MK;
 
 const styles = StyleSheet.create({
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: (width - 30),
+    alignItems: 'center',
   },
   viewItems: {
     marginTop: 30,
@@ -231,7 +233,8 @@ class BeginWorkout extends Component {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
       .withStyle([styles.completeWorkoutButton, {height: 36,}])
-      .withTextStyle([styles.textCompleteButton, this.check() ? {color: 'rgba(0,0,0,0.12)'} : {color: 'white'}])
+      .withShadowAniEnabled(this.check())
+      .withTextStyle([styles.textCompleteButton, this.check() ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0} : {color: 'white'}])
       .withText('Complete Workout')
       .build();
       return (
@@ -305,12 +308,13 @@ class BeginWorkout extends Component {
             <Text style={styles.textExercizeName}>
               {item.Exercise.name}
             </Text>
-            <CheckBox
-              checkboxStyle={styles.checkboxStyle}
-              underlayColor={'transparent'}
-              label={''}
+            <MKCheckbox
+              style={{width: 25, height: 25}}
+              borderOffColor={MKColor.Blue}
+              fillColor={MKColor.Blue}
+              borderOnColor={MKColor.Blue}
               checked={this.props.check.get(index)}
-              onChange={() => { this.checkExsercise(index) }}
+              onCheckedChange={() => { this.checkExsercise(index) }}
             />
           </View>
           <View style={styles.viewSets}>
