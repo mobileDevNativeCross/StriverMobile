@@ -2,10 +2,11 @@ import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
 import {generateRandomNumber} from '../../services/randomNumberService';
 import {setLength} from '../BeginWorkout/BeginWorkoutState';
+import * as auth0 from '../../services/auth0';
 
 // Initial state
 const initialState = Map({
-  nextWorkoutTree: 111,
+  nextWorkoutTree: {},
   loading: false,
   timerValue: 0,
   timerId: 'liveWorkoutTimer'
@@ -29,6 +30,15 @@ export const getWorkoutTree = () => (dispatch, getState) => {
     }
   })
   .then((response) => {
+    console.warn('response', JSON.stringify(response, null, 2));
+    if (response.status !==200 && response.ok !== true /* && response._bodyText === 'Unauthorized', '//n'*/) {
+        console.warn('Probably Wrong token or old token - finish @oldTokenBugfixing');
+    /* @oldTokenBugfixing
+    *      auth0.showLogin()
+    *     .then(() => console.warn('Show auth0 login screen'))
+    *     .catch(e => console.warn('error in showLogin()', e))
+    */
+    }
     return response.json();
   })
   .then((responseJson) => {

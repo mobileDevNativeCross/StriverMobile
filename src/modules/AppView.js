@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, AsyncStorage} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import * as auth0 from '../services/auth0';
 import * as snapshotUtil from '../utils/snapshot';
@@ -14,6 +14,10 @@ const AppView = React.createClass({
     dispatch: PropTypes.func.isRequired
   },
   componentDidMount() {
+    // AsyncStorage.getAllKeys().then(keys => console.warn(keys))
+    // AsyncStorage.getItem('StriverMobileAppState:Latest').then(keys => console.warn('StriverMobileAppState:Latest ---> ',keys))
+    // AsyncStorage.getItem('resultObject').then(keys => console.warn('resultObject ---> ',keys))
+
     snapshotUtil.resetSnapshot()
       .then(snapshot => {
         const {dispatch} = this.props;
@@ -26,7 +30,8 @@ const AppView = React.createClass({
         store.subscribe(() => {
           snapshotUtil.saveSnapshot(store.getState());
         });
-      });
+      })
+      // .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
   },
 
   componentWillReceiveProps({isReady, isLoggedIn}){
