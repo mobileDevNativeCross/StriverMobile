@@ -19,6 +19,7 @@ import moment from 'moment';
 import BackgroundTimer from 'react-native-background-timer';
 import NavButton from '../../components/NavButton'
 import * as MK from 'react-native-material-kit';
+import { regular, bold, medium} from 'AppFonts';
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
@@ -37,24 +38,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     backgroundColor: 'white',
   },
+  titleBox:{
+    height: 48,
+    justifyContent: 'center',
+  },
   titleText: {
     fontSize: 20,
     color: fontColor,
-    fontWeight: '700',
-    marginVertical: 5,
     backgroundColor: 'white',
+    fontFamily: bold
   },
   exListMarker:{
     height: 10,
     width: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
   },
   exercises: {
     width: displayWidth,
     paddingVertical: 14,
-    paddingHorizontal: 40,
     backgroundColor: 'rgb(231,231,231)',
   },
   exercisesLoading: {
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   exerciseItem: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 4,
+    paddingHorizontal: 16,
     marginVertical: 6,
   },
   exText: {
@@ -75,6 +77,14 @@ const styles = StyleSheet.create({
     color: 'rgb(110,110,110)',
     fontWeight: '700',
     marginBottom: 17,
+    paddingLeft: 16,
+    fontFamily: bold,
+  },
+  exerciseItemText: {
+    fontSize: 18,
+    color: fontColor,
+    fontFamily: regular,
+    marginLeft: 10
   },
   beginWorkoutButtonBox: {
     width: displayWidth,
@@ -122,16 +132,15 @@ class CounterView extends Component{
   renderItem(item) {
     return (
       <View style={styles.exerciseItem}>
-      <Icon name="dot-single"
-      size={20}
-      color={fontColor}
-      />
-      <Text style={{fontSize: 18,
-        color: fontColor,
-        fontWeight: '700',fontWeight: '600', marginLeft: 10}}>
-        {item.Exercise.name}
-      </Text>
-        </View>
+        <Icon
+          name="dot-single"
+          size={20}
+          color={fontColor}
+        />
+        <Text style={styles.exerciseItemText}>
+          {item.Exercise.name}
+        </Text>
+      </View>
       );
     }
 
@@ -150,23 +159,31 @@ class CounterView extends Component{
           <View>
             <View style={styles.title}>
               {
-                // <Text style={styles.titleText}>
-                //   {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
-                // </Text>
+                // <View style={styles.titleBox}>
+                //   <Text style={styles.titleText}>
+                //     {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
+                //   </Text>
+                // </View>
               }
-              <Text style={styles.titleText}>
-                {
-                  workoutDate == 'Invalid date'
-                    ? 'Loading...'
-                    : workoutDate
-                }
-              </Text>
-              <Text style={styles.titleText}>
-                Intensity Score: {intensityScore}
-              </Text>
-              <Text style={styles.titleText}>
-               Focus: {Focus}
-              </Text>
+              <View style={styles.titleBox}>
+                <Text style={styles.titleText}>
+                  {
+                    workoutDate == 'Invalid date'
+                      ? 'Loading...'
+                      : workoutDate
+                  }
+                </Text>
+              </View>
+              <View style={styles.titleBox}>
+                <Text style={styles.titleText}>
+                  Intensity Score: {intensityScore}
+                </Text>
+              </View>
+              <View style={styles.titleBox}>
+                <Text style={styles.titleText}>
+                 Focus: {Focus}
+                </Text>
+              </View>
             </View>
             <View style={styles.exercises}>
               <Text style={styles.exText}>
@@ -189,7 +206,7 @@ class CounterView extends Component{
             <BeginWorkout onPress={() => {this.goToLiveWorkout()}}>
               <Text
                 pointerEvents="none"
-                style={{color: 'white', fontWeight: 'bold', fontSize: 14}}
+                style={{color: 'white', fontFamily: bold, fontSize: 14}}
               >
                 Begin Workout
               </Text>

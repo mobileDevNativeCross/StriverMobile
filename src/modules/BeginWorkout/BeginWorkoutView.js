@@ -22,6 +22,7 @@ import BackgroundTimer from 'react-native-background-timer';
 import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
+import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
@@ -47,15 +48,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewHead: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 40,
   },
   viewHeadItem: {
-    marginTop: 10,
+    height: 48,
+    justifyContent: 'center',
   },
   textTop: {
     color: '#7b7b7b',
     fontSize: 20,
-    fontWeight: '700',
+    fontFamily: bold,
   },
   viewTouchOpacityComplete: {
     width,
@@ -71,10 +73,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   touchableItem: {
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   viewRow: {
-    marginLeft: 20,
+    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: (width - 30),
@@ -90,9 +92,9 @@ const styles = StyleSheet.create({
   },
   textExercizeName: {
     color: '#7b7b7b',
-    fontWeight: '700',
     fontSize: 17,
     width: (width / 1.4),
+    fontFamily: bold
   },
   checkboxStyle: {
     tintColor: '#979797',
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
   textSets: {
     color: '#7b7b7b',
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: bold
   },
   viewSetHead: {
     alignItems: 'center',
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textCompleteButton: {
-    fontWeight: 'bold',
+    fontFamily: bold,
     fontSize: 14,
   },
 });
@@ -309,8 +311,8 @@ class BeginWorkout extends Component {
               {item.Exercise.name}
             </Text>
             <MKCheckbox
-              style={{width: 25, height: 25}}
-              borderOffColor={MKColor.Blue}
+              style={{width: 24, height: 24}}
+              borderOffColor={'rgba(0,0,0,.54)'}
               fillColor={MKColor.Blue}
               borderOnColor={MKColor.Blue}
               checked={this.props.check.get(index)}
@@ -357,7 +359,7 @@ class BeginWorkout extends Component {
         <ScrollView style={styles.container}>
           <View style={styles.viewHead}>
           {
-            // <View>
+            // <View style={styles.viewHeadItem}>
             //   <Text style={styles.textTop}>
             //     Workout Name:
             //   </Text>

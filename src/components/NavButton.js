@@ -12,6 +12,7 @@ import {
 import Display from 'react-native-display';
 import Icon from 'react-native-vector-icons/Entypo';
 import * as MK from 'react-native-material-kit';
+import { regular, bold, medium} from 'AppFonts';
 
 const styles = StyleSheet.create({
   col: {
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   navMenuText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily: bold,
     margin: 10,
   },
   navButton: {
@@ -98,7 +99,6 @@ class NavButton extends Component {
   }
 
   spin (toValue) {
-    // this.state.spinValue.setValue(0);
   	Animated.timing(
     	this.state.spinValue,
       {
@@ -159,7 +159,7 @@ class NavButton extends Component {
             onPress={() => this.navMenuButtonPress()}
           >
             <Animated.Image
-              style={{ width: 30, height: 30, transform: [{rotate: spin}]}}
+              style={{ transform: [{rotate: spin}] }}
               pointerEvents="none"
               source={require('../assets/plus_white.png')}
             />

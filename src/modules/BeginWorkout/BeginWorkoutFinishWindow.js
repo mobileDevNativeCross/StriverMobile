@@ -97,11 +97,10 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   textFinish: {
-    color: '#5d5d5d',
+    color: 'white',
+    fontFamily: bold,
     fontSize: 14,
-    fontWeight: '600',
     backgroundColor: 'transparent',
-    fontFamily: medium,
   },
   viewFinishButton: {
     marginTop: 20,
@@ -127,20 +126,6 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 16,
     height: 36,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowRadius: 3,
-        shadowOffset: {
-          height: 4,
-          width: 0,
-        },
-        shadowOpacity: 0.2,
-      },
-      android: {
-        elevation: 6,
-      },
-    }),
   },
 });
 
@@ -159,7 +144,7 @@ const TextfieldComment = MKTextField.textfield()
   .build();
 
 const CustomButton = MKButton.button()
-  .withBackgroundColor('#ececec')
+  .withBackgroundColor(MKColor.Blue)
   .withStyle(styles.button)
   .withTextStyle(styles.textFinish)
   .withText('Finish')
@@ -439,9 +424,7 @@ class BeginWorkoutFinishWindow extends Component {
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                <CustomButton
-                  onPress={() => {this.onFinish()}}
-                />
+                <CustomButton onPress={() => {this.onFinish()}} />
               </View>
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />

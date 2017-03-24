@@ -30,7 +30,7 @@ export const getWorkoutTree = () => (dispatch, getState) => {
     }
   })
   .then((response) => {
-    console.warn('response', JSON.stringify(response, null, 2));
+    // console.warn('response', JSON.stringify(response, null, 2));
     if (response.status !==200 && response.ok !== true /* && response._bodyText === 'Unauthorized', '//n'*/) {
         console.warn('Probably Wrong token or old token - finish @oldTokenBugfixing');
     /* @oldTokenBugfixing

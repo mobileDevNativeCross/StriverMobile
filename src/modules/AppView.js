@@ -14,10 +14,6 @@ const AppView = React.createClass({
     dispatch: PropTypes.func.isRequired
   },
   componentDidMount() {
-    // AsyncStorage.getAllKeys().then(keys => console.warn(keys))
-    // AsyncStorage.getItem('StriverMobileAppState:Latest').then(keys => console.warn('StriverMobileAppState:Latest ---> ',keys))
-    // AsyncStorage.getItem('resultObject').then(keys => console.warn('resultObject ---> ',keys))
-
     snapshotUtil.resetSnapshot()
       .then(snapshot => {
         const {dispatch} = this.props;
@@ -31,7 +27,7 @@ const AppView = React.createClass({
           snapshotUtil.saveSnapshot(store.getState());
         });
       })
-      // .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
+      .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
   },
 
   componentWillReceiveProps({isReady, isLoggedIn}){
@@ -42,7 +38,9 @@ const AppView = React.createClass({
     }
   },
 
+
   render() {
+    console.disableYellowBox = true;
     if (!this.props.isReady) {
       return (
         <View style={{flex: 1}}>
