@@ -1,4 +1,4 @@
-import * as CounterState from './CounterState';
+import * as HomeState from './HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes, Component} from 'react';
 import {
@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
     fontFamily: regular,
     marginLeft: 10
   },
-  beginWorkoutButtonBox: {
+  liveWorkoutButtonBox: {
     width: displayWidth,
     alignItems: 'center',
     paddingBottom: 55
   },
-  beginWorkoutButton: {
+  liveWorkoutButton: {
     paddingHorizontal: 16,
     marginTop: 25,
   },
@@ -102,29 +102,29 @@ const {
 } = MK;
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
-  .withStyle([styles.beginWorkoutButton, {height: 36,}])
+  .withStyle([styles.liveWorkoutButton, {height: 36,}])
   .build();
 
 
-class CounterView extends Component{
+class HomeView extends Component{
   state = {
     isLoaded: false,
   }
 
-  componentDidMount() {
-    this.props.dispatch(CounterState.getWorkoutTree());
+  componentWillMount() {
+    this.props.dispatch(HomeState.getWorkoutTree());
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
       this.setState({ isLoaded: true });
-      this.props.dispatch(CounterState.getWorkoutTree()); // not sure this line is necessary
+      this.props.dispatch(HomeState.getWorkoutTree()); // not sure this line is necessary
     }
   }
 
   goToLiveWorkout() {
     this.props.dispatch(NavigationState.pushRoute({
-      key: 'beginWorkout',
+      key: 'liveWorkout',
     }));
   }
 
@@ -201,7 +201,7 @@ class CounterView extends Component{
               </View>
             </View>
           </View>
-          <View style={styles.beginWorkoutButtonBox}>
+          <View style={styles.liveWorkoutButtonBox}>
             <BeginWorkout onPress={() => {this.goToLiveWorkout()}}>
               <Text
                 pointerEvents="none"
@@ -218,4 +218,4 @@ class CounterView extends Component{
   }
 };
 
-export default CounterView;
+export default HomeView;

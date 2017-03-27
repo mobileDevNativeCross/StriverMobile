@@ -1,9 +1,8 @@
 /*eslint-disable react/prop-types*/
 
 import React from 'react';
-import CounterViewContainer from './counter/CounterViewContainer';
-import ColorViewContainer from './colors/ColorViewContainer';
-import BeginWorkout from './BeginWorkout/BeginWorkoutViewContainer';
+import HomeViewContainer from './Home/HomeViewContainer';
+import LiveWorkout from './LiveWorkout/LiveWorkoutViewContainer';
 
 /**
  * AppRouter is responsible for mapping a navigator scene to a view
@@ -11,21 +10,12 @@ import BeginWorkout from './BeginWorkout/BeginWorkoutViewContainer';
 export default function AppRouter(props) {
   const key = props.scene.route.key;
 
-  if (key === 'Counter') {
-    return <CounterViewContainer />;
+  if (key === 'home') {
+    return <HomeViewContainer />;
   }
 
-  if (key === 'beginWorkout') {
-    return <BeginWorkout />;
-  }
-
-  if (key.indexOf('Color') === 0) {
-    const index = props.scenes.indexOf(props.scene);
-    return (
-      <ColorViewContainer
-        index={index}
-      />
-    );
+  if (key === 'liveWorkout') {
+    return <LiveWorkout />;
   }
 
   throw new Error('Unknown navigation key: ' + key);

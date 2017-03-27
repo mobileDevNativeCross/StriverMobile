@@ -25,7 +25,7 @@ import {
 } from 'react-native-material-kit';
 
 import NavButton from '../../components/NavButton';
-import * as CounterState from '../counter/CounterState';
+import * as HomeState from '../Home/HomeState';
 import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
@@ -138,7 +138,7 @@ const TextfieldScore = MKTextField.textfield()
 
 const TextfieldComment = MKTextField.textfield()
   .withStyle(styles.inputTextComments)
-  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, fontFamily: medium, color: '#ececec', fontSize: 16, textAlignVertical: 'top'})
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, fontFamily: medium, color: '#ececec', fontSize: 16, textAlignVertical: 'bottom'})
   .withTintColor('#ececec')
   .withHighlightColor('#409ac9')
   .build();
@@ -150,7 +150,7 @@ const CustomButton = MKButton.button()
   .withText('Finish')
   .build();
 
-class BeginWorkoutFinishWindow extends Component {
+class LiveWorkoutFinishWindow extends Component {
 
   state={
       intensityScoreText: '',
@@ -434,4 +434,4 @@ class BeginWorkoutFinishWindow extends Component {
   }
 }
 
-export default BeginWorkoutFinishWindow;
+export default LiveWorkoutFinishWindow;

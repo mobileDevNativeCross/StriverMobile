@@ -16,10 +16,10 @@ import CheckBox from 'react-native-checkbox';
 import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 
-import * as CounterState from '../counter/CounterState';
-import * as BeginWorkoutState from './BeginWorkoutState';
+import * as HomeState from '../Home/HomeState';
+import * as LiveWorkoutState from './LiveWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
-import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
+import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   viewSetHead: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60,
+    width: 70,
   },
   viewFlexDirectionSet: {
     flexDirection: 'row',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   viewSetParam: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60,
+    width: 70,
     marginTop: 5,
   },
   textSetParam: {
@@ -208,16 +208,20 @@ const liveWorkoutComponents = [
   },
 ];
 
-class BeginWorkout extends Component {
+class LiveWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
-    this.props.dispatch(CounterState.getWorkoutTree());
+    this.props.dispatch(HomeState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
-      this.props.dispatch(CounterState.timerIncrement());
+      this.props.dispatch(HomeState.timerIncrement());
     }, 1000);
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
+
+  // componentWillMount() {
+  //   this.props.dispatch(HomeState.getWorkoutTree());
+  // }
 
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
@@ -249,7 +253,7 @@ class BeginWorkout extends Component {
 
   pop = (requestCheck) => {
     this.props.dispatch(NavigationState.popRoute());
-    this.props.dispatch(CounterState.timerReset());
+    this.props.dispatch(HomeState.timerReset());
   }
 
   check = () => {
@@ -273,11 +277,11 @@ class BeginWorkout extends Component {
   }
 
   checkExsercise = (index) => {
-    this.props.dispatch(BeginWorkoutState.setCheck(index));
+    this.props.dispatch(LiveWorkoutState.setCheck(index));
   }
 
   clearCheck = () => {
-    this.props.dispatch(BeginWorkoutState.clearCheck());
+    this.props.dispatch(LiveWorkoutState.clearCheck());
   }
 
   renderRow = (set) => {
@@ -376,7 +380,7 @@ class BeginWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text style={styles.textTop}>
+              <Text onPress={() => { this.props.dispatch(NavigationState.popRoute()); }} style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -399,7 +403,7 @@ class BeginWorkout extends Component {
             }
           </View>
         </ScrollView>
-        <BeginWorkoutFinishWindow
+        <LiveWorkoutFinishWindow
           currentTimerValue={currentTimerValue}
           windowFinishVisible={this.state.windowFinishVisible}
           setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
@@ -416,7 +420,7 @@ class BeginWorkout extends Component {
   }
 }
 
-BeginWorkout.propTypes = {
+LiveWorkout.propTypes = {
   workOut: PropTypes.string,
   PRE: PropTypes.string,
   timeDate: PropTypes.string,
@@ -424,4 +428,4 @@ BeginWorkout.propTypes = {
   nextWorkoutTree: PropTypes.object,
 };
 
-export default BeginWorkout;
+export default LiveWorkout;

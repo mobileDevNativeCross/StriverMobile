@@ -40,7 +40,7 @@ const AppView = React.createClass({
 
 
   render() {
-    console.disableYellowBox = true;
+    // console.disableYellowBox = true;
     if (!this.props.isReady) {
       return (
         <View style={{flex: 1}}>

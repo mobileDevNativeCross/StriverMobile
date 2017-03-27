@@ -1,7 +1,6 @@
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
-import {generateRandomNumber} from '../../services/randomNumberService';
-import {setLength} from '../BeginWorkout/BeginWorkoutState';
+import {setLength} from '../LiveWorkout/LiveWorkoutState';
 import * as auth0 from '../../services/auth0';
 
 // Initial state
@@ -54,12 +53,9 @@ const initialState = Map({
 });
 
 // Actions
-const TIMER_INCREMENT = 'CounterState/TIMER_INCREMENT';
-const TIMER_RESET = 'CounterState/TIMER_RESET';
-const RESET = 'CounterState/RESET';
-const RANDOM_REQUEST = 'CounterState/RANDOM_REQUEST';
-const RANDOM_RESPONSE = 'CounterState/RANDOM_RESPONSE';
-const GET_WORKOUT_TREE = 'CounterState/GET_WORKOUT_TREE';
+const TIMER_INCREMENT = 'HomeState/TIMER_INCREMENT';
+const TIMER_RESET = 'HomeState/TIMER_RESET';
+const GET_WORKOUT_TREE = 'HomeState/GET_WORKOUT_TREE';
 
 // Action creators
 export const getWorkoutTree = () => (dispatch, getState) => {
@@ -100,45 +96,14 @@ export function timerReset() {
   return {type: TIMER_RESET};
 }
 
-export function reset() {
-  return {type: RESET};
-}
-
-export function random() {
-  return {
-    type: RANDOM_REQUEST
-  };
-}
-
-export async function requestRandomNumber() {
-  return {
-    type: RANDOM_RESPONSE,
-    payload: await generateRandomNumber()
-  };
-}
-
 // Reducer
-export default function CounterStateReducer(state = initialState, action = {}) {
+export default function HomeStateReducer(state = initialState, action = {}) {
   switch (action.type) {
     case TIMER_INCREMENT:
       return state.update('timerValue', timerValue => timerValue + 1);
 
     case TIMER_RESET:
       return state.update('timerValue', timerValue => 0);
-
-    case RESET:
-      return initialState;
-
-    case RANDOM_REQUEST:
-      return loop(
-        state.set('loading', true),
-        Effects.promise(requestRandomNumber)
-      );
-
-    case RANDOM_RESPONSE:
-      return state
-        .set('loading', false)
-        .set('value', action.payload);
 
     case GET_WORKOUT_TREE: {
           return state

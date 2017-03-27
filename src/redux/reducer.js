@@ -2,16 +2,15 @@ import {Map, fromJS} from 'immutable';
 import {loop, combineReducers} from 'redux-loop';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
 import AuthStateReducer from '../modules/auth/AuthState';
-import CounterStateReducer from '../modules/counter/CounterState';
+import HomeStateReducer from '../modules/Home/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
-import BeginWorkoutStateReducer from '../modules/BeginWorkout/BeginWorkoutState';
+import LiveWorkoutStateReducer from '../modules/LiveWorkout/LiveWorkoutState';
 
 const reducers = {
   //auth0 Authentication login state
   auth: AuthStateReducer,
 
-  // Counter sample app state. This can be removed in a live application
-  counter: CounterStateReducer,
+  home: HomeStateReducer,
 
   // @NOTE: By convention, the navigation state must live in a subtree called
   //`navigationState`
@@ -19,7 +18,7 @@ const reducers = {
 
   session: SessionStateReducer,
 
-  beginWorkout: BeginWorkoutStateReducer,
+  liveWorkout: LiveWorkoutStateReducer,
 
 };
 
