@@ -282,6 +282,7 @@ class LiveWorkout extends Component {
 
   clearCheck = () => {
     this.props.dispatch(LiveWorkoutState.clearCheck());
+    this.props.dispatch(HomeState.checkEnter(true));
   }
 
   renderRow = (set) => {
