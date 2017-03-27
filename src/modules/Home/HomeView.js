@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
     fontFamily: regular,
     marginLeft: 10
   },
-  beginWorkoutButtonBox: {
+  liveWorkoutButtonBox: {
     width: displayWidth,
     alignItems: 'center',
     paddingBottom: 55
   },
-  beginWorkoutButton: {
+  liveWorkoutButton: {
     paddingHorizontal: 16,
     marginTop: 25,
   },
@@ -102,7 +102,7 @@ const {
 } = MK;
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
-  .withStyle([styles.beginWorkoutButton, {height: 36,}])
+  .withStyle([styles.liveWorkoutButton, {height: 36,}])
   .build();
 
 
@@ -124,7 +124,7 @@ class HomeView extends Component{
 
   goToLiveWorkout() {
     this.props.dispatch(NavigationState.pushRoute({
-      key: 'beginWorkout',
+      key: 'liveWorkout',
     }));
   }
 
@@ -201,7 +201,7 @@ class HomeView extends Component{
               </View>
             </View>
           </View>
-          <View style={styles.beginWorkoutButtonBox}>
+          <View style={styles.liveWorkoutButtonBox}>
             <BeginWorkout onPress={() => {this.goToLiveWorkout()}}>
               <Text
                 pointerEvents="none"

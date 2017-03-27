@@ -26,7 +26,7 @@ const initialState = fromJS({
     index: 0,
     routes: [
       {key: 'HomeTab', title: 'HOME'},
-      {key: 'BeginWorkout', title: 'BEGIN'},
+      {key: 'LiveWorkout', title: 'BEGIN'},
     ]
   },
   // Scenes for the `HomeTab` tab.
@@ -34,9 +34,9 @@ const initialState = fromJS({
     index: 0,
     routes: [{key: 'home', title: 'Home Screen'}]
   },
-  BeginWorkout: {
+  LiveWorkout: {
     index: 0,
-    routes: [{key: 'beginWorkout', title: 'BeginWorkout Screen'}]
+    routes: [{key: 'liveWorkout', title: 'LiveWorkout Screen'}]
   }
 });
 

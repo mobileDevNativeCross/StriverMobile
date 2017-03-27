@@ -28,7 +28,7 @@ const NavigationView = React.createClass({
         })).isRequired
       }).isRequired,
       HomeTab: NavigationPropTypes.navigationState.isRequired,
-      BeginWorkout: NavigationPropTypes.navigationState.isRequired,
+      LiveWorkout: NavigationPropTypes.navigationState.isRequired,
     }),
     pushRoute: PropTypes.func.isRequired
   },

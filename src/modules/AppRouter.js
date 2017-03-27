@@ -2,7 +2,7 @@
 
 import React from 'react';
 import HomeViewContainer from './Home/HomeViewContainer';
-import BeginWorkout from './BeginWorkout/BeginWorkoutViewContainer';
+import LiveWorkout from './LiveWorkout/LiveWorkoutViewContainer';
 
 /**
  * AppRouter is responsible for mapping a navigator scene to a view
@@ -14,8 +14,8 @@ export default function AppRouter(props) {
     return <HomeViewContainer />;
   }
 
-  if (key === 'beginWorkout') {
-    return <BeginWorkout />;
+  if (key === 'liveWorkout') {
+    return <LiveWorkout />;
   }
 
   throw new Error('Unknown navigation key: ' + key);

@@ -17,9 +17,9 @@ import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 
 import * as HomeState from '../Home/HomeState';
-import * as BeginWorkoutState from './BeginWorkoutState';
+import * as LiveWorkoutState from './LiveWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
-import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
+import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
@@ -208,7 +208,7 @@ const liveWorkoutComponents = [
   },
 ];
 
-class BeginWorkout extends Component {
+class LiveWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
@@ -277,11 +277,11 @@ class BeginWorkout extends Component {
   }
 
   checkExsercise = (index) => {
-    this.props.dispatch(BeginWorkoutState.setCheck(index));
+    this.props.dispatch(LiveWorkoutState.setCheck(index));
   }
 
   clearCheck = () => {
-    this.props.dispatch(BeginWorkoutState.clearCheck());
+    this.props.dispatch(LiveWorkoutState.clearCheck());
   }
 
   renderRow = (set) => {
@@ -403,7 +403,7 @@ class BeginWorkout extends Component {
             }
           </View>
         </ScrollView>
-        <BeginWorkoutFinishWindow
+        <LiveWorkoutFinishWindow
           currentTimerValue={currentTimerValue}
           windowFinishVisible={this.state.windowFinishVisible}
           setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
@@ -420,7 +420,7 @@ class BeginWorkout extends Component {
   }
 }
 
-BeginWorkout.propTypes = {
+LiveWorkout.propTypes = {
   workOut: PropTypes.string,
   PRE: PropTypes.string,
   timeDate: PropTypes.string,
@@ -428,4 +428,4 @@ BeginWorkout.propTypes = {
   nextWorkoutTree: PropTypes.object,
 };
 
-export default BeginWorkout;
+export default LiveWorkout;

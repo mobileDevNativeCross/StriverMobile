@@ -1,6 +1,6 @@
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
-import {setLength} from '../BeginWorkout/BeginWorkoutState';
+import {setLength} from '../LiveWorkout/LiveWorkoutState';
 import * as auth0 from '../../services/auth0';
 
 // Initial state

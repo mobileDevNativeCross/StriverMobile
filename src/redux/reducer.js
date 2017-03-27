@@ -4,7 +4,7 @@ import NavigationStateReducer from '../modules/navigation/NavigationState';
 import AuthStateReducer from '../modules/auth/AuthState';
 import HomeStateReducer from '../modules/Home/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
-import BeginWorkoutStateReducer from '../modules/BeginWorkout/BeginWorkoutState';
+import LiveWorkoutStateReducer from '../modules/LiveWorkout/LiveWorkoutState';
 
 const reducers = {
   //auth0 Authentication login state
@@ -18,7 +18,7 @@ const reducers = {
 
   session: SessionStateReducer,
 
-  beginWorkout: BeginWorkoutStateReducer,
+  liveWorkout: LiveWorkoutStateReducer,
 
 };
 

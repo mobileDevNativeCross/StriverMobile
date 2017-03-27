@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import BeginWorkoutView from './BeginWorkoutView';
+import LiveWorkoutView from './LiveWorkoutView';
 
 export default connect(
   (state, props) => ({
@@ -9,9 +9,9 @@ export default connect(
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
-    check: state.getIn(['beginWorkout', 'check']),
-    some: state.getIn(['beginWorkout', 'some']),
+    check: state.getIn(['liveWorkout', 'check']),
+    // some: state.getIn(['liveWorkout', 'some']),
     currentTimerValue: state.getIn(['home', 'timerValue']),
     reduxTimerId: state.getIn(['home', 'timerId']),
   })
-)(BeginWorkoutView);
+)(LiveWorkoutView);

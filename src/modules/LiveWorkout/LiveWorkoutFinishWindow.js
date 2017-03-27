@@ -150,7 +150,7 @@ const CustomButton = MKButton.button()
   .withText('Finish')
   .build();
 
-class BeginWorkoutFinishWindow extends Component {
+class LiveWorkoutFinishWindow extends Component {
 
   state={
       intensityScoreText: '',
@@ -434,4 +434,4 @@ class BeginWorkoutFinishWindow extends Component {
   }
 }
 
-export default BeginWorkoutFinishWindow;
+export default LiveWorkoutFinishWindow;
