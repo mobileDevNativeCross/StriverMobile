@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   viewSetHead: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60,
+    width: 70,
   },
   viewFlexDirectionSet: {
     flexDirection: 'row',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   viewSetParam: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 60,
+    width: 70,
     marginTop: 5,
   },
   textSetParam: {
@@ -218,6 +218,10 @@ class BeginWorkout extends Component {
     }, 1000);
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
+
+  // componentWillMount() {
+  //   this.props.dispatch(CounterState.getWorkoutTree());
+  // }
 
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});

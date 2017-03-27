@@ -111,7 +111,7 @@ class CounterView extends Component{
     isLoaded: false,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(CounterState.getWorkoutTree());
   }
 
