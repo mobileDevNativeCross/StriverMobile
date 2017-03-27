@@ -25,7 +25,7 @@ import {
 } from 'react-native-material-kit';
 
 import NavButton from '../../components/NavButton';
-import * as CounterState from '../counter/CounterState';
+import * as HomeState from '../Home/HomeState';
 import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');

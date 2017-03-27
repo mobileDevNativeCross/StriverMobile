@@ -31,7 +31,7 @@ export const clearCheck = () => ({
 
 
 // Reducer
-export default function CounterStateReducer(state = initialState, action = {}) {
+export default function BeginWorkoutStateReducer(state = initialState, action = {}) {
   switch (action.type) {
     case SET_LENGTH: {
       const checkMas = new Array(action.len).fill(false);

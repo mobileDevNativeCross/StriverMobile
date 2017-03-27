@@ -1,13 +1,13 @@
 import {connect} from 'react-redux';
-import CounterView from './CounterView';
+import HomeView from './HomeView';
 
 export default connect(
   state => ({
-    loading: state.getIn(['counter', 'loading']),
+    loading: state.getIn(['home', 'loading']),
     userName: state.getIn(['auth', 'currentUser', 'name']),
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
-    nextWorkoutTree: state.getIn(['counter', 'nextWorkoutTree']),
+    nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
     state: state //for developing
   })
-)(CounterView);
+)(HomeView);

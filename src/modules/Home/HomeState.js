@@ -53,9 +53,9 @@ const initialState = Map({
 });
 
 // Actions
-const TIMER_INCREMENT = 'CounterState/TIMER_INCREMENT';
-const TIMER_RESET = 'CounterState/TIMER_RESET';
-const GET_WORKOUT_TREE = 'CounterState/GET_WORKOUT_TREE';
+const TIMER_INCREMENT = 'HomeState/TIMER_INCREMENT';
+const TIMER_RESET = 'HomeState/TIMER_RESET';
+const GET_WORKOUT_TREE = 'HomeState/GET_WORKOUT_TREE';
 
 // Action creators
 export const getWorkoutTree = () => (dispatch, getState) => {
@@ -97,7 +97,7 @@ export function timerReset() {
 }
 
 // Reducer
-export default function CounterStateReducer(state = initialState, action = {}) {
+export default function HomeStateReducer(state = initialState, action = {}) {
   switch (action.type) {
     case TIMER_INCREMENT:
       return state.update('timerValue', timerValue => timerValue + 1);

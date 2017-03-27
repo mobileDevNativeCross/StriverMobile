@@ -16,7 +16,7 @@ import CheckBox from 'react-native-checkbox';
 import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 
-import * as CounterState from '../counter/CounterState';
+import * as HomeState from '../Home/HomeState';
 import * as BeginWorkoutState from './BeginWorkoutState';
 import BackgroundTimer from 'react-native-background-timer';
 import BeginWorkoutFinishWindow from './BeginWorkoutFinishWindow';
@@ -212,15 +212,15 @@ class BeginWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
-    this.props.dispatch(CounterState.getWorkoutTree());
+    this.props.dispatch(HomeState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
-      this.props.dispatch(CounterState.timerIncrement());
+      this.props.dispatch(HomeState.timerIncrement());
     }, 1000);
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
 
   // componentWillMount() {
-  //   this.props.dispatch(CounterState.getWorkoutTree());
+  //   this.props.dispatch(HomeState.getWorkoutTree());
   // }
 
   componentWillReceiveProps() {
@@ -253,7 +253,7 @@ class BeginWorkout extends Component {
 
   pop = (requestCheck) => {
     this.props.dispatch(NavigationState.popRoute());
-    this.props.dispatch(CounterState.timerReset());
+    this.props.dispatch(HomeState.timerReset());
   }
 
   check = () => {

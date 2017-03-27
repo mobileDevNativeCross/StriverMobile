@@ -1,4 +1,4 @@
-import * as CounterState from './CounterState';
+import * as HomeState from './HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes, Component} from 'react';
 import {
@@ -106,19 +106,19 @@ const BeginWorkout = MKButton.coloredButton()
   .build();
 
 
-class CounterView extends Component{
+class HomeView extends Component{
   state = {
     isLoaded: false,
   }
 
   componentWillMount() {
-    this.props.dispatch(CounterState.getWorkoutTree());
+    this.props.dispatch(HomeState.getWorkoutTree());
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
       this.setState({ isLoaded: true });
-      this.props.dispatch(CounterState.getWorkoutTree()); // not sure this line is necessary
+      this.props.dispatch(HomeState.getWorkoutTree()); // not sure this line is necessary
     }
   }
 
@@ -218,4 +218,4 @@ class CounterView extends Component{
   }
 };
 
-export default CounterView;
+export default HomeView;
