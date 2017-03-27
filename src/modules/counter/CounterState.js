@@ -1,6 +1,5 @@
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
-// import {generateRandomNumber} from '../../services/randomNumberService';
 import {setLength} from '../BeginWorkout/BeginWorkoutState';
 import * as auth0 from '../../services/auth0';
 

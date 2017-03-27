@@ -27,7 +27,6 @@ const initialState = fromJS({
     routes: [
       {key: 'HomeTab', title: 'HOME'},
       {key: 'BeginWorkout', title: 'BEGIN'},
-      // {key: 'ProfileTab', title: 'PROFILE'},
     ]
   },
   // Scenes for the `HomeTab` tab.

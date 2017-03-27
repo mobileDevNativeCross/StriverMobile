@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    justifyContent: 'center',
    alignItems: 'center',
-  //  paddingBottom: 20,
  },
  textLogo: {
    marginLeft: 2,
