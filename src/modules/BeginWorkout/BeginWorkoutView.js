@@ -231,7 +231,7 @@ class BeginWorkout extends Component {
     beginWorkoutTime: null,
   }
 
-  renderButton = () => {
+  renderComleteWorkoutButton = () => {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
       .withStyle([styles.completeWorkoutButton, {height: 36,}])
@@ -382,7 +382,7 @@ class BeginWorkout extends Component {
             </View>
           </View>
           <View style={styles.viewTouchOpacityComplete}>
-          {this.renderButton()}
+          {this.renderComleteWorkoutButton()}
           </View>
           <View style={styles.viewItems}>
             {

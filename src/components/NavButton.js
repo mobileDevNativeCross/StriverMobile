@@ -15,11 +15,6 @@ import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
 
 const styles = StyleSheet.create({
-  col: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   transform: {
     transform: [
       {rotate: '45deg'},
@@ -36,7 +31,6 @@ const styles = StyleSheet.create({
     right: 27,
     height: 56,
     width: 56,
-    // backgroundColor: 'red'
   },
   button: {
 
@@ -129,8 +123,8 @@ class NavButton extends Component {
           style={{
             height: displayHeight,
             width: displayWidth,
-            bottom: displayHeight-52-35,
-            right: displayWidth-46-27,
+            bottom: displayHeight-56-35,
+            right: displayWidth-56-27,
           }}
         >
           <View style={styles.navMenuBackground}>
@@ -156,7 +150,6 @@ class NavButton extends Component {
         </Display>
         <Animated.View
           style={[
-            // styles.col,
             styles.button
           ]}
         >

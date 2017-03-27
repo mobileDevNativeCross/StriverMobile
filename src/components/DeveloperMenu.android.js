@@ -1,6 +1,8 @@
 import React from 'react';
 import * as snapshot from '../utils/snapshot';
 import * as auth0 from '../services/auth0';
+import store from '../redux/store';//for old token debugging
+import * as AuthStateActions from '../modules/auth/AuthState';//for old token debugging
 
 import {
   View,
@@ -31,9 +33,12 @@ const DeveloperMenu = React.createClass({
   },
   async showLogin() {
     await auth0.showLogin();
-    console.log('Show auth0 login screen');
     this.closeMenu();
   },
+  async setWrongToken() {//for old token debugging
+    store.dispatch(AuthStateActions.setWrongToken());//for old token debugging
+    this.closeMenu();//for old token debugging
+  },//for old token debugging
   closeMenu() {
     this.setState({isVisible: false});
   },
@@ -67,6 +72,7 @@ const DeveloperMenu = React.createClass({
     const buttons = [
       this.renderMenuItem('Clear state', this.clearState),
       this.renderMenuItem('Show login', this.showLogin),
+      this.renderMenuItem('Set wrong token ', this.setWrongToken),//for old token debugging
       this.renderMenuItem('Cancel', this.closeMenu)
     ];
 

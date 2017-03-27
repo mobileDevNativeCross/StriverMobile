@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     height: 200,
     width: displayWidth,
     justifyContent: 'center',
-    marginLeft: -40,
     alignItems: 'center',
   },
   exerciseItem: {
@@ -119,7 +118,7 @@ class CounterView extends Component{
   componentWillReceiveProps(nextProps) {
     if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
       this.setState({ isLoaded: true });
-      this.props.dispatch(CounterState.getWorkoutTree());
+      this.props.dispatch(CounterState.getWorkoutTree()); // not sure this line is necessary
     }
   }
 

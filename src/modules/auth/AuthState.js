@@ -14,6 +14,7 @@ const initialState = Map({
 
 const USER_LOGIN_SUCCESS = 'AppState/USER_LOGIN_SUCCESS';
 const USER_LOGIN_ERROR = 'AppState/USER_LOGIN_ERROR';
+const SET_WRONG_TOKEN = 'AppState/SET_WRONG_TOKEN'; //for old token debugging
 
 
 export function onUserLoginSuccess(profile, token) {
@@ -34,6 +35,13 @@ export function onUserLoginError(error) {
     }
 }
 
+//This function is for old token debugging
+export function setWrongToken() {
+    return {
+        type: SET_WRONG_TOKEN,
+    }
+}
+
 //reducer
 export default function AuthStateReducer(state = initialState, action = {}) {
     switch (action.type) {
@@ -44,6 +52,10 @@ export default function AuthStateReducer(state = initialState, action = {}) {
                 .set('authenticationToken', action.payload.token);
         case USER_LOGIN_ERROR:
             return initialState;
+        // This reducer is for old token debugging
+        case SET_WRONG_TOKEN:
+            return state
+                .set('authenticationToken', {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'idToken': 'test2'});
         default:
             return state;
     }
