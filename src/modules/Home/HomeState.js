@@ -5,6 +5,7 @@ import * as auth0 from '../../services/auth0';
 
 // Initial state
 const initialState = Map({
+  checkEnter: true,
   nextWorkoutTree: {
   "_id": "",
   "athleteId": "",
@@ -56,6 +57,7 @@ const initialState = Map({
 const TIMER_INCREMENT = 'HomeState/TIMER_INCREMENT';
 const TIMER_RESET = 'HomeState/TIMER_RESET';
 const GET_WORKOUT_TREE = 'HomeState/GET_WORKOUT_TREE';
+const CHECK_ENTER = 'HomeState/CHECK_ENTER';
 
 // Action creators
 export const getWorkoutTree = () => (dispatch, getState) => {
@@ -83,9 +85,13 @@ export const getWorkoutTree = () => (dispatch, getState) => {
   .catch((e) => {
     console.log('error in getWorkoutTree(): ', e);
   });
+}
 
-
-
+export function checkEnter(checkEnter) {
+  return {
+    type: CHECK_ENTER,
+    checkEnter: checkEnter,
+  };
 }
 
 export function timerIncrement() {
@@ -106,8 +112,13 @@ export default function HomeStateReducer(state = initialState, action = {}) {
       return state.update('timerValue', timerValue => 0);
 
     case GET_WORKOUT_TREE: {
-          return state
-            .set('nextWorkoutTree', action.response);
+      return state
+        .set('nextWorkoutTree', action.response);
+    }
+
+    case CHECK_ENTER: {
+      return state
+        .set('checkEnter', action.checkEnter);
     }
 
     default:

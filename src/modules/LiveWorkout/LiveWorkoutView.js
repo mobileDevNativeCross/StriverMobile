@@ -272,7 +272,7 @@ class LiveWorkout extends Component {
   }
 
   setWindowFinishVisible = () => {
-    this.setState({windowFinishVisible : !this.state.windowFinishVisible});
+    this.setState({windowFinishVisible : true});
     BackgroundTimer.clearInterval(liveWorkoutTimer);
   }
 
@@ -282,6 +282,7 @@ class LiveWorkout extends Component {
 
   clearCheck = () => {
     this.props.dispatch(LiveWorkoutState.clearCheck());
+    this.props.dispatch(HomeState.checkEnter(true));
   }
 
   renderRow = (set) => {
