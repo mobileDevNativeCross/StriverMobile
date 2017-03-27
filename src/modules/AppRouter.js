@@ -2,7 +2,7 @@
 
 import React from 'react';
 import CounterViewContainer from './counter/CounterViewContainer';
-import ColorViewContainer from './colors/ColorViewContainer';
+// import ColorViewContainer from './colors/ColorViewContainer';
 import BeginWorkout from './BeginWorkout/BeginWorkoutViewContainer';
 
 /**
@@ -19,14 +19,14 @@ export default function AppRouter(props) {
     return <BeginWorkout />;
   }
 
-  if (key.indexOf('Color') === 0) {
-    const index = props.scenes.indexOf(props.scene);
-    return (
-      <ColorViewContainer
-        index={index}
-      />
-    );
-  }
+  // if (key.indexOf('Color') === 0) {
+  //   const index = props.scenes.indexOf(props.scene);
+  //   return (
+  //     <ColorViewContainer
+  //       index={index}
+  //     />
+  //   );
+  // }
 
   throw new Error('Unknown navigation key: ' + key);
 }
