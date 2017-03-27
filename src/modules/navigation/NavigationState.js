@@ -7,14 +7,6 @@ const {StateUtils: NavigationStateUtils} = NavigationExperimental;
 // Actions
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
-// const SWITCH_TAB = 'NavigationState/SWITCH_TAB';
-//
-// export function switchTab(index) {
-//   return {
-//     type: SWITCH_TAB,
-//     payload: index
-//   };
-// }
 
 // Action creators
 export function pushRoute(route) {
@@ -43,11 +35,6 @@ const initialState = fromJS({
     index: 0,
     routes: [{key: 'Counter', title: 'Counter Screen'}]
   },
-  // Scenes for the `ProfileTab` tab.
-  // ProfileTab: {
-  //   index: 0,
-  //   routes: [{key: 'Color', title: 'Color Screen'}]
-  // },
   BeginWorkout: {
     index: 0,
     routes: [{key: 'beginWorkout', title: 'BeginWorkout Screen'}]
@@ -88,16 +75,6 @@ export default function NavigationReducer(state = initialState, action) {
       }
       return state;
     }
-
-    // case SWITCH_TAB: {
-    //   // Switches the tab.
-    //   const tabs = state.get('tabs').toJS();
-    //   const nextTabs = NavigationStateUtils.jumpToIndex(tabs, action.payload);
-    //   if (tabs !== nextTabs) {
-    //     return state.set('tabs', fromJS(nextTabs));
-    //   }
-    //   return state;
-    // }
 
     default:
       return state;
