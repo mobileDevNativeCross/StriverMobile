@@ -8,6 +8,7 @@ export default connect(
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
+    checkEnter: state.getIn(['home', 'checkEnter']),
     state: state //for developing
   })
 )(HomeView);

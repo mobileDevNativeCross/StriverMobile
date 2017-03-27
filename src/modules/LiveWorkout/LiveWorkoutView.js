@@ -272,7 +272,7 @@ class LiveWorkout extends Component {
   }
 
   setWindowFinishVisible = () => {
-    this.setState({windowFinishVisible : !this.state.windowFinishVisible});
+    this.setState({windowFinishVisible : true});
     BackgroundTimer.clearInterval(liveWorkoutTimer);
   }
 

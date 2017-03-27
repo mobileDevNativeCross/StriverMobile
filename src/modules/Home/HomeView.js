@@ -109,10 +109,12 @@ const BeginWorkout = MKButton.coloredButton()
 class HomeView extends Component{
   state = {
     isLoaded: false,
+    checkEnter: true,
   }
 
   componentWillMount() {
     this.props.dispatch(HomeState.getWorkoutTree());
+    this.props.dispatch(HomeState.checkEnter(true));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -123,9 +125,12 @@ class HomeView extends Component{
   }
 
   goToLiveWorkout() {
-    this.props.dispatch(NavigationState.pushRoute({
-      key: 'liveWorkout',
-    }));
+    if (this.props.checkEnter) {
+      this.props.dispatch(HomeState.checkEnter(false));
+      this.props.dispatch(NavigationState.pushRoute({
+        key: 'liveWorkout',
+      }));
+    }
   }
 
   renderItem(item) {
