@@ -380,7 +380,7 @@ class BeginWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text style={styles.textTop}>
+              <Text onPress={() => { this.props.dispatch(NavigationState.popRoute()); }} style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>

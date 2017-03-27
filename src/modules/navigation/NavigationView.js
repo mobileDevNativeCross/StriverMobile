@@ -24,7 +24,7 @@ const { width, height } = Dimensions.get('window');
 const NavigationView = React.createClass({
   propTypes: {
     onNavigateBack: PropTypes.func.isRequired,
-    onNavigateCompleted: PropTypes.func.isRequired,
+    // onNavigateCompleted: PropTypes.func.isRequired,
     navigationState: PropTypes.shape({
       tabs: PropTypes.shape({
         routes: PropTypes.arrayOf(PropTypes.shape({
@@ -33,9 +33,10 @@ const NavigationView = React.createClass({
         })).isRequired
       }).isRequired,
       HomeTab: NavigationPropTypes.navigationState.isRequired,
-      ProfileTab: NavigationPropTypes.navigationState.isRequired
+      BeginWorkout: NavigationPropTypes.navigationState.isRequired,
+      // ProfileTab: NavigationPropTypes.navigationState.isRequired
     }),
-    switchTab: PropTypes.func.isRequired,
+    // switchTab: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired
   },
   // NavigationHeader accepts a prop style

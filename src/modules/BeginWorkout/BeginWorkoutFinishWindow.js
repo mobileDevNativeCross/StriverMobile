@@ -138,7 +138,7 @@ const TextfieldScore = MKTextField.textfield()
 
 const TextfieldComment = MKTextField.textfield()
   .withStyle(styles.inputTextComments)
-  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, fontFamily: medium, color: '#ececec', fontSize: 16, textAlignVertical: 'top'})
+  .withTextInputStyle({flex: 1, backgroundColor: '#a3a3a3', paddingTop: -5, fontFamily: medium, color: '#ececec', fontSize: 16, textAlignVertical: 'bottom'})
   .withTintColor('#ececec')
   .withHighlightColor('#409ac9')
   .build();
