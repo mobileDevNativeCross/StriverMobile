@@ -46,7 +46,7 @@ const NavigationView = React.createClass({
       <View style={styles.viewLogo}>
         <Image resizeMode="contain" style={styles.imageLogo} source={logo} />
         <Text style={styles.textLogo}>
-        striver
+          striver
         </Text>
       </View>
       // <NavigationHeader
