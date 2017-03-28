@@ -12,6 +12,7 @@ import {
   ScrollView,
   AsyncStorage,
   KeyboardAvoidingView,
+  NetInfo,
 } from 'react-native';
 import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
@@ -205,6 +206,7 @@ class LiveWorkoutFinishWindow extends Component {
   }
 
   handleFinishPress = () => {
+    let resultSendingFail = false;
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     // this.setState({windowFinishVisible : !this.state.windowFinishVisible});
     this.props.closeWindowFinish();
@@ -220,49 +222,81 @@ class LiveWorkoutFinishWindow extends Component {
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
     });
-      fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + this.props.nextWorkoutToken + 1,
-          'Content-Type': 'application/json',
-        },
-        body: resultObject
-      })
-      .then((response) => {
-        if (response.status === 200 && response.ok === true) {
-          this.props.popToStartScreen('RequestFine')
-        } else {
+      NetInfo.isConnected.fetch().done((reach) => { //checking Internet connection
+// /*//REMOVE THIS LINE AFTER TESTING ON SIMULATOR*/        reach = true;
+        if (reach !== true) { //if there is no Internet connection, save Workout result to AsyncStorage
+          console.warn('Check your Internet connection')
           AsyncStorage.setItem('resultObject', resultObject);
-          console.log('There is something wrong. Server response: ', response);
-          AsyncStorage.getItem('resultObject') //*** NOT NESCESSARY LINE OF CODE (just for checking 'resultObject' key in AsyncStorage)
-            .then((value) => { //*** NOT NESCESSARY, for checking
-              console.log('Cashing workout next result object in AsyncStorage: ', JSON.parse(value)) //*** NOT NESCESSARY, for checking
-              console.log('POST request reattempt');
-              fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
-                method: 'POST',
-                headers: {
-                  'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
-                  'Content-Type': 'application/json',
-                },
-                body: resultObject
-              })
-              .then((secondResponse) => {
-                if (secondResponse.status === 200 && secondResponse.ok === true) {
-                  this.props.popToStartScreen('RequestFine')
-                } else {
-                  console.log('Reattempt failed. Second server response: ', secondResponse);
-                }
-              })
-              .catch(error => console.log('error in reattempt POST request: ', error));
-            }) //*** NOT NESCESSARY, for checking
-            .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error)); //*** NOT NESCESSARY, for checking
-
+          console.warn('Workout result have saved in local storage to send it later.')
+          NetInfo.addEventListener( // creating listener on connection changing
+            'change',
+            handleConnectivityChange,
+          );
+          console.warn('connection listener was created');
+        } else { // if  device connected to Internet send Workout result to server
+          console.warn('Internet connection = true');
+          this.sendingWorkoutResult(resultObject);
         }
-      })
-      .catch((e) => {
-        AsyncStorage.setItem('resultObject', resultObject);
-        console.log('error in first POST request: ', e);
       });
+  }
+
+  handleConnectivityChange = (reach) => {
+    const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
+    console.warn('Internet connection become: ', reach);
+    this.sendingWorkoutResult()
+
+    NetInfo.removeEventListener( //turning off connection listener
+    'change',
+    handleConnectivityChange
+  );
+    // this.props.dispatch(setNetworkIsConnected(isConnected));
+  };
+
+  sendingWorkoutResult = (resultObject) => {
+    fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
+        'Content-Type': 'application/json',
+      },
+      body: resultObject
+    })
+    .then((response) => {
+      if (response.status === 200 && response.ok === true) { //checking server response on failing
+        console.warn('response.status === 200 && response.ok === true => true');
+        this.props.popToStartScreen('RequestFine');
+      } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
+        console.warn('response.status === 200 && response.ok === true => false');
+        AsyncStorage.setItem('resultObject', resultObject);
+        console.warn('There is something wrong. Server response: ', response);
+        AsyncStorage.getItem('resultObject') //*** NOT NESCESSARY LINE OF CODE (just for checking 'resultObject' key in AsyncStorage)
+        .then((value) => { //*** NOT NESCESSARY, for checking
+          console.warn('Cashing workout next result object in AsyncStorage: ', JSON.parse(value)) //*** NOT NESCESSARY, for checking
+          console.warn('POST request reattempt');
+          fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{ //reattempt
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
+              'Content-Type': 'application/json',
+            },
+            body: resultObject
+          })
+          .then((secondResponse) => {
+            if (secondResponse.status === 200 && secondResponse.ok === true) {
+              this.props.popToStartScreen('RequestFine')
+            } else { // in case of second POST request fail:
+              console.log('Reattempt failed. Second server response: ', secondResponse);
+            }
+          })
+          .catch(error => console.log('error in reattempt POST request: ', error));
+        }) //*** NOT NESCESSARY, for checking
+        .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error)); //*** NOT NESCESSARY, for checking
+      }
+    })
+    .catch((e) => {
+      AsyncStorage.setItem('resultObject', resultObject);
+      console.log('error in first POST request: ', e);
+    });
   }
 
   setIntensityScore = (text) => {
