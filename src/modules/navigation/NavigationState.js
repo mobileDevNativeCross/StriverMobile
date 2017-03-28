@@ -7,18 +7,7 @@ const {StateUtils: NavigationStateUtils} = NavigationExperimental;
 // Actions
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
-
-// Action creators
-export function pushRoute(route) {
-  return {
-    type: PUSH_ROUTE,
-    payload: route
-  };
-}
-
-export function popRoute() {
-  return {type: POP_ROUTE};
-}
+const FIRSTPAGE_ROUTE = 'NavigationState/FIRSTPAGE_ROUTE';
 
 // reducers for tabs and scenes are separate
 const initialState = fromJS({
@@ -39,6 +28,25 @@ const initialState = fromJS({
     routes: [{key: 'liveWorkout', title: 'LiveWorkout Screen'}]
   }
 });
+
+// Action creators
+export function pushRoute(route) {
+  return {
+    type: PUSH_ROUTE,
+    payload: route
+  };
+}
+
+export function popRoute() {
+  return {type: POP_ROUTE};
+}
+
+export function firstPageRoute() {
+  return {
+    type: FIRSTPAGE_ROUTE,
+    initialState,
+  };
+}
 
 export default function NavigationReducer(state = initialState, action) {
   switch (action.type) {
@@ -73,6 +81,10 @@ export default function NavigationReducer(state = initialState, action) {
         return state.set(tabKey, fromJS(nextScenes));
       }
       return state;
+    }
+
+    case FIRSTPAGE_ROUTE: {
+      return initialState;
     }
 
     default:

@@ -76,12 +76,6 @@ const styles = StyleSheet.create({
     height: 30,
     width: 60,
   },
-  viewComments: {
-    flexDirection: 'row',
-    width: (width - 60),
-    marginTop: 10,
-    marginLeft: 30,
-  },
   inputTextComments: {
     marginTop: 5,
     flex: 1,
@@ -128,6 +122,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     height: 36,
   },
+  viewComments: {
+    marginLeft: 30,
+    width: (width - 60),
+    marginTop: 20,
+  }
 });
 
 const TextfieldScore = MKTextField.textfield()
@@ -208,7 +207,6 @@ class LiveWorkoutFinishWindow extends Component {
   handleFinishPress = () => {
     let resultSendingFail = false;
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
-    // this.setState({windowFinishVisible : !this.state.windowFinishVisible});
     this.props.closeWindowFinish();
     BackgroundTimer.clearInterval(this.liveWorkoutTimer);
     this.props.clearCheck();
@@ -423,12 +421,10 @@ class LiveWorkoutFinishWindow extends Component {
                   onBlur={() => {this.setState({scroll: false})}}
                 />
               </View> */}
-              <View style={{ marginLeft: 30, width: (width - 60) }}>
-                <View>
-                  <Text style={styles.textIntensityScore}>
-                    Comments:
-                  </Text>
-                </View>
+              <View style={styles.viewComments}>
+                <Text style={styles.textIntensityScore}>
+                  Comments:
+                </Text>
                 <View>
                   <TextfieldComment
                     onChangeText={this.setComments}

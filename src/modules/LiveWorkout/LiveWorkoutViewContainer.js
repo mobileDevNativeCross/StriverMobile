@@ -10,9 +10,7 @@ export default connect(
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
     check: state.getIn(['liveWorkout', 'check']),
-    // some: state.getIn(['liveWorkout', 'some']),
     currentTimerValue: state.getIn(['home', 'timerValue']),
     reduxTimerId: state.getIn(['home', 'timerId']),
-    windowShow: state.getIn(['liveWorkout', 'windowShow']),
   })
 )(LiveWorkoutView);

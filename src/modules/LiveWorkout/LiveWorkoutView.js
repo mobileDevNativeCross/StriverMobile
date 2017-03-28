@@ -148,65 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-const liveWorkoutComponents = [
-  {
-    sets: [
-      {
-        weight: 25,
-        repetitions: 5,
-        intervalTime: 35,
-      },
-      {
-        weight: 30,
-        repetitions: 4,
-        intervalTime: 40,
-      },
-      {
-        weight: 30,
-        repetitions: 5,
-        intervalTime: 50,
-      },
-    ],
-  },
-  {
-    sets: [
-      {
-        weight: 4,
-        repetitions: 15,
-        intervalTime: 55,
-      },
-      {
-        weight: 10,
-        repetitions: 10,
-        intervalTime: 50,
-      },
-      {
-        weight: 15,
-        repetitions: 5,
-        intervalTime: 25,
-      },
-    ],
-  },
-  {
-    sets: [
-      {
-        weight: 55,
-        repetitions: 2,
-        intervalTime: 10,
-      },
-      {
-        weight: 70,
-        repetitions: 1,
-        intervalTime: 5,
-      },
-      {
-        weight: 70,
-        repetitions: 1,
-        intervalTime: 5,
-      },
-    ],
-  },
-];
 
 class LiveWorkout extends Component {
   componentDidMount(){
@@ -218,10 +159,6 @@ class LiveWorkout extends Component {
     }, 1000);
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
-
-  // componentWillMount() {
-  //   this.props.dispatch(HomeState.checkEnter(true));
-  // }
 
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
@@ -273,13 +210,11 @@ class LiveWorkout extends Component {
 
   setWindowFinishVisible = () => {
     this.setState({windowFinishVisible : true});
-    // this.props.dispatch(LiveWorkoutState.windowFinishShow(true));
     BackgroundTimer.clearInterval(liveWorkoutTimer);
   }
 
   closeWindowFinish = () => {
     this.setState({windowFinishVisible : false});
-    // this.props.dispatch(LiveWorkoutState.windowFinishShow(false));
   }
 
   checkExsercise = (index) => {
@@ -301,7 +236,7 @@ class LiveWorkout extends Component {
         </View>
         <View style={styles.viewSetParam}>
           <Text style={styles.textSetParam}>
-            {set.repetitions}
+            { set.intervalTime > 0 && set.intervalTime !== null ? set.intervalTime : set.repitions}
           </Text>
         </View>
         <View style={styles.viewSetParam}>
@@ -350,9 +285,7 @@ class LiveWorkout extends Component {
             </View>
           </View>
           <View style={styles.viewSetsArray}>
-            {/* {item.sets.map(set => {this.renderRow(set)})} */}
-            {liveWorkoutComponents[index].sets
-              .map(set => { return(this.renderRow(set)); })}
+            {item.sets.map(set => {return(this.renderRow(set));})}
           </View>
         </View>
       </View>
@@ -412,7 +345,6 @@ class LiveWorkout extends Component {
         </ScrollView>
         <LiveWorkoutFinishWindow
           currentTimerValue={currentTimerValue}
-          // windowFinishVisible={this.props.windowShow}
           closeWindowFinish={() => {this.closeWindowFinish()}}
           windowFinishVisible={this.state.windowFinishVisible}
           setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
