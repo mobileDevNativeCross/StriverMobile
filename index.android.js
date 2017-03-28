@@ -5,6 +5,8 @@ import AppViewContainer from './src/modules/AppViewContainer';
 import React from 'react';
 import {AppRegistry, BackAndroid} from 'react-native';
 import * as NavigationStateActions from './src/modules/navigation/NavigationState';
+import * as LiveWorkoutState from './src/modules/LiveWorkout/LiveWorkoutState';
+import * as HomeState from './src/modules/Home/HomeState';
 
 const StriverMobile = React.createClass({
 
@@ -18,6 +20,12 @@ const StriverMobile = React.createClass({
     const tabKey = tabs.getIn(['routes', tabs.get('index')]).get('key');
     const currentTab = navigationState.get(tabKey);
 
+    const checkEnter = store.getState().get('home').get('checkEnter');
+
+    if (!checkEnter) {
+      return true;
+    }
+
     // if we are in the beginning of our tab stack
     if (currentTab.get('index') === 0) {
 
@@ -30,6 +38,8 @@ const StriverMobile = React.createClass({
       // otherwise let OS handle the back button action
       return false;
     }
+
+
 
     store.dispatch(NavigationStateActions.popRoute());
     return true;
