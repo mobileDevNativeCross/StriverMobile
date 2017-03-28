@@ -219,10 +219,6 @@ class LiveWorkout extends Component {
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
 
-  // componentWillMount() {
-  //   this.props.dispatch(HomeState.checkEnter(true));
-  // }
-
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
   }
@@ -273,13 +269,11 @@ class LiveWorkout extends Component {
 
   setWindowFinishVisible = () => {
     this.setState({windowFinishVisible : true});
-    // this.props.dispatch(LiveWorkoutState.windowFinishShow(true));
     BackgroundTimer.clearInterval(liveWorkoutTimer);
   }
 
   closeWindowFinish = () => {
     this.setState({windowFinishVisible : false});
-    // this.props.dispatch(LiveWorkoutState.windowFinishShow(false));
   }
 
   checkExsercise = (index) => {
@@ -301,7 +295,7 @@ class LiveWorkout extends Component {
         </View>
         <View style={styles.viewSetParam}>
           <Text style={styles.textSetParam}>
-            {set.repetitions}
+            {set.repitions}
           </Text>
         </View>
         <View style={styles.viewSetParam}>
@@ -350,9 +344,7 @@ class LiveWorkout extends Component {
             </View>
           </View>
           <View style={styles.viewSetsArray}>
-            {/* {item.sets.map(set => {this.renderRow(set)})} */}
-            {liveWorkoutComponents[index].sets
-              .map(set => { return(this.renderRow(set)); })}
+            {item.sets.map(set => {return(this.renderRow(set));})}
           </View>
         </View>
       </View>

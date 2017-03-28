@@ -206,7 +206,6 @@ class LiveWorkoutFinishWindow extends Component {
 
   handleFinishPress = () => {
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
-    // this.setState({windowFinishVisible : !this.state.windowFinishVisible});
     this.props.closeWindowFinish();
     BackgroundTimer.clearInterval(this.liveWorkoutTimer);
     this.props.clearCheck();

@@ -5,7 +5,6 @@ import {loop, Effects} from 'redux-loop';
 const initialState = Map({
   check: List([]),
   len: 0,
-  // windowShow: false,
 });
 
 
@@ -13,7 +12,6 @@ const initialState = Map({
 const SET_CHECK = 'SET_CHECK';
 const SET_LENGTH = 'SET_LENGTH';
 const CLEAR_CHECK = 'CLEAR_CHECK';
-// const WINDOW_SHOW = 'WINDOW_SHOW';
 
 // Action creators
 export const setLength = (len) => ({
@@ -30,11 +28,6 @@ export const clearCheck = () => ({
   type: CLEAR_CHECK,
   // check: [false],
 });
-
-// export const windowFinishShow = (windowShow) => ({
-//   type: WINDOW_SHOW,
-//   windowShow,
-// });
 
 
 // Reducer
@@ -60,11 +53,6 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
       }
       return state;
     }
-
-    // case WINDOW_SHOW: {
-    //   return state
-    //     .set('windowShow', action.windowShow);
-    // }
 
     default:
       return state;
