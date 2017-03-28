@@ -3,6 +3,8 @@ import {
     fromJS
 } from 'immutable';
 import * as NavigationState from '../navigation/NavigationState';
+import * as HomeState from '../Home/HomeState';
+import * as LiveWorkoutState from '../LiveWorkout/LiveWorkoutState';
 
 //initial state
 const initialState = Map({
@@ -17,22 +19,8 @@ const USER_LOGIN_SUCCESS = 'AppState/USER_LOGIN_SUCCESS';
 const USER_LOGIN_ERROR = 'AppState/USER_LOGIN_ERROR';
 const SET_WRONG_TOKEN = 'AppState/SET_WRONG_TOKEN'; //for old token debugging
 
-// export function onUserLoginSuccess = (profile, token) => (dispatch) => {
-//     return {
-//       dispatch(NavigationState.firstPageRoute());
-//       dispatch({
-//           type: USER_LOGIN_SUCCESS,
-//           payload: {
-//               profile: fromJS(profile),
-//               token: fromJS(token)
-//           }
-//       });
-//     }
-// }
-
 export function onUserLoginSuccess(profile, token) {
   return (dispatch) => {
-    dispatch(NavigationState.firstPageRoute());
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: {
@@ -40,6 +28,11 @@ export function onUserLoginSuccess(profile, token) {
         token: fromJS(token)
       }
     })
+    dispatch(NavigationState.firstPageRoute());
+    dispatch(HomeState.checkEnter(true));
+    dispatch(LiveWorkoutState.clearCheck());
+    dispatch(HomeState.timerReset());
+    dispatch(HomeState.getWorkoutTree());
   };
 }
 

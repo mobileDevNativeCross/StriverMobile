@@ -84,15 +84,7 @@ export default function NavigationReducer(state = initialState, action) {
     }
 
     case FIRSTPAGE_ROUTE: {
-      const tabs = state.get('tabs');
-      const tabKey = tabs.getIn(['routes', tabs.get('index')]).get('key');
-      const scenes = state.get(tabKey).toJS();
-      const nextScenes = NavigationStateUtils.pop(scenes);
-      console.warn('tabs', tabs);
-      console.warn('tabKey', tabKey);
-      console.warn('scenes', scenes);
-      console.warn('nextScenes', fromJS(nextScenes));
-      // return state.get('tabs').setIn('index', 0);
+      return initialState;
     }
 
     default:
