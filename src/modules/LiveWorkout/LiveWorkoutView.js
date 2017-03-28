@@ -220,7 +220,7 @@ class LiveWorkout extends Component {
   }
 
   // componentWillMount() {
-  //   this.props.dispatch(HomeState.getWorkoutTree());
+  //   this.props.dispatch(HomeState.checkEnter(true));
   // }
 
   componentWillReceiveProps() {
@@ -273,7 +273,13 @@ class LiveWorkout extends Component {
 
   setWindowFinishVisible = () => {
     this.setState({windowFinishVisible : true});
+    // this.props.dispatch(LiveWorkoutState.windowFinishShow(true));
     BackgroundTimer.clearInterval(liveWorkoutTimer);
+  }
+
+  closeWindowFinish = () => {
+    this.setState({windowFinishVisible : false});
+    // this.props.dispatch(LiveWorkoutState.windowFinishShow(false));
   }
 
   checkExsercise = (index) => {
@@ -381,7 +387,7 @@ class LiveWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text onPress={() => { this.props.dispatch(NavigationState.popRoute()); }} style={styles.textTop}>
+              <Text /* onPress={() => { this.props.dispatch(NavigationState.popRoute()); }} */ style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -406,6 +412,8 @@ class LiveWorkout extends Component {
         </ScrollView>
         <LiveWorkoutFinishWindow
           currentTimerValue={currentTimerValue}
+          // windowFinishVisible={this.props.windowShow}
+          closeWindowFinish={() => {this.closeWindowFinish()}}
           windowFinishVisible={this.state.windowFinishVisible}
           setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
           beginWorkoutTime={this.state.beginWorkoutTime}

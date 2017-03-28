@@ -13,5 +13,6 @@ export default connect(
     // some: state.getIn(['liveWorkout', 'some']),
     currentTimerValue: state.getIn(['home', 'timerValue']),
     reduxTimerId: state.getIn(['home', 'timerId']),
+    windowShow: state.getIn(['liveWorkout', 'windowShow']),
   })
 )(LiveWorkoutView);
