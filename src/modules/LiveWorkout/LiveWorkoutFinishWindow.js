@@ -220,8 +220,9 @@ class LiveWorkoutFinishWindow extends Component {
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
     });
+/******************* NOT FINISHED INTERNET CHECKING
       NetInfo.isConnected.fetch().done((reach) => { //checking Internet connection
-// /*//REMOVE THIS LINE AFTER TESTING ON SIMULATOR*/        reach = true;
+      /*REMOVE THIS LINE AFTER TESTING ON SIMULATOR/        reach = true;
         if (reach !== true) { //if there is no Internet connection, save Workout result to AsyncStorage
           console.warn('Check your Internet connection')
           AsyncStorage.setItem('resultObject', resultObject);
@@ -230,13 +231,14 @@ class LiveWorkoutFinishWindow extends Component {
             'change',
             handleConnectivityChange,
           );
-          console.warn('connection listener was created');
+          console.log('Internet connection not provided ');
         } else { // if  device connected to Internet send Workout result to server
-          console.warn('Internet connection = true');
+*/
           this.sendingWorkoutResult(resultObject);
-        }
-      });
+//        }
+//      });
   }
+/******************* NOT FINISHED INTERNET CHECKING
 
   handleConnectivityChange = (reach) => {
     const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
@@ -244,12 +246,11 @@ class LiveWorkoutFinishWindow extends Component {
     this.sendingWorkoutResult()
 
     NetInfo.removeEventListener( //turning off connection listener
-    'change',
-    handleConnectivityChange
-  );
-    // this.props.dispatch(setNetworkIsConnected(isConnected));
+      'change',
+      handleConnectivityChange
+    );
   };
-
+*/
   sendingWorkoutResult = (resultObject) => {
     fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
       method: 'POST',
@@ -261,16 +262,14 @@ class LiveWorkoutFinishWindow extends Component {
     })
     .then((response) => {
       if (response.status === 200 && response.ok === true) { //checking server response on failing
-        console.warn('response.status === 200 && response.ok === true => true');
         this.props.popToStartScreen('RequestFine');
       } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
-        console.warn('response.status === 200 && response.ok === true => false');
         AsyncStorage.setItem('resultObject', resultObject);
-        console.warn('There is something wrong. Server response: ', response);
+        console.log('There is something wrong. Server response: ', response);
         AsyncStorage.getItem('resultObject') //*** NOT NESCESSARY LINE OF CODE (just for checking 'resultObject' key in AsyncStorage)
         .then((value) => { //*** NOT NESCESSARY, for checking
-          console.warn('Cashing workout next result object in AsyncStorage: ', JSON.parse(value)) //*** NOT NESCESSARY, for checking
-          console.warn('POST request reattempt');
+          console.log('Cashing workout next result object in AsyncStorage: ', JSON.parse(value)) //*** NOT NESCESSARY, for checking
+          console.log('POST request reattempt');
           fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{ //reattempt
             method: 'POST',
             headers: {
