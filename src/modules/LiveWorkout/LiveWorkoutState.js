@@ -26,7 +26,6 @@ export const setCheck = (index) => ({
 
 export const clearCheck = () => ({
   type: CLEAR_CHECK,
-  // check: [false],
 });
 
 

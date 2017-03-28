@@ -148,65 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-const liveWorkoutComponents = [
-  {
-    sets: [
-      {
-        weight: 25,
-        repetitions: 5,
-        intervalTime: 35,
-      },
-      {
-        weight: 30,
-        repetitions: 4,
-        intervalTime: 40,
-      },
-      {
-        weight: 30,
-        repetitions: 5,
-        intervalTime: 50,
-      },
-    ],
-  },
-  {
-    sets: [
-      {
-        weight: 4,
-        repetitions: 15,
-        intervalTime: 55,
-      },
-      {
-        weight: 10,
-        repetitions: 10,
-        intervalTime: 50,
-      },
-      {
-        weight: 15,
-        repetitions: 5,
-        intervalTime: 25,
-      },
-    ],
-  },
-  {
-    sets: [
-      {
-        weight: 55,
-        repetitions: 2,
-        intervalTime: 10,
-      },
-      {
-        weight: 70,
-        repetitions: 1,
-        intervalTime: 5,
-      },
-      {
-        weight: 70,
-        repetitions: 1,
-        intervalTime: 5,
-      },
-    ],
-  },
-];
 
 class LiveWorkout extends Component {
   componentDidMount(){
@@ -295,7 +236,7 @@ class LiveWorkout extends Component {
         </View>
         <View style={styles.viewSetParam}>
           <Text style={styles.textSetParam}>
-            {set.repitions}
+            { set.intervalTime > 0 && set.intervalTime !== null ? set.intervalTime : set.repitions}
           </Text>
         </View>
         <View style={styles.viewSetParam}>
@@ -404,7 +345,6 @@ class LiveWorkout extends Component {
         </ScrollView>
         <LiveWorkoutFinishWindow
           currentTimerValue={currentTimerValue}
-          // windowFinishVisible={this.props.windowShow}
           closeWindowFinish={() => {this.closeWindowFinish()}}
           windowFinishVisible={this.state.windowFinishVisible}
           setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
