@@ -2,6 +2,7 @@ import {
     Map,
     fromJS
 } from 'immutable';
+import * as NavigationState from '../navigation/NavigationState';
 
 //initial state
 const initialState = Map({
@@ -16,16 +17,41 @@ const USER_LOGIN_SUCCESS = 'AppState/USER_LOGIN_SUCCESS';
 const USER_LOGIN_ERROR = 'AppState/USER_LOGIN_ERROR';
 const SET_WRONG_TOKEN = 'AppState/SET_WRONG_TOKEN'; //for old token debugging
 
+// export function onUserLoginSuccess = (profile, token) => (dispatch) => {
+//     return {
+//       dispatch(NavigationState.firstPageRoute());
+//       dispatch({
+//           type: USER_LOGIN_SUCCESS,
+//           payload: {
+//               profile: fromJS(profile),
+//               token: fromJS(token)
+//           }
+//       });
+//     }
+// }
 
 export function onUserLoginSuccess(profile, token) {
-    return {
-        type: USER_LOGIN_SUCCESS,
-        payload: {
-            profile: fromJS(profile),
-            token: fromJS(token)
-        }
-    };
+  return (dispatch) => {
+    dispatch(NavigationState.firstPageRoute());
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: {
+        profile: fromJS(profile),
+        token: fromJS(token)
+      }
+    })
+  };
 }
+
+// export function onUserLoginSuccess(profile, token) {
+//     return {
+//         type: USER_LOGIN_SUCCESS,
+//         payload: {
+//             profile: fromJS(profile),
+//             token: fromJS(token)
+//         }
+//     };
+// }
 
 export function onUserLoginError(error) {
     return {
