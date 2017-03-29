@@ -168,7 +168,6 @@ class LiveWorkout extends Component {
       const res = JSON.parse(result);
       this.props.dispatch(LiveWorkoutState.setCheckArray(res));
     })
-    // .catch(e => {})
   }
 
   componentWillReceiveProps(nextProps) {

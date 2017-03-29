@@ -25,7 +25,7 @@ export const setCheckArray = (array) => ({
 export const setLength = (len) => (dispatch) => {
   let checkMas = new Array(len).fill(false);
   AsyncStorage.getItem('checked').then(res => {
-    if (res) {
+    if (res && JSON.parse(res).length > 0) {
       let reslen = JSON.parse(res).length;
       dispatch({
         type: SET_LENGTH,
@@ -73,12 +73,13 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
     }
 
     case CLEAR_CHECK: {
-      const size = state.get('check').size;
-
-      // for (var i = 0; i < size; i ++) {
-      //   state = state.setIn(['check', i], false);
-      // }
-      // return state;
+      const size = state.get('check').length;
+      let checkMas = state.get('check');
+      for (let i = 0; i < size; i ++) {
+        checkMas[i] = false;
+      }
+      AsyncStorage.setItem('checked', JSON.stringify(checkMas));
+      return state.set('check', checkMas);
     }
 
     default:
