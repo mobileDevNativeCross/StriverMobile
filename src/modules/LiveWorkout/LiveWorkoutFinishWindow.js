@@ -160,6 +160,7 @@ class LiveWorkoutFinishWindow extends Component {
       errorFocusScore: '',
       errorComents: '',
       scroll: false,
+      finishButtonPressed: false,
   }
 
   getCurrentTimerValue = () => {
@@ -205,13 +206,13 @@ class LiveWorkoutFinishWindow extends Component {
   }
 
   handleFinishPress = () => {
-    let testVar = 'test Variable;'
-    let resultSendingFail = false;
+    this.setState({finishButtonPressed: true});
+    var testVar = 'test Variable;';
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     this.props.closeWindowFinish();
     BackgroundTimer.clearInterval(this.liveWorkoutTimer);
     this.props.clearCheck();
-    let resultObject = JSON.stringify({
+    var resultObject = JSON.stringify({
       "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
       "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
       "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
@@ -221,38 +222,45 @@ class LiveWorkoutFinishWindow extends Component {
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
     });
+
 /******************* NOT FINISHED INTERNET CHECKING*/
-      NetInfo.isConnected.fetch().done((reach) => { //checking Internet connection
-// /*REMOVE THIS LINE AFTER TESTING ON SIMULATOR*/        reach = true;
-        if (reach == true) { // if  device connected to Internet send Workout result to server
-          this.sendingWorkoutResult(resultObject);
-       } else { //if there is no Internet connection, save Workout result to AsyncStorage
-          console.warn('Check your Internet connection')
-          AsyncStorage.setItem('resultObject', resultObject);
-          console.warn('Workout result have saved in local storage to send it later.')
+    NetInfo.isConnected.fetch().done((reach_bool) => { //checking Internet connection
+      if (reach_bool == true) { // if  device connected to Internet send Workout result to server
+        this.setState({finishButtonPressed: false});
+        this.sendingWorkoutResult(resultObject);
+     } else { //if there is no Internet connection, save Workout result to AsyncStorage
+        AsyncStorage.setItem('resultObject', resultObject);
           NetInfo.addEventListener( // creating listener on connection changing
             'change',
-            handleConnectivityChange,
+            (reach) => {this.handleConnectivityChange(reach, resultObject)},
           );
-          console.log('Internet connection not provided ');
-        }
-     });
+          checkListener = BackgroundTimer.setInterval(() => {
+            console.warn('handleConnectivityChange is workng');
+          }, 1000);
+        this.props.popToStartScreen();
+      }
+   });
   }
 /******************* NOT FINISHED INTERNET CHECKING*/
 
-  handleConnectivityChange = (reach, testVar) => {
-      console.warn('reach and testVar: ', testVar);
-  //   const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
-  //   console.warn('Internet connection become: ', reach);
-  //   this.sendingWorkoutResult()
-  //
-  //   NetInfo.removeEventListener( //turning off connection listener
-  //     'change',
-  //     handleConnectivityChange
-  //   );
+  handleConnectivityChange = (reach, resultObject) => {
+    const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
+    if (isConnected) {
+      AsyncStorage.getItem('resultObject')
+        .then((savedResultObject) => {
+          this.sendingWorkoutResult(savedResultObject);
+        })
+        .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error));
+      NetInfo.removeEventListener( //turning off connection listener
+        'change',
+        this.handleConnectivityChange
+      );
+      BackgroundTimer.clearInterval(checkListener);
+    }
   };
 
   sendingWorkoutResult = (resultObject) => {
+    console.warn('sendingWorkoutResult working, sending this: ', resultObject);
     fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
       method: 'POST',
       headers: {
@@ -263,32 +271,11 @@ class LiveWorkoutFinishWindow extends Component {
     })
     .then((response) => {
       if (response.status === 200 && response.ok === true) { //checking server response on failing
-        this.props.popToStartScreen('RequestFine');
+        console.warn('POST request passed fine');
+        this.props.popToStartScreen();
       } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
         AsyncStorage.setItem('resultObject', resultObject);
-        console.log('There is something wrong. Server response: ', response);
-        AsyncStorage.getItem('resultObject') //*** NOT NESCESSARY LINE OF CODE (just for checking 'resultObject' key in AsyncStorage)
-        .then((value) => { //*** NOT NESCESSARY, for checking
-          console.log('Cashing workout next result object in AsyncStorage: ', JSON.parse(value)) //*** NOT NESCESSARY, for checking
-          console.log('POST request reattempt');
-          fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{ //reattempt
-            method: 'POST',
-            headers: {
-              'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
-              'Content-Type': 'application/json',
-            },
-            body: resultObject
-          })
-          .then((secondResponse) => {
-            if (secondResponse.status === 200 && secondResponse.ok === true) {
-              this.props.popToStartScreen('RequestFine')
-            } else { // in case of second POST request fail:
-              console.log('Reattempt failed. Second server response: ', secondResponse);
-            }
-          })
-          .catch(error => console.log('error in reattempt POST request: ', error));
-        }) //*** NOT NESCESSARY, for checking
-        .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error)); //*** NOT NESCESSARY, for checking
+        console.warn('There is something wrong. Server response: ', response);
       }
     })
     .catch((e) => {
@@ -454,7 +441,7 @@ class LiveWorkoutFinishWindow extends Component {
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                <CustomButton onPress={() => {this.onFinish()}} />
+                <CustomButton enabled={!this.state.finishButtonPressed} onPress={() => {this.onFinish()}} />
               </View>
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />

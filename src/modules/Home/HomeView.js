@@ -16,7 +16,6 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import store from '../../redux/store';
 import moment from 'moment';
-import BackgroundTimer from 'react-native-background-timer';
 import NavButton from '../../components/NavButton'
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';

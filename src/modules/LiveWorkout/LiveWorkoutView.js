@@ -153,7 +153,6 @@ class LiveWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
-    this.props.dispatch(HomeState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
       this.props.dispatch(HomeState.timerIncrement());
     }, 1000);
@@ -176,6 +175,10 @@ class LiveWorkout extends Component {
     beginWorkoutTime: null,
   }
 
+  componentWillUnmount() {
+    BackgroundTimer.clearInterval(liveWorkoutTimer);
+  }
+
   renderComleteWorkoutButton = () => {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
@@ -192,7 +195,7 @@ class LiveWorkout extends Component {
       );
   }
 
-  pop = (requestCheck) => {
+  pop = () => {
     this.props.dispatch(NavigationState.popRoute());
     this.props.dispatch(HomeState.timerReset());
   }
@@ -356,7 +359,7 @@ class LiveWorkout extends Component {
           athleteId={this.props.athleteId}
           nextWorkoutTree={this.props.nextWorkoutTree}
           nextWorkoutToken={this.props.nextWorkoutToken}
-          popToStartScreen={(requestCheck) => {this.pop(requestCheck)}}
+          popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
         />
         <NavButton />
