@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import moment from 'moment';
@@ -23,6 +24,7 @@ import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
+import store from '../../redux/store';
 
 const { width, height } = Dimensions.get('window');
 const pencil = require('../../assets/pencil.png');
@@ -162,6 +164,10 @@ class LiveWorkout extends Component {
 
   componentWillMount() {
     this.props.dispatch(HomeState.checkEnter(false));
+    AsyncStorage.getItem('checked').then(result => {
+      const res = JSON.parse(result);
+      this.setState({check: res});
+    });
   }
 
   componentWillReceiveProps() {
@@ -222,6 +228,7 @@ class LiveWorkout extends Component {
   }
 
   checkExsercise = (index) => {
+    // await AsyncStorage.setItem('checked', this.props.check);
     this.props.dispatch(LiveWorkoutState.setCheck(index));
   }
 
@@ -265,7 +272,7 @@ class LiveWorkout extends Component {
               borderOffColor={'rgba(0,0,0,.54)'}
               fillColor={MKColor.Blue}
               borderOnColor={MKColor.Blue}
-              checked={this.props.check.get(index)}
+              checked={this.state.check[index]}
               onCheckedChange={() => { this.checkExsercise(index) }}
             />
           </View>
@@ -301,7 +308,11 @@ class LiveWorkout extends Component {
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
+    // console.warn(store.getState().get('liveWorkout').get('check'));
+    // const value = await AsyncStorage.getItem('checked');
+    // console.warn(JSON.parse(AsyncStorage.getItem('checked')));
 
+    // {console.warn(JSON.stringify(value))}
     return (
       <View style={styles.viewContainer}>
         <ScrollView style={styles.container}>

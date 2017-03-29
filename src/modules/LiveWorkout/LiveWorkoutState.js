@@ -1,5 +1,6 @@
 import {Map, List} from 'immutable';
 import {loop, Effects} from 'redux-loop';
+import {AsyncStorage} from 'react-native';
 
 // Initial state
 const initialState = Map({
@@ -34,14 +35,24 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
   switch (action.type) {
     case SET_LENGTH: {
       const checkMas = new Array(action.len).fill(false);
+      // AsyncStorage.setItem('checked', JSON.stringify(checkMas));
       return state
         .set(['len'], action.len)
         .set(['check'], checkMas);
     }
 
     case SET_CHECK: {
-      return state
-        .setIn(['check', action.index], !state.getIn(['check', action.index]));
+      const newState = state.get('check').toArray();
+      newState[action.index] = !newState[action.index];
+
+      try {
+        AsyncStorage.setItem('checked', JSON.stringify(newState))
+        // AsyncStorage.setItem(['checked', action.index], !state.getIn(['check', action.index]))
+      }
+      catch (e) {
+        console.log(e);
+      }
+      return state.setIn(['check', action.index], !state.getIn(['check', action.index]));
     }
 
     case CLEAR_CHECK: {
