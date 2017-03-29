@@ -126,7 +126,6 @@ class HomeView extends Component{
 
   goToLiveWorkout() {
     if (this.props.checkEnter) {
-      this.props.dispatch(HomeState.checkEnter(false));
       this.props.dispatch(NavigationState.pushRoute({
         key: 'liveWorkout',
       }));
@@ -135,7 +134,7 @@ class HomeView extends Component{
 
   renderItem(item) {
     return (
-      <View style={styles.exerciseItem}>
+      <View key={item._id} style={styles.exerciseItem}>
         <Icon
           name="dot-single"
           size={20}

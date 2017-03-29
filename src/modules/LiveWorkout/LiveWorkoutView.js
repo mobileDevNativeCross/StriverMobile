@@ -160,6 +160,10 @@ class LiveWorkout extends Component {
     this.setState({beginWorkoutTime: gotBeginWorkoutTime});
   }
 
+  componentWillMount() {
+    this.props.dispatch(HomeState.checkEnter(false));
+  }
+
   componentWillReceiveProps() {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
   }
@@ -228,7 +232,7 @@ class LiveWorkout extends Component {
 
   renderRow = (set) => {
     return (
-      <View style={styles.viewFlexDirectionSet}>
+      <View key={set.orderId} style={styles.viewFlexDirectionSet}>
         <View style={styles.viewSetParam}>
           <Text style={styles.textSetParam}>
             {set.weight}
@@ -236,7 +240,7 @@ class LiveWorkout extends Component {
         </View>
         <View style={styles.viewSetParam}>
           <Text style={styles.textSetParam}>
-            { set.intervalTime > 0 && set.intervalTime !== null ? set.intervalTime : set.repitions}
+            { set.intervalTime > 0 && set.intervalTime !== null ? set.intervalTime : set.repetitions}
           </Text>
         </View>
         <View style={styles.viewSetParam}>
@@ -250,7 +254,7 @@ class LiveWorkout extends Component {
 
   renderItem = (item, index) => {
     return (
-      <View style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <View key={item._id} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
