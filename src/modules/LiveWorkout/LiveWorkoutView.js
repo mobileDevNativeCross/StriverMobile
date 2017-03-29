@@ -155,6 +155,7 @@ class LiveWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
+    this.props.dispatch(HomeState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
       this.props.dispatch(HomeState.timerIncrement());
     }, 1000);
