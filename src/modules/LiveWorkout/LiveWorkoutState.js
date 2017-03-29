@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native';
 
 // Initial state
 const initialState = Map({
-  check: List([]),
+  check: [],
   len: 0,
 });
 
@@ -15,10 +15,32 @@ const SET_LENGTH = 'SET_LENGTH';
 const CLEAR_CHECK = 'CLEAR_CHECK';
 
 // Action creators
-export const setLength = (len) => ({
+export const setCheckArray = (array) => ({
   type: SET_LENGTH,
-  len,
-})
+  len: array.len,
+  check: array,
+});
+
+
+export const setLength = (len) => (dispatch) => {
+  let checkMas = new Array(len).fill(false);
+  AsyncStorage.getItem('checked').then(res => {
+    if (res) {
+      let reslen = JSON.parse(res).length;
+      dispatch({
+        type: SET_LENGTH,
+        len,
+        check: JSON.parse(res),
+      })
+    } else {
+      dispatch({
+        type: SET_LENGTH,
+        len,
+        check: checkMas,
+      })
+    }
+  });
+}
 
 export const setCheck = (index) => ({
   type: SET_CHECK,
@@ -34,34 +56,29 @@ export const clearCheck = () => ({
 export default function LiveWorkoutStateReducer(state = initialState, action = {}) {
   switch (action.type) {
     case SET_LENGTH: {
-      const checkMas = new Array(action.len).fill(false);
-      // AsyncStorage.setItem('checked', JSON.stringify(checkMas));
       return state
-        .set(['len'], action.len)
-        .set(['check'], checkMas);
+        .set('len', action.len)
+        .set('check', action.check);
     }
 
     case SET_CHECK: {
-      const newState = state.get('check').toArray();
-      newState[action.index] = !newState[action.index];
-
-      try {
-        AsyncStorage.setItem('checked', JSON.stringify(newState))
-        // AsyncStorage.setItem(['checked', action.index], !state.getIn(['check', action.index]))
-      }
-      catch (e) {
-        console.log(e);
-      }
-      return state.setIn(['check', action.index], !state.getIn(['check', action.index]));
+      const newState = state.get('check').map((a, i) => {
+        if (i === action.index) {
+          return !a;
+        }
+        return a;
+      });
+      AsyncStorage.setItem('checked', JSON.stringify(newState));
+      return state.set('check', newState);
     }
 
     case CLEAR_CHECK: {
       const size = state.get('check').size;
 
-      for (var i = 0; i < size; i ++) {
-        state = state.setIn(['check', i], false);
-      }
-      return state;
+      // for (var i = 0; i < size; i ++) {
+      //   state = state.setIn(['check', i], false);
+      // }
+      // return state;
     }
 
     default:

@@ -166,11 +166,12 @@ class LiveWorkout extends Component {
     this.props.dispatch(HomeState.checkEnter(false));
     AsyncStorage.getItem('checked').then(result => {
       const res = JSON.parse(result);
-      this.setState({check: res});
-    });
+      this.props.dispatch(LiveWorkoutState.setCheckArray(res));
+    })
+    // .catch(e => {})
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
   }
 
@@ -206,7 +207,7 @@ class LiveWorkout extends Component {
   check = () => {
     let count = 0;
     for (let i=0; i<=this.state.len; i++) {
-      if (this.props.check.get(i) !== undefined && this.props.check.get(i) === true) {
+      if (this.props.check[i] !== undefined && this.props.check[i] === true) {
         count += 1;
       }
     }
@@ -228,7 +229,6 @@ class LiveWorkout extends Component {
   }
 
   checkExsercise = (index) => {
-    // await AsyncStorage.setItem('checked', this.props.check);
     this.props.dispatch(LiveWorkoutState.setCheck(index));
   }
 
@@ -260,19 +260,21 @@ class LiveWorkout extends Component {
   }
 
   renderItem = (item, index) => {
+    const {nextWorkoutTree} = this.props;
+    const liveWorkoutComponents = nextWorkoutTree.liveWorkoutComponents;
     return (
-      <View key={item._id} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
+      <View key={index} style={[styles.touchableItem, { backgroundColor: index%2===0 ? '#e7e7e7' : 'white' }]}>
         <View style={styles.viewItem}>
           <View style={styles.viewRow}>
             <Text style={styles.textExercizeName}>
-              {item.Exercise.name}
+              {liveWorkoutComponents[index].Exercise.name}
             </Text>
             <MKCheckbox
               style={{width: 24, height: 24}}
               borderOffColor={'rgba(0,0,0,.54)'}
               fillColor={MKColor.Blue}
               borderOnColor={MKColor.Blue}
-              checked={this.state.check[index]}
+              checked={item}
               onCheckedChange={() => { this.checkExsercise(index) }}
             />
           </View>
@@ -296,7 +298,7 @@ class LiveWorkout extends Component {
             </View>
           </View>
           <View style={styles.viewSetsArray}>
-            {item.sets.map(set => {return(this.renderRow(set));})}
+            {liveWorkoutComponents[index].sets.map(set => {return(this.renderRow(set));})}
           </View>
         </View>
       </View>
@@ -308,11 +310,6 @@ class LiveWorkout extends Component {
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
-    // console.warn(store.getState().get('liveWorkout').get('check'));
-    // const value = await AsyncStorage.getItem('checked');
-    // console.warn(JSON.parse(AsyncStorage.getItem('checked')));
-
-    // {console.warn(JSON.stringify(value))}
     return (
       <View style={styles.viewContainer}>
         <ScrollView style={styles.container}>
@@ -347,9 +344,8 @@ class LiveWorkout extends Component {
             {
               nextWorkoutTree.liveWorkoutComponents
               ?
-                Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
-                nextWorkoutTree.liveWorkoutComponents.map((item, index) => {
-                  return(this.renderItem(item, index));
+                this.props.check.map((item, index) => {
+                  return(this.renderItem(item, index))
                 })
               :
                 <View style={styles.activityIndicator}>
