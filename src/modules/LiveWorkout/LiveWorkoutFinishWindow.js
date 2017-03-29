@@ -205,6 +205,7 @@ class LiveWorkoutFinishWindow extends Component {
   }
 
   handleFinishPress = () => {
+    let testVar = 'test Variable;'
     let resultSendingFail = false;
     let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     this.props.closeWindowFinish();
@@ -220,10 +221,12 @@ class LiveWorkoutFinishWindow extends Component {
       "StartTime": this.props.beginWorkoutTime, //start of timer
       "EndTime": gotEndWorkoutTime, //end of timer
     });
-/******************* NOT FINISHED INTERNET CHECKING
+/******************* NOT FINISHED INTERNET CHECKING*/
       NetInfo.isConnected.fetch().done((reach) => { //checking Internet connection
-      /*REMOVE THIS LINE AFTER TESTING ON SIMULATOR/        reach = true;
-        if (reach !== true) { //if there is no Internet connection, save Workout result to AsyncStorage
+// /*REMOVE THIS LINE AFTER TESTING ON SIMULATOR*/        reach = true;
+        if (reach == true) { // if  device connected to Internet send Workout result to server
+          this.sendingWorkoutResult(resultObject);
+       } else { //if there is no Internet connection, save Workout result to AsyncStorage
           console.warn('Check your Internet connection')
           AsyncStorage.setItem('resultObject', resultObject);
           console.warn('Workout result have saved in local storage to send it later.')
@@ -232,25 +235,23 @@ class LiveWorkoutFinishWindow extends Component {
             handleConnectivityChange,
           );
           console.log('Internet connection not provided ');
-        } else { // if  device connected to Internet send Workout result to server
-*/
-          this.sendingWorkoutResult(resultObject);
-//        }
-//      });
+        }
+     });
   }
-/******************* NOT FINISHED INTERNET CHECKING
+/******************* NOT FINISHED INTERNET CHECKING*/
 
-  handleConnectivityChange = (reach) => {
-    const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
-    console.warn('Internet connection become: ', reach);
-    this.sendingWorkoutResult()
-
-    NetInfo.removeEventListener( //turning off connection listener
-      'change',
-      handleConnectivityChange
-    );
+  handleConnectivityChange = (reach, testVar) => {
+      console.warn('reach and testVar: ', testVar);
+  //   const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
+  //   console.warn('Internet connection become: ', reach);
+  //   this.sendingWorkoutResult()
+  //
+  //   NetInfo.removeEventListener( //turning off connection listener
+  //     'change',
+  //     handleConnectivityChange
+  //   );
   };
-*/
+
   sendingWorkoutResult = (resultObject) => {
     fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
       method: 'POST',
