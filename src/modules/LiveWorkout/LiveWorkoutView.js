@@ -155,7 +155,6 @@ class LiveWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
-    this.props.dispatch(HomeState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
       this.props.dispatch(HomeState.timerIncrement());
     }, 1000);
@@ -239,6 +238,12 @@ class LiveWorkout extends Component {
   clearCheck = () => {
     this.props.dispatch(LiveWorkoutState.clearCheck());
     // this.props.dispatch(HomeState.checkEnter(true));
+  }
+
+  backToHome = () => {
+    this.clearCheck();
+    BackgroundTimer.clearInterval(liveWorkoutTimer);
+    this.pop();
   }
 
   renderRow = (set) => {
@@ -336,7 +341,7 @@ class LiveWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text /* onPress={() => { this.props.dispatch(NavigationState.popRoute()); }} */ style={styles.textTop}>
+              <Text style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -346,7 +351,12 @@ class LiveWorkout extends Component {
           </View>
           <View style={styles.viewItems}>
             {
-              nextWorkoutTree.liveWorkoutComponents
+              nextWorkoutTree.liveWorkoutComponents &&
+              Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+              nextWorkoutTree.liveWorkoutComponents.length > 0 &&
+              this.props.check &&
+              Array.isArray(this.props.check) &&
+              this.props.check.length > 0
               ?
                 this.props.check.map((item, index) => {
                   return(this.renderItem(item, index))
@@ -370,7 +380,7 @@ class LiveWorkout extends Component {
           popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
         />
-        <NavButton />
+        <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/>
       </View>
     );
   }

@@ -2,52 +2,12 @@ import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
 import {setLength} from '../LiveWorkout/LiveWorkoutState';
 import * as auth0 from '../../services/auth0';
+import { AsyncStorage } from 'react-native';
 
 // Initial state
 const initialState = Map({
   checkEnter: true,
-  nextWorkoutTree: {
-  "_id": "",
-  "athleteId": "",
-  "athleteProgramId": null,
-  "athleteWorkoutId": null,
-  "workoutDate": "",
-  "intensityScore": null,
-  "goal": "",
-  "description": "",
-  "isComplete": null,
-  "completedDateTime": null,
-  "isRestDay": null,
-  "sentForCompletion": null,
-  "workoutResult": null,
-  "liveWorkoutComponents": [
-    {
-      "_id": null,
-      "WorkoutId": null,
-      "Exercise": {
-        "_id": null,
-        "name": "",
-        "mainMuscle": "",
-        "otherMuscles": null,
-        "Force": null,
-        "ExperienceLevel": null,
-        "MechanicsType": null,
-        "Equipment": null,
-        "Sport": null,
-        "Type": null,
-        "VideoUrl": null,
-        "IsCustom": null,
-        "CustomTenant": null,
-        "Guide": null
-      },
-      "notes": "",
-      "superSetParent": null,
-      "completedSet": [],
-      "completedSets": [],
-      "sets": null
-    },
-  ]
-},
+  nextWorkoutTree: {},
   loading: false,
   timerValue: 0,
   timerId: 'liveWorkoutTimer'
@@ -80,11 +40,19 @@ export const getWorkoutTree = () => (dispatch, getState) => {
       type: GET_WORKOUT_TREE,
       response: responseJson,
     }))
-    dispatch(setLength(responseJson.liveWorkoutComponents.length))
+    AsyncStorage.setItem('workoutTree', JSON.stringify(responseJson));
+    dispatch(setLength(responseJson.liveWorkoutComponents.length));
   })
   .catch((e) => {
     console.log('error in getWorkoutTree(): ', e);
   });
+}
+
+export function setWorkoutTree(workoutTree) {
+  return {
+    type: GET_WORKOUT_TREE,
+    response: workoutTree,
+  }
 }
 
 export function checkEnter(checkEnter) {
