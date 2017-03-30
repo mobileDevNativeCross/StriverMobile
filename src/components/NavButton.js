@@ -56,17 +56,38 @@ const styles = StyleSheet.create({
     height: 153,
     width: 180,
     backgroundColor: 'rgb(167, 167, 167)',
-    padding: 15,
+    paddingTop: 15,
+    paddingRight: 10,
   },
   navMenuText: {
     color: 'white',
     fontSize: 18,
     fontFamily: bold,
-    margin: 10,
   },
   navButton: {
     height: 56,
     width: 56,
+  },
+  viewFlexDirection: {
+    flexDirection: 'row',
+  },
+  viewHome: {
+    marginTop: 7,
+    marginLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 20,
+    borderBottomWidth: 1,
+    borderColor: 'white',
+  },
+  viewHistory: {
+    marginTop: 5,
+    marginLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
 
@@ -134,16 +155,24 @@ class NavButton extends Component {
             >
             </TouchableOpacity>
             <View style={styles.navMenu}>
-              <TouchableOpacity>
-                <Text style={styles.navMenuText}>
-                  Home
-                </Text>
+              <TouchableOpacity onPress={() => {this.props.onPressHome()}} style={styles.touchOpacityMenuHome}>
+                <View style={styles.viewFlexDirection}>
+                  <View style={styles.viewHome}>
+                    <Text
+                      style={styles.navMenuText}
+                      >
+                      {this.props.titleHome ? this.props.titleHome : 'Home'}
+                    </Text>
+                  </View>
+                  <View style={{flex: 1}}></View>
+                </View>
               </TouchableOpacity>
-              <View style={{backgroundColor: 'white', height: 1, width: 90,}}></View>
-              <TouchableOpacity>
-                <Text style={styles.navMenuText}>
-                  History
-                </Text>
+              <TouchableOpacity style={styles.touchOpacityMenuHistory}>
+                <View style={styles.viewHistory}>
+                  <Text style={styles.navMenuText}>
+                    History
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -168,6 +197,13 @@ class NavButton extends Component {
   }
 }
 
+NavButton.propTypes = {
+  titleHome: PropTypes.string,
+  onPressHome: PropTypes.func,
+}
 
+NavButton.defaultProps = {
+  onPressHome: () => {},
+}
 
 export default NavButton;

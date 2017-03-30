@@ -13,6 +13,9 @@ const {
   PropTypes: NavigationPropTypes
 } = NavigationExperimental;
 import AppRouter from '../AppRouter';
+import {
+  MKColor,
+} from 'react-native-material-kit';
 
 const logo = require('../../assets/logo.png');
 const { width, height } = Dimensions.get('window');
@@ -95,6 +98,7 @@ const styles = StyleSheet.create({
  imageLogo: {
    width: 30,
    height: 50,
+   tintColor: MKColor.LightBlue,
  },
 });
 

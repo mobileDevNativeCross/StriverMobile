@@ -240,6 +240,12 @@ class LiveWorkout extends Component {
     this.props.dispatch(HomeState.checkEnter(true));
   }
 
+  backToHome = () => {
+    this.clearCheck();
+    BackgroundTimer.clearInterval(liveWorkoutTimer);
+    this.pop();
+  }
+
   renderRow = (set) => {
     return (
       <View key={set.orderId} style={styles.viewFlexDirectionSet}>
@@ -369,7 +375,7 @@ class LiveWorkout extends Component {
           popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
         />
-        <NavButton />
+        <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/>
       </View>
     );
   }
