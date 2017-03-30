@@ -340,7 +340,7 @@ class LiveWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text /* onPress={() => { this.props.dispatch(NavigationState.popRoute()); }} */ style={styles.textTop}>
+              <Text style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -350,9 +350,13 @@ class LiveWorkout extends Component {
           </View>
           <View style={styles.viewItems}>
             {
-              nextWorkoutTree.liveWorkoutComponents && this.props.check.length > 0
+              nextWorkoutTree.liveWorkoutComponents &&
+              Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+              nextWorkoutTree.liveWorkoutComponents.length > 0 &&
+              this.props.check &&
+              Array.isArray(this.props.check) &&
+              this.props.check.length > 0
               ?
-                // console.warn(this.props.check)
                 this.props.check.map((item, index) => {
                   return(this.renderItem(item, index))
                 })

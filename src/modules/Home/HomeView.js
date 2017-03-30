@@ -136,6 +136,7 @@ class HomeView extends Component{
   }
 
   renderItem(item) {
+    console.warn('ITEM',item);
     return (
       <View key={item._id} style={styles.exerciseItem}>
         <Icon
@@ -198,15 +199,14 @@ class HomeView extends Component{
               <View >
                 {
                   this.props.nextWorkoutTree.liveWorkoutComponents &&
-                  // Array.isArray(this.props.nextWorkoutTree.liveWorkoutComponents) &&
+                  Array.isArray(this.props.nextWorkoutTree.liveWorkoutComponents) &&
                   this.props.nextWorkoutTree.liveWorkoutComponents.length > 0
                   ?
                     this.props.nextWorkoutTree.liveWorkoutComponents.map(item => { return(this.renderItem(item)); })
                   :
-                  console.warn('HERE')
-                    // <View style={styles.exercisesLoading}>
-                    //   <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />
-                    // </View>
+                    <View style={styles.exercisesLoading}>
+                      <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />
+                    </View>
                 }
               </View>
             </View>
