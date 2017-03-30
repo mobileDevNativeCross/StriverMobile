@@ -6,6 +6,7 @@ import {AsyncStorage} from 'react-native';
 const initialState = Map({
   check: [],
   len: 0,
+  show: false,
 });
 
 
@@ -13,6 +14,7 @@ const initialState = Map({
 const SET_CHECK = 'SET_CHECK';
 const SET_LENGTH = 'SET_LENGTH';
 const CLEAR_CHECK = 'CLEAR_CHECK';
+const SHOW_WINDOW = 'SHOW_WINDOW';
 
 // Action creators
 export const setCheckArray = (array) => ({
@@ -52,6 +54,12 @@ export const clearCheck = () => ({
   type: CLEAR_CHECK,
 });
 
+export const showWindowFinish = (show) => dispatch => {
+  dispatch({
+    type: SHOW_WINDOW,
+    show: show,
+  })
+}
 
 // Reducer
 export default function LiveWorkoutStateReducer(state = initialState, action = {}) {
@@ -81,6 +89,11 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
       }
       AsyncStorage.setItem('checked', JSON.stringify(checkMas));
       return state.set('check', checkMas);
+    }
+
+    case SHOW_WINDOW: {
+      AsyncStorage.setItem('showWindowFinish', JSON.stringify(state.get('show')))
+      return state.set('show', action.show);
     }
 
     default:
