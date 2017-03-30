@@ -13,6 +13,7 @@ import {
   AsyncStorage,
   KeyboardAvoidingView,
   NetInfo,
+  Alert,
 } from 'react-native';
 import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
@@ -30,6 +31,7 @@ import * as HomeState from '../Home/HomeState';
 import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
+const testConnectionListenerWorking = false;
 
 const styles = StyleSheet.create({
   container: {
@@ -230,27 +232,43 @@ class LiveWorkoutFinishWindow extends Component {
         this.sendingWorkoutResult(resultObject);
      } else { //if there is no Internet connection, save Workout result to AsyncStorage
         AsyncStorage.setItem('resultObject', resultObject);
-          NetInfo.addEventListener( // creating listener on connection changing
-            'change',
-            (reach) => {this.handleConnectivityChange(reach, resultObject)},
-          );
-          checkListener = BackgroundTimer.setInterval(() => {
-            console.warn('handleConnectivityChange is workng');
-          }, 1000);
-        this.props.popToStartScreen();
+        if (!testConnectionListenerWorking) {
+          testConnectionListenerWorking = true;
+          console.warn('set testConnectionListener', testConnectionListenerWorking);
+            NetInfo.addEventListener( // creating listener on connection changing
+              'change',
+              this.handleConnectivityChange
+            );
+            checkListener = BackgroundTimer.setInterval(() => {
+              console.warn('Internet connection checking');
+            }, 1000);
+        };
+          Alert.alert(
+            'No Internet Connection',
+            'Unable to send workout result. Please check your Internet connection. Don\'t start next workout before StriverMobile will send previous one after getting connection.',
+            [
+              {text: 'OK', onPress: () => this.props.popToStartScreen()},
+            ],
+            { cancelable: false }
+          )
       }
    });
   }
 /******************* NOT FINISHED INTERNET CHECKING*/
 
-  handleConnectivityChange = (reach, resultObject) => {
-    const isConnected = (reach.toLowerCase() !== 'none' && reach.toLowerCase() !== 'unknown');
+  handleConnectivityChange = (reach) => {
+    console.warn('reach: ', reach);
+    console.warn('handleConnectivityChange');
+    const isConnected = ((reach.toLowerCase() !== 'none') && (reach.toLowerCase() !== 'unknown'));
     if (isConnected) {
       AsyncStorage.getItem('resultObject')
         .then((savedResultObject) => {
           this.sendingWorkoutResult(savedResultObject);
+          console.warn('deleteResultObject', deleteResultObject);
         })
         .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error));
+      testConnectionListenerWorking = false;
+      console.warn('set testConnectionListener', testConnectionListenerWorking);
       NetInfo.removeEventListener( //turning off connection listener
         'change',
         this.handleConnectivityChange
@@ -275,6 +293,14 @@ class LiveWorkoutFinishWindow extends Component {
         this.props.popToStartScreen();
       } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
         AsyncStorage.setItem('resultObject', resultObject);
+        Alert.alert(
+          'Bad server respond',
+          'Unable to Save Workout At This Time.',
+          [
+            {text: 'OK', onPress: () => this.props.popToStartScreen()},
+          ],
+          { cancelable: false }
+        )
         console.warn('There is something wrong. Server response: ', response);
       }
     })

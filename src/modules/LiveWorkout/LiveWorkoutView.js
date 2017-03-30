@@ -204,6 +204,7 @@ class LiveWorkout extends Component {
 
   pop = () => {
     this.props.dispatch(NavigationState.popRoute());
+    this.props.dispatch(HomeState.checkEnter(true));
     this.props.dispatch(HomeState.timerReset());
   }
 
@@ -237,7 +238,7 @@ class LiveWorkout extends Component {
 
   clearCheck = () => {
     this.props.dispatch(LiveWorkoutState.clearCheck());
-    this.props.dispatch(HomeState.checkEnter(true));
+    // this.props.dispatch(HomeState.checkEnter(true));
   }
 
   renderRow = (set) => {
