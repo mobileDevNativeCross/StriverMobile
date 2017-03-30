@@ -155,7 +155,6 @@ class LiveWorkout extends Component {
   componentDidMount(){
     let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     //starting timer
-    this.props.dispatch(HomeState.getWorkoutTree());
     liveWorkoutTimer = BackgroundTimer.setInterval(() => {
       this.props.dispatch(HomeState.timerIncrement());
     }, 1000);
@@ -351,8 +350,9 @@ class LiveWorkout extends Component {
           </View>
           <View style={styles.viewItems}>
             {
-              nextWorkoutTree.liveWorkoutComponents
+              nextWorkoutTree.liveWorkoutComponents && this.props.check.length > 0
               ?
+                // console.warn(this.props.check)
                 this.props.check.map((item, index) => {
                   return(this.renderItem(item, index))
                 })

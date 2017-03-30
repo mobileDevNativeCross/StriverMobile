@@ -2,6 +2,7 @@ import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop';
 import {setLength} from '../LiveWorkout/LiveWorkoutState';
 import * as auth0 from '../../services/auth0';
+import { AsyncStorage } from 'react-native';
 
 // Initial state
 const initialState = Map({
@@ -80,11 +81,19 @@ export const getWorkoutTree = () => (dispatch, getState) => {
       type: GET_WORKOUT_TREE,
       response: responseJson,
     }))
-    dispatch(setLength(responseJson.liveWorkoutComponents.length))
+    AsyncStorage.setItem('workoutTree', JSON.stringify(responseJson));
+    dispatch(setLength(responseJson.liveWorkoutComponents.length));
   })
   .catch((e) => {
     console.log('error in getWorkoutTree(): ', e);
   });
+}
+
+export function setWorkoutTree(workoutTree) {
+  return {
+    type: GET_WORKOUT_TREE,
+    response: workoutTree, 
+  }
 }
 
 export function checkEnter(checkEnter) {

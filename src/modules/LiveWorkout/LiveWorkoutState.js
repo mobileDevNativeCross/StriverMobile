@@ -23,7 +23,7 @@ export const setCheckArray = (array) => ({
 
 
 export const setLength = (len) => (dispatch) => {
-  let checkMas = new Array(len).fill(false);
+  const checkMas = new Array(len).fill(false);
   AsyncStorage.getItem('checked').then(res => {
     if (res && JSON.parse(res).length > 0) {
       let reslen = JSON.parse(res).length;
@@ -33,6 +33,7 @@ export const setLength = (len) => (dispatch) => {
         check: JSON.parse(res),
       })
     } else {
+      AsyncStorage.setItem('checked', JSON.stringify(checkMas))
       dispatch({
         type: SET_LENGTH,
         len,

@@ -12,6 +12,7 @@ import {
   ListView,
   Platform,
   ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import store from '../../redux/store';
@@ -112,14 +113,17 @@ class HomeView extends Component{
   }
 
   componentWillMount() {
-    this.props.dispatch(HomeState.getWorkoutTree());
+    AsyncStorage.getItem('workoutTree').then(result => {
+      if (result) {
+        this.props.dispatch(HomeState.setWorkoutTree(JSON.parse(result)));
+      }
+    });
     this.props.dispatch(HomeState.checkEnter(true));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
       this.setState({ isLoaded: true });
-      this.props.dispatch(HomeState.getWorkoutTree()); // not sure this line is necessary
     }
   }
 
@@ -153,7 +157,7 @@ class HomeView extends Component{
     const Focus = this.props.nextWorkoutTree.goal;
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
-    const exercisesArr = this.props.nextWorkoutTree.liveWorkoutComponents;
+    // const exercisesArr = this.props.nextWorkoutTree.liveWorkoutComponents;
 
     return (
       <View style={styles.container}>
@@ -193,13 +197,16 @@ class HomeView extends Component{
               </Text>
               <View >
                 {
-                  (Array.isArray(exercisesArr))
+                  this.props.nextWorkoutTree.liveWorkoutComponents &&
+                  // Array.isArray(this.props.nextWorkoutTree.liveWorkoutComponents) &&
+                  this.props.nextWorkoutTree.liveWorkoutComponents.length > 0
                   ?
-                    exercisesArr.map(item => { return(this.renderItem(item)); })
+                    this.props.nextWorkoutTree.liveWorkoutComponents.map(item => { return(this.renderItem(item)); })
                   :
-                    <View style={styles.exercisesLoading}>
-                      <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />
-                    </View>
+                  console.warn('HERE')
+                    // <View style={styles.exercisesLoading}>
+                    //   <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />
+                    // </View>
                 }
               </View>
             </View>
