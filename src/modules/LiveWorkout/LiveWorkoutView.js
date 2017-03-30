@@ -231,6 +231,7 @@ class LiveWorkout extends Component {
 
   backToHome = () => {
     this.clearCheck();
+    this.closeWindowFinish();
     this.pop();
   }
 
