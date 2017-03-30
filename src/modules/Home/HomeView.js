@@ -160,7 +160,7 @@ class HomeView extends Component{
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
     // const exercisesArr = this.props.nextWorkoutTree.liveWorkoutComponents;
-
+    const { nextWorkoutTree } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -199,11 +199,11 @@ class HomeView extends Component{
               </Text>
               <View >
                 {
-                  this.props.nextWorkoutTree.liveWorkoutComponents &&
-                  Array.isArray(this.props.nextWorkoutTree.liveWorkoutComponents) &&
-                  this.props.nextWorkoutTree.liveWorkoutComponents.length > 0
+                  nextWorkoutTree.liveWorkoutComponents &&
+                  Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
+                  nextWorkoutTree.liveWorkoutComponents.length > 0
                   ?
-                    this.props.nextWorkoutTree.liveWorkoutComponents.map(item => { return(this.renderItem(item)); })
+                    nextWorkoutTree.liveWorkoutComponents.map(item => { return(this.renderItem(item)); })
                   :
                     <View style={styles.exercisesLoading}>
                       <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />

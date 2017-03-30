@@ -182,9 +182,8 @@ class LiveWorkout extends Component {
       .build();
       return (
         <CompleteWorkout
-          onPress={() => {
-            this.setWindowFinishVisible();
-          }}
+          onPress={() => {this.setWindowFinishVisible(true)}}
+
           disabled={this.check()}
         />
       );
@@ -212,14 +211,14 @@ class LiveWorkout extends Component {
     // return !(this.state.len > 0 && count === this.state.len);
   }
 
-  setWindowFinishVisible = () => {
-    this.setState({windowFinishVisible : true});
+  setWindowFinishVisible = (visible) => {
+    this.props.dispatch(LiveWorkoutState.showWindowFinish(visible));
     let endWorkoutTime = moment().format();
     AsyncStorage.setItem('endWorkoutTime', endWorkoutTime);
   }
 
   closeWindowFinish = () => {
-    this.setState({windowFinishVisible : false});
+    this.props.dispatch(LiveWorkoutState.showWindowFinish(false));
   }
 
   checkExsercise = (index) => {
@@ -304,7 +303,7 @@ class LiveWorkout extends Component {
   }
 
   render() {
-    const { workOut, PRE, timeDate, focus, nextWorkoutTree, currentTimerValue } = this.props;
+    const { workOut, PRE, timeDate, focus, nextWorkoutTree, currentTimerValue, check } = this.props;
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
@@ -343,11 +342,11 @@ class LiveWorkout extends Component {
               nextWorkoutTree.liveWorkoutComponents &&
               Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
               nextWorkoutTree.liveWorkoutComponents.length > 0 &&
-              this.props.check &&
-              Array.isArray(this.props.check) &&
-              this.props.check.length > 0
+              check &&
+              Array.isArray(check) &&
+              check.length > 0
               ?
-                this.props.check.map((item, index) => {
+                check.map((item, index) => {
                   return(this.renderItem(item, index))
                 })
               :
@@ -360,8 +359,8 @@ class LiveWorkout extends Component {
         <LiveWorkoutFinishWindow
           currentTimerValue={currentTimerValue}
           closeWindowFinish={() => {this.closeWindowFinish()}}
-          windowFinishVisible={this.state.windowFinishVisible}
-          setWindowFinishVisible={() => {this.setWindowFinishVisible()}}
+          windowFinishVisible={this.props.showWindowFinish}
+          setWindowFinishVisible={(visible) => {this.setWindowFinishVisible(visible)}}
           beginWorkoutTime={this.state.beginWorkoutTime}
           athleteId={this.props.athleteId}
           nextWorkoutTree={this.props.nextWorkoutTree}
