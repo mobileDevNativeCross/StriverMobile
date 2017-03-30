@@ -1,4 +1,7 @@
 import {
+  AsyncStorage,
+} from 'react-native';
+import {
     Map,
     fromJS
 } from 'immutable';
@@ -31,7 +34,8 @@ export function onUserLoginSuccess(profile, token) {
     dispatch(NavigationState.firstPageRoute());
     dispatch(HomeState.checkEnter(true));
     dispatch(LiveWorkoutState.clearCheck());
-    dispatch(HomeState.timerReset());
+    AsyncStorage.setItem('beginWorkoutTime', '');
+    AsyncStorage.setItem('endWorkoutTime', '');
     dispatch(HomeState.getWorkoutTree());
   };
 }

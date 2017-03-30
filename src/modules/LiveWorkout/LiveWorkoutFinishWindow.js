@@ -19,6 +19,7 @@ import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
 import moment from 'moment';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import preciseDiff from 'moment-precise-range-plugin';
 import {
   MKTextField,
   MKColor,
@@ -32,6 +33,8 @@ import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
 const testConnectionListenerWorking = false;
+var endWorkoutTime = "";
+var startWorkoutTime = "";
 
 const styles = StyleSheet.create({
   container: {
@@ -154,6 +157,23 @@ const CustomButton = MKButton.button()
 
 class LiveWorkoutFinishWindow extends Component {
 
+componentWillReceiveProps(nextProps)
+{
+  if (nextProps.windowFinishVisible) {
+    AsyncStorage.getItem('endWorkoutTime')
+      .then((asyncEndWorkoutTime) => {
+        endWorkoutTime = asyncEndWorkoutTime;
+      })
+      .catch(error => console.log('error in AsyncStorage.getItem(\'endWorkoutTime\'): ', error));
+    AsyncStorage.getItem('beginWorkoutTime')
+      .then((asyncStartWorkoutTime) => {
+        startWorkoutTime = asyncStartWorkoutTime;
+        let getWorkoutDuration = moment(startWorkoutTime).preciseDiff(endWorkoutTime);
+        this.setState({workoutDuration: getWorkoutDuration})
+      })
+      .catch(error => console.log('error in AsyncStorage.getItem(\'startWorkoutTime\'): ', error));
+  }
+}
   state={
       intensityScoreText: '',
       focusScoreText: '',
@@ -163,24 +183,7 @@ class LiveWorkoutFinishWindow extends Component {
       errorComents: '',
       scroll: false,
       finishButtonPressed: false,
-  }
-
-  getCurrentTimerValue = () => {
-    let currentTimerValue = this.props.currentTimerValue;
-    const sec = (currentTimerValue % 60);
-    let min = (currentTimerValue - sec) / 60;
-    if (min<=0) {
-      const showTime = `${sec} seconds`;
-      return showTime;
-    }
-    if (min>=60) {
-      min_left = (min % 60);
-      const hour = ((min - min_left) / 60);
-      const showTime = `${hour} hour ${min_left} minutes ${sec} seconds`;
-      return showTime;
-    }
-    const showTime = `${min} minutes ${sec} seconds`;
-    return showTime;
+      workoutDuration: null,
   }
 
   getHeight = () => {
@@ -208,11 +211,10 @@ class LiveWorkoutFinishWindow extends Component {
   }
 
   handleFinishPress = () => {
+    let sendStartTime = moment(startWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
+    let sendEndTime = moment(endWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
     this.setState({finishButtonPressed: true});
-    var testVar = 'test Variable;';
-    let gotEndWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
     this.props.closeWindowFinish();
-    BackgroundTimer.clearInterval(this.liveWorkoutTimer);
     this.props.clearCheck();
     var resultObject = JSON.stringify({
       "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
@@ -221,11 +223,10 @@ class LiveWorkoutFinishWindow extends Component {
       "PerceivedIntensityScore": Number(this.state.intensityScoreText), //scaled 1-10
       "PerceivedFocusScore": Number(this.state.focusScoreText), //scaled 1-10
       "Notes": this.state.comments, //string
-      "StartTime": this.props.beginWorkoutTime, //start of timer
-      "EndTime": gotEndWorkoutTime, //end of timer
+      "StartTime": sendStartTime, //start of timer
+      "EndTime": sendEndTime, //end of timer
     });
 
-/******************* NOT FINISHED INTERNET CHECKING*/
     NetInfo.isConnected.fetch().done((reach_bool) => { //checking Internet connection
       if (reach_bool == true) { // if  device connected to Internet send Workout result to server
         this.setState({finishButtonPressed: false});
@@ -234,7 +235,6 @@ class LiveWorkoutFinishWindow extends Component {
         AsyncStorage.setItem('resultObject', resultObject);
         if (!testConnectionListenerWorking) {
           testConnectionListenerWorking = true;
-          console.warn('set testConnectionListener', testConnectionListenerWorking);
             NetInfo.addEventListener( // creating listener on connection changing
               'change',
               this.handleConnectivityChange
@@ -254,11 +254,8 @@ class LiveWorkoutFinishWindow extends Component {
       }
    });
   }
-/******************* NOT FINISHED INTERNET CHECKING*/
 
   handleConnectivityChange = (reach) => {
-    console.warn('reach: ', reach);
-    console.warn('handleConnectivityChange');
     const isConnected = ((reach.toLowerCase() !== 'none') && (reach.toLowerCase() !== 'unknown'));
     if (isConnected) {
       AsyncStorage.getItem('resultObject')
@@ -268,7 +265,6 @@ class LiveWorkoutFinishWindow extends Component {
         })
         .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error));
       testConnectionListenerWorking = false;
-      console.warn('set testConnectionListener', testConnectionListenerWorking);
       NetInfo.removeEventListener( //turning off connection listener
         'change',
         this.handleConnectivityChange
@@ -445,7 +441,7 @@ class LiveWorkoutFinishWindow extends Component {
               </View>
               <View style={styles.viewTime}>
                 <Text style={styles.textIntensityScore}>
-                  Time: {this.getCurrentTimerValue()}
+                  Time: {this.state.workoutDuration}
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>

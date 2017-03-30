@@ -62,22 +62,9 @@ export function checkEnter(checkEnter) {
   };
 }
 
-export function timerIncrement() {
-  return {type: TIMER_INCREMENT};
-}
-
-export function timerReset() {
-  return {type: TIMER_RESET};
-}
-
 // Reducer
 export default function HomeStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case TIMER_INCREMENT:
-      return state.update('timerValue', timerValue => timerValue + 1);
-
-    case TIMER_RESET:
-      return state.update('timerValue', timerValue => 0);
 
     case GET_WORKOUT_TREE: {
       return state
