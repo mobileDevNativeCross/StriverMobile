@@ -19,7 +19,6 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 
 import * as HomeState from '../Home/HomeState';
 import * as LiveWorkoutState from './LiveWorkoutState';
-import BackgroundTimer from 'react-native-background-timer';
 import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
@@ -152,14 +151,6 @@ const styles = StyleSheet.create({
 });
 
 class LiveWorkout extends Component {
-  componentDidMount(){
-    let gotBeginWorkoutTime = moment().format("YYYY-DD-MM[T]HH:mm:ss");
-    //starting timer
-    liveWorkoutTimer = BackgroundTimer.setInterval(() => {
-      this.props.dispatch(HomeState.timerIncrement());
-    }, 1000);
-    this.setState({beginWorkoutTime: gotBeginWorkoutTime});
-  }
 
   componentWillMount() {
     this.props.dispatch(HomeState.checkEnter(false));
@@ -181,10 +172,6 @@ class LiveWorkout extends Component {
     beginWorkoutTime: null,
   }
 
-  componentWillUnmount() {
-    BackgroundTimer.clearInterval(liveWorkoutTimer);
-  }
-
   renderComleteWorkoutButton = () => {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
@@ -195,7 +182,9 @@ class LiveWorkout extends Component {
       .build();
       return (
         <CompleteWorkout
-          onPress={() => {this.setWindowFinishVisible()}}
+          onPress={() => {
+            this.setWindowFinishVisible();
+          }}
           disabled={this.check()}
         />
       );
@@ -204,7 +193,8 @@ class LiveWorkout extends Component {
   pop = () => {
     this.props.dispatch(NavigationState.popRoute());
     this.props.dispatch(HomeState.checkEnter(true));
-    this.props.dispatch(HomeState.timerReset());
+    AsyncStorage.setItem('beginWorkoutTime', '');
+    AsyncStorage.setItem('endWorkoutTime', '');
   }
 
   check = () => {
@@ -224,7 +214,8 @@ class LiveWorkout extends Component {
 
   setWindowFinishVisible = () => {
     this.setState({windowFinishVisible : true});
-    BackgroundTimer.clearInterval(liveWorkoutTimer);
+    let endWorkoutTime = moment().format();
+    AsyncStorage.setItem('endWorkoutTime', endWorkoutTime);
   }
 
   closeWindowFinish = () => {
@@ -237,12 +228,10 @@ class LiveWorkout extends Component {
 
   clearCheck = () => {
     this.props.dispatch(LiveWorkoutState.clearCheck());
-    // this.props.dispatch(HomeState.checkEnter(true));
   }
 
   backToHome = () => {
     this.clearCheck();
-    BackgroundTimer.clearInterval(liveWorkoutTimer);
     this.pop();
   }
 
