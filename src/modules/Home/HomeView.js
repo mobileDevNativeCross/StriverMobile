@@ -136,7 +136,6 @@ class HomeView extends Component{
   }
 
   renderItem(item) {
-    console.warn('ITEM',item);
     return (
       <View key={item._id} style={styles.exerciseItem}>
         <Icon
