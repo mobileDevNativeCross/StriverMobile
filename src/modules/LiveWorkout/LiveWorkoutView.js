@@ -241,6 +241,7 @@ class LiveWorkout extends Component {
 
   backToHome = () => {
     this.clearCheck();
+    this.closeWindowFinish();
     BackgroundTimer.clearInterval(liveWorkoutTimer);
     this.pop();
   }
@@ -314,7 +315,7 @@ class LiveWorkout extends Component {
   }
 
   render() {
-    const { workOut, PRE, timeDate, focus, nextWorkoutTree, currentTimerValue } = this.props;
+    const { workOut, PRE, timeDate, focus, nextWorkoutTree, currentTimerValue, check } = this.props;
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
@@ -353,11 +354,11 @@ class LiveWorkout extends Component {
               nextWorkoutTree.liveWorkoutComponents &&
               Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
               nextWorkoutTree.liveWorkoutComponents.length > 0 &&
-              this.props.check &&
-              Array.isArray(this.props.check) &&
-              this.props.check.length > 0
+              check &&
+              Array.isArray(check) &&
+              check.length > 0
               ?
-                this.props.check.map((item, index) => {
+                check.map((item, index) => {
                   return(this.renderItem(item, index))
                 })
               :

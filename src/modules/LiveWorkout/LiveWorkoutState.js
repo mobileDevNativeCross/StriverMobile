@@ -92,7 +92,7 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
     }
 
     case SHOW_WINDOW: {
-      AsyncStorage.setItem('showWindowFinish', JSON.stringify(state.get('show')))
+      AsyncStorage.setItem('showWindowFinish', JSON.stringify(action.show))
       return state.set('show', action.show);
     }
 

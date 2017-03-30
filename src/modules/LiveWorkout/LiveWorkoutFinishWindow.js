@@ -416,24 +416,6 @@ class LiveWorkoutFinishWindow extends Component {
                   </Text>
                 }
               </View>
-              {/* <View style={styles.viewComments}>
-                <View>
-                  <Text style={styles.textIntensityScore}>
-                    Comments:
-                  </Text>
-                </View>
-                <TextfieldComment
-                  onChangeText={this.setComments}
-                  value={this.state.comments}
-                  multiline
-                  underlineSize={3}
-                  autoCorrect={false}
-                  selectionColor={'#409ac9'}
-                  underlineColorAndroid="transparent"
-                  onFocus={() => {this.setState({scroll: true})}}
-                  onBlur={() => {this.setState({scroll: false})}}
-                />
-              </View> */}
               <View style={styles.viewComments}>
                 <Text style={styles.textIntensityScore}>
                   Comments:
