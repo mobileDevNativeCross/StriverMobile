@@ -1,34 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
   ScrollView,
   Platform,
   Dimensions,
-  Image,
-  TouchableOpacity,
-  TouchableHighlight,
   ActivityIndicator,
   AsyncStorage,
 } from 'react-native';
-import CheckBox from 'react-native-checkbox';
 import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as auth0 from '../../services/auth0';
-
 import * as HomeState from '../Home/HomeState';
 import * as LiveWorkoutState from './LiveWorkoutState';
 import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
-import store from '../../redux/store';
 
 const { width, height } = Dimensions.get('window');
-const pencil = require('../../assets/pencil.png');
-const liveWorkoutTimer = 'workOutTimer';
+// const pencil = require('../../assets/pencil.png');
 const {
   MKButton,
   MKColor,
@@ -89,7 +81,6 @@ const styles = StyleSheet.create({
   },
   viewItem: {
     justifyContent: 'center',
-
     width: (width),
   },
   textExercizeName: {
@@ -97,12 +88,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     width: (width / 1.4),
     fontFamily: bold
-  },
-  checkboxStyle: {
-    tintColor: '#979797',
-    borderWidth: 2.8,
-    borderColor: '#979797',
-    backgroundColor: '#ededed',
   },
   viewSetsFlex: {
     flexDirection: 'row',
@@ -163,7 +148,6 @@ class LiveWorkout extends Component {
     })
     .then((response) => {
       if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-        // console.warn('SHOW LOGIN');
         auth0.showLogin()
           .catch(e => console.log('error in showLogin()', e))
       }
@@ -184,8 +168,8 @@ class LiveWorkout extends Component {
   }
 
   state={
-    check: [],
-    disable: true,
+    // check: [],
+    // disable: true,
     len: 0,
     windowFinishVisible: false,
     beginWorkoutTime: null,
@@ -201,7 +185,6 @@ class LiveWorkout extends Component {
       return (
         <CompleteWorkout
           onPress={() => {this.setWindowFinishVisible(true)}}
-
           disabled={this.check()}
         />
       );
@@ -226,7 +209,6 @@ class LiveWorkout extends Component {
       return false;
     }
     return true;
-    // return !(this.state.len > 0 && count === this.state.len);
   }
 
   setWindowFinishVisible = (visible) => {

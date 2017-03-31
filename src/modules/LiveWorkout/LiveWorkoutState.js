@@ -1,5 +1,4 @@
-import {Map, List} from 'immutable';
-import {loop, Effects} from 'redux-loop';
+import {Map} from 'immutable';
 import {AsyncStorage} from 'react-native';
 
 // Initial state
@@ -22,7 +21,6 @@ export const setCheckArray = (array) => ({
   len: array.len,
   check: array,
 });
-
 
 export const setLength = (len) => (dispatch) => {
   const checkMas = new Array(len).fill(false);
