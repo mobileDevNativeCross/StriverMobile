@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {View, StyleSheet, ActivityIndicator, AsyncStorage} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import * as auth0 from '../services/auth0';
 import * as snapshotUtil from '../utils/snapshot';
@@ -22,7 +22,6 @@ const AppView = React.createClass({
         } else {
           dispatch(SessionStateActions.initializeSessionState());
         }
-
         store.subscribe(() => {
           snapshotUtil.saveSnapshot(store.getState());
         });
@@ -40,7 +39,6 @@ const AppView = React.createClass({
 
 
   render() {
-    // console.disableYellowBox = true;
     if (!this.props.isReady) {
       return (
         <View style={{flex: 1}}>
