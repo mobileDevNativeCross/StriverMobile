@@ -14,6 +14,7 @@ import {
   KeyboardAvoidingView,
   NetInfo,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
@@ -148,13 +149,6 @@ const TextfieldComment = MKTextField.textfield()
   .withHighlightColor('#409ac9')
   .build();
 
-const CustomButton = MKButton.button()
-  .withBackgroundColor(MKColor.Blue)
-  .withStyle(styles.button)
-  .withTextStyle(styles.textFinish)
-  .withText('Finish')
-  .build();
-
 class LiveWorkoutFinishWindow extends Component {
 
 componentWillReceiveProps(nextProps)
@@ -182,8 +176,9 @@ componentWillReceiveProps(nextProps)
       errorFocusScore: '',
       errorComents: '',
       scroll: false,
-      finishButtonPressed: false,
+      // finishButtonPressed: false,
       workoutDuration: null,
+      loadResult: false,
   }
 
   getHeight = () => {
@@ -208,14 +203,13 @@ componentWillReceiveProps(nextProps)
     } else if (errorIntensityScore.length === 0 && errorFocusScore.length === 0 && errorComents.length === 0) {
       this.handleFinishPress();
     }
+    console.warn('HERE');
   }
 
   handleFinishPress = () => {
     let sendStartTime = moment(startWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
     let sendEndTime = moment(endWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
-    this.setState({finishButtonPressed: true});
-    this.props.closeWindowFinish();
-    this.props.clearCheck();
+    // this.setState({finishButtonPressed: true});
     var resultObject = JSON.stringify({
       "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
       "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
@@ -229,7 +223,7 @@ componentWillReceiveProps(nextProps)
 
     NetInfo.isConnected.fetch().done((reach_bool) => { //checking Internet connection
       if (reach_bool == true) { // if  device connected to Internet send Workout result to server
-        this.setState({finishButtonPressed: false});
+        // this.setState({finishButtonPressed: false});
         this.sendingWorkoutResult(resultObject);
      } else { //if there is no Internet connection, save Workout result to AsyncStorage
         AsyncStorage.setItem('resultObject', resultObject);
@@ -247,7 +241,7 @@ componentWillReceiveProps(nextProps)
             'No Internet Connection',
             'Unable to send workout result. Please check your Internet connection. Don\'t start next workout before StriverMobile will send previous one after getting connection.',
             [
-              {text: 'OK', onPress: () => this.props.popToStartScreen()},
+              {text: 'OK', onPress: () => {}},
             ],
             { cancelable: false }
           )
@@ -274,6 +268,9 @@ componentWillReceiveProps(nextProps)
   };
 
   sendingWorkoutResult = (resultObject) => {
+    this.setState({
+      loadResult: true
+    });
     console.warn('sendingWorkoutResult working, sending this: ', resultObject);
     fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
       method: 'POST',
@@ -286,14 +283,19 @@ componentWillReceiveProps(nextProps)
     .then((response) => {
       if (response.status === 200 && response.ok === true) { //checking server response on failing
         console.warn('POST request passed fine');
+        this.setState({
+          loadResult: false,
+        });
         this.props.popToStartScreen();
+        this.props.closeWindowFinish();
+        this.props.clearCheck();
       } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
         AsyncStorage.setItem('resultObject', resultObject);
         Alert.alert(
           'Bad server respond',
           'Unable to Save Workout At This Time.',
           [
-            {text: 'OK', onPress: () => this.props.popToStartScreen()},
+            {text: 'OK', onPress: () => {}},
           ],
           { cancelable: false }
         )
@@ -337,6 +339,43 @@ componentWillReceiveProps(nextProps)
       comments: text,
       errorComents: '',
     });
+  }
+
+  checkEnableFinishButton = () => {
+    const {
+      intensityScoreText,
+      focusScoreText,
+      comments,
+      errorIntensityScore,
+      errorFocusScore,
+      errorComents
+    } = this.state;
+    if (intensityScoreText.length > 0 && focusScoreText.length > 0 && comments.length > 0 && errorIntensityScore.length <= 0 && errorFocusScore.length <= 0 && errorComents.length <= 0) {
+      return false;
+    }
+    return true;
+  }
+
+  renderFinishButton = () => {
+    const CustomButton = MKButton.button()
+      .withBackgroundColor(this.checkEnableFinishButton() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
+      .withStyle([styles.button, this.checkEnableFinishButton() && {shadowRadius: 0, elevation: 0}])
+      // .withTextStyle([styles.textFinish, this.checkEnableFinishButton() ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0} : {color: 'white'}])
+      // .withText('Finish')
+      .build();
+    return (
+      <CustomButton disabled={this.checkEnableFinishButton() || this.state.loadResult} onPress={() => {this.onFinish()}}>
+        {
+          this.state.loadResult
+          ?
+            <ActivityIndicator size={Platform.OS === 'android' ? 20 : "small"} color={'white'} />
+          :
+            <Text style={[styles.textFinish, this.checkEnableFinishButton() ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0} : {color: 'white'}]}>
+              Finish
+            </Text>
+        }
+      </CustomButton>
+    )
   }
 
   render() {
@@ -445,7 +484,8 @@ componentWillReceiveProps(nextProps)
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                <CustomButton enabled={!this.state.finishButtonPressed} onPress={() => {this.onFinish()}} />
+                {this.renderFinishButton()}
+
               </View>
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
