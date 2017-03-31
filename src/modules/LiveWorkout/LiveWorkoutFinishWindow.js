@@ -190,7 +190,7 @@ componentWillReceiveProps(nextProps)
 
   onFinish = () => {
     const {intensityScoreText, focusScoreText, comments, errorIntensityScore, errorFocusScore, errorComents} = this.state;
-    if (intensityScoreText.length === 0 || focusScoreText.length === 0 || comments.length === 0) {
+    /*if (intensityScoreText.length === 0 || focusScoreText.length === 0 || comments.length === 0) {
       if (intensityScoreText.length === 0) {
         this.setState({errorIntensityScore: 'Enter this score.'});
       }
@@ -200,10 +200,9 @@ componentWillReceiveProps(nextProps)
       if (comments.length === 0) {
         this.setState({errorComents: 'Enter comments.'});
       }
-    } else if (errorIntensityScore.length === 0 && errorFocusScore.length === 0 && errorComents.length === 0) {
+    } else */if (errorIntensityScore.length === 0 && errorFocusScore.length === 0 && errorComents.length === 0) {
       this.handleFinishPress();
     }
-    console.warn('HERE');
   }
 
   handleFinishPress = () => {
@@ -223,7 +222,6 @@ componentWillReceiveProps(nextProps)
 
     NetInfo.isConnected.fetch().done((reach_bool) => { //checking Internet connection
       if (reach_bool == true) { // if  device connected to Internet send Workout result to server
-        // this.setState({finishButtonPressed: false});
         this.sendingWorkoutResult(resultObject);
      } else { //if there is no Internet connection, save Workout result to AsyncStorage
         AsyncStorage.setItem('resultObject', resultObject);
@@ -254,8 +252,9 @@ componentWillReceiveProps(nextProps)
     if (isConnected) {
       AsyncStorage.getItem('resultObject')
         .then((savedResultObject) => {
+          AsyncStorage.removeItem('resultObject')
+          .catch(error => console.log('error AsyncStorage.removeItem(\'resultObject\'): ', error));
           this.sendingWorkoutResult(savedResultObject);
-          console.warn('deleteResultObject', deleteResultObject);
         })
         .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error));
       testConnectionListenerWorking = false;
@@ -271,7 +270,6 @@ componentWillReceiveProps(nextProps)
     this.setState({
       loadResult: true
     });
-    console.warn('sendingWorkoutResult working, sending this: ', resultObject);
     fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
       method: 'POST',
       headers: {
@@ -282,7 +280,14 @@ componentWillReceiveProps(nextProps)
     })
     .then((response) => {
       if (response.status === 200 && response.ok === true) { //checking server response on failing
-        console.warn('POST request passed fine');
+        Alert.alert(
+          'Send Success',
+          'Workout result was sent successfully.',
+          [
+            {text: 'OK', onPress: () => {}},
+          ],
+          { cancelable: true }
+        )
         this.setState({
           loadResult: false,
         });
@@ -299,7 +304,7 @@ componentWillReceiveProps(nextProps)
           ],
           { cancelable: false }
         )
-        console.warn('There is something wrong. Server response: ', response);
+        console.log('There is something wrong. Server response: ', response);
       }
     })
     .catch((e) => {
