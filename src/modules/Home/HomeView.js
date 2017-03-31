@@ -162,7 +162,6 @@ class HomeView extends Component{
     }
 
   render() {
-    // const workoutTree = JSON.stringify(this.props.nextWorkoutTree, null, 3);
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const Focus = this.props.nextWorkoutTree.goal;
