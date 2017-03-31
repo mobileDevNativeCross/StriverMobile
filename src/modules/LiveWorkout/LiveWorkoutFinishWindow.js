@@ -30,6 +30,7 @@ import {
 
 import NavButton from '../../components/NavButton';
 import * as HomeState from '../Home/HomeState';
+import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
@@ -279,7 +280,13 @@ componentWillReceiveProps(nextProps)
       body: resultObject
     })
     .then((response) => {
-      if (response.status === 200 && response.ok === true) { //checking server response on failing
+      if ((response.status == 401) && (response.ok == false)  && (response._bodyText === 'Unauthorized', '\\n')) {
+        this.setState({
+          loadResult: false
+        });
+        auth0.showLogin()
+          .catch(e => console.log('error in showLogin()', e));
+      } else if (response.status === 200 && response.ok === true) { //checking server response on failing
         Alert.alert(
           'Send Success',
           'Workout result was sent successfully.',
