@@ -10,7 +10,6 @@ import {
   Animated,
 } from 'react-native';
 import Display from 'react-native-display';
-import Icon from 'react-native-vector-icons/Entypo';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
 
@@ -18,16 +17,6 @@ const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-  transform: {
-    transform: [
-      {rotate: '45deg'},
-    ],
-  },
-  transformNull: {
-    transform: [
-      {rotate: '0deg'},
-    ],
-  },
   navMenuButtonContainer:{
     position: 'absolute',
     bottom: 35,
@@ -36,7 +25,6 @@ const styles = StyleSheet.create({
     width: 56,
   },
   button: {
-
     height: 70,
     width: 70,
     position: 'absolute',
@@ -68,8 +56,8 @@ const styles = StyleSheet.create({
     fontFamily: bold,
   },
   navButton: {
-    height: displayWidth <= 460 ? 40 : 56,
-    width: displayWidth <= 460 ? 40 : 56,
+    height: 56,
+    width: 56,
   },
   viewFlexDirection: {
     flexDirection: 'row',
@@ -103,7 +91,6 @@ const ColoredFab = MKButton.coloredFab()
   .withStyle(styles.navButton)
   .build();
 
-
 class NavButton extends Component {
 
   state = {
@@ -114,13 +101,11 @@ class NavButton extends Component {
   navMenuButtonPress = () => {
     let toggle = !this.state.navMenuShow;
     this.setState({navMenuShow: toggle});
-
     this.spin(toggle ? 1 : 0);
   }
 
   backgroundNavMenuPress = () => {
     this.setState({navMenuShow: false});
-
     this.spin(0);
   }
 
@@ -151,8 +136,8 @@ class NavButton extends Component {
           style={{
             height: displayHeight,
             width: displayWidth,
-            bottom: displayHeight-56-35,
-            right: displayWidth-56-27,
+            bottom: displayHeight-91, // NavButton height + 35 = 91
+            right: displayWidth-83, // NavButton height + 27 = 83
           }}
         >
           <View style={styles.navMenuBackground}>
@@ -165,9 +150,7 @@ class NavButton extends Component {
               <TouchableOpacity onPress={() => {this.props.onPressHome()}} style={styles.touchOpacityMenuHome}>
                 <View style={styles.viewFlexDirection}>
                   <View style={styles.viewHome}>
-                    <Text
-                      style={styles.navMenuText}
-                      >
+                    <Text style={styles.navMenuText}>
                       {this.props.titleHome ? this.props.titleHome : 'Home'}
                     </Text>
                   </View>
@@ -184,11 +167,7 @@ class NavButton extends Component {
             </View>
           </View>
         </Display>
-        <Animated.View
-          style={[
-            styles.button
-          ]}
-        >
+        <Animated.View style={styles.button}>
           <ColoredFab
             onPress={() => this.navMenuButtonPress()}
           >

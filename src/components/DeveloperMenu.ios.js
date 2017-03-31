@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 /**
- * Simple developer menu, which allows e.g. to clear the app state.
+ * Simple developer menu, which allows e.g. to clear the app state, set wrong token.
  * It can be accessed through a tiny button in the bottom right corner of the screen.
  * ONLY FOR DEVELOPMENT MODE!
  */
@@ -24,7 +24,7 @@ const DeveloperMenu = React.createClass({
       clearState: 0,
       showLogin: 1,
       setWrongToken: 2, //for old token debugging
-      cancel: 3 //put 2 insted of 3 when token debugging finish
+      cancel: 3 //put 2 insted of 3 when token debugging deleting
     };
 
     const callback = async index => {
