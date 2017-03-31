@@ -16,6 +16,7 @@ import {
 import CheckBox from 'react-native-checkbox';
 import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as auth0 from '../../services/auth0';
 
 import * as HomeState from '../Home/HomeState';
 import * as LiveWorkoutState from './LiveWorkoutState';
@@ -162,8 +163,8 @@ class LiveWorkout extends Component {
     })
     .then((response) => {
       if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+        // console.warn('SHOW LOGIN');
         auth0.showLogin()
-          .then(() => console.warn('Here2'))
           .catch(e => console.log('error in showLogin()', e))
       }
       return response.json();

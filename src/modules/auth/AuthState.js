@@ -1,13 +1,8 @@
 import {
-  AsyncStorage,
-} from 'react-native';
-import {
     Map,
     fromJS
 } from 'immutable';
-import * as NavigationState from '../navigation/NavigationState';
 import * as HomeState from '../Home/HomeState';
-import * as LiveWorkoutState from '../LiveWorkout/LiveWorkoutState';
 
 //initial state
 const initialState = Map({
@@ -30,25 +25,10 @@ export function onUserLoginSuccess(profile, token) {
         profile: fromJS(profile),
         token: fromJS(token)
       }
-    })
-    // dispatch(NavigationState.firstPageRoute());
-    // dispatch(HomeState.checkEnter(true));
-    // dispatch(LiveWorkoutState.clearCheck());
-    // AsyncStorage.setItem('beginWorkoutTime', '');
-    // AsyncStorage.setItem('endWorkoutTime', '');
+    });
     dispatch(HomeState.getWorkoutTree());
   };
 }
-
-// export function onUserLoginSuccess(profile, token) {
-//     return {
-//         type: USER_LOGIN_SUCCESS,
-//         payload: {
-//             profile: fromJS(profile),
-//             token: fromJS(token)
-//         }
-//     };
-// }
 
 export function onUserLoginError(error) {
     return {
