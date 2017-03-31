@@ -175,8 +175,9 @@ class LiveWorkout extends Component {
   renderComleteWorkoutButton = () => {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
-      .withStyle([styles.completeWorkoutButton, {height: 36,}])
-      .withShadowAniEnabled(this.check())
+      .withStyle([styles.completeWorkoutButton, {height: 36}, this.check() && {shadowRadius: 0, elevation: 0}])
+      // .withShadowAniEnabled(true)
+      // .withShadowAniEnabled(this.check())
       .withTextStyle([styles.textCompleteButton, this.check() ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0} : {color: 'white'}])
       .withText('Complete Workout')
       .build();

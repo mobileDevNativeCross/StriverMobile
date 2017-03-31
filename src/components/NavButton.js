@@ -14,6 +14,9 @@ import Icon from 'react-native-vector-icons/Entypo';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
 
+const displayWidth = Dimensions.get('window').width;
+const displayHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   transform: {
     transform: [
@@ -65,8 +68,8 @@ const styles = StyleSheet.create({
     fontFamily: bold,
   },
   navButton: {
-    height: 56,
-    width: 56,
+    height: displayWidth <= 460 ? 40 : 56,
+    width: displayWidth <= 460 ? 40 : 56,
   },
   viewFlexDirection: {
     flexDirection: 'row',
@@ -100,8 +103,6 @@ const ColoredFab = MKButton.coloredFab()
   .withStyle(styles.navButton)
   .build();
 
-const displayWidth = Dimensions.get('window').width;
-const displayHeight = Dimensions.get('window').height;
 
 class NavButton extends Component {
 
@@ -115,6 +116,12 @@ class NavButton extends Component {
     this.setState({navMenuShow: toggle});
 
     this.spin(toggle ? 1 : 0);
+  }
+
+  backgroundNavMenuPress = () => {
+    this.setState({navMenuShow: false});
+
+    this.spin(0);
   }
 
   spin (toValue) {
@@ -151,7 +158,7 @@ class NavButton extends Component {
           <View style={styles.navMenuBackground}>
             <TouchableOpacity
               style={{height: displayHeight, width: displayWidth}}
-              onPress={() => this.navMenuButtonPress()}
+              onPress={() => this.backgroundNavMenuPress()}
             >
             </TouchableOpacity>
             <View style={styles.navMenu}>
