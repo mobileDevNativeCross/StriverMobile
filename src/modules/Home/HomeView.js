@@ -1,21 +1,17 @@
 import * as HomeState from './HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
 import {
   Dimensions,
   StyleSheet,
-  TouchableOpacity,
-  Image,
   Text,
   View,
   ScrollView,
-  ListView,
   Platform,
   ActivityIndicator,
   AsyncStorage,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import store from '../../redux/store';
 import moment from 'moment';
 import NavButton from '../../components/NavButton'
 import * as MK from 'react-native-material-kit';
@@ -24,7 +20,7 @@ import { regular, bold, medium} from 'AppFonts';
 
 
 const displayWidth = Dimensions.get('window').width;
-const displayHeight = Dimensions.get('window').height;
+// const displayHeight = Dimensions.get('window').height;
 const fontColor = 'rgb(110,110,110)';
 
 const styles = StyleSheet.create({
@@ -49,12 +45,6 @@ const styles = StyleSheet.create({
     color: fontColor,
     backgroundColor: 'white',
     fontFamily: bold
-  },
-  exListMarker:{
-    height: 10,
-    width: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   exercises: {
     width: displayWidth,
@@ -107,8 +97,8 @@ const BeginWorkout = MKButton.coloredButton()
   .withStyle([styles.liveWorkoutButton, {height: 36,}])
   .build();
 
-
 class HomeView extends Component{
+
   state = {
     isLoaded: false,
     checkEnter: true,
@@ -125,7 +115,6 @@ class HomeView extends Component{
     .then((response) => {
       if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
         auth0.showLogin()
-          .then(() => console.warn('Here2'))
           .catch(e => console.log('error in showLogin()', e))
       }
       return response.json();
@@ -173,13 +162,12 @@ class HomeView extends Component{
     }
 
   render() {
-    const workoutTree = JSON.stringify(this.props.nextWorkoutTree, null, 3);
+    // const workoutTree = JSON.stringify(this.props.nextWorkoutTree, null, 3);
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const Focus = this.props.nextWorkoutTree.goal;
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
-    // const exercisesArr = this.props.nextWorkoutTree.liveWorkoutComponents;
     const { nextWorkoutTree } = this.props;
     return (
       <View style={styles.container}>
@@ -226,7 +214,10 @@ class HomeView extends Component{
                     nextWorkoutTree.liveWorkoutComponents.map(item => { return(this.renderItem(item)); })
                   :
                     <View style={styles.exercisesLoading}>
-                      <ActivityIndicator color={'#7b7b7b'} size={Platform.OS === 'android' ? 15 : "small"} />
+                      <ActivityIndicator
+                        color={'#7b7b7b'}
+                        size={Platform.OS === 'android' ? 15 : "small"}
+                      />
                     </View>
                 }
               </View>
