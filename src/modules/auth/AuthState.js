@@ -31,11 +31,11 @@ export function onUserLoginSuccess(profile, token) {
         token: fromJS(token)
       }
     })
-    dispatch(NavigationState.firstPageRoute());
-    dispatch(HomeState.checkEnter(true));
-    dispatch(LiveWorkoutState.clearCheck());
-    AsyncStorage.setItem('beginWorkoutTime', '');
-    AsyncStorage.setItem('endWorkoutTime', '');
+    // dispatch(NavigationState.firstPageRoute());
+    // dispatch(HomeState.checkEnter(true));
+    // dispatch(LiveWorkoutState.clearCheck());
+    // AsyncStorage.setItem('beginWorkoutTime', '');
+    // AsyncStorage.setItem('endWorkoutTime', '');
     dispatch(HomeState.getWorkoutTree());
   };
 }

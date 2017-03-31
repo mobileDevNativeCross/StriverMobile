@@ -19,7 +19,9 @@ import store from '../../redux/store';
 import moment from 'moment';
 import NavButton from '../../components/NavButton'
 import * as MK from 'react-native-material-kit';
+import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
+
 
 const displayWidth = Dimensions.get('window').width;
 const displayHeight = Dimensions.get('window').height;
@@ -113,6 +115,24 @@ class HomeView extends Component{
   }
 
   componentWillMount() {
+    const token = this.props.nextWorkoutToken;
+    fetch('https://strivermobile-api.herokuapp.com/api/private',{
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then((response) => {
+      if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+        auth0.showLogin()
+          .then(() => console.warn('Here2'))
+          .catch(e => console.log('error in showLogin()', e))
+      }
+      return response.json();
+    })
+    .catch((e) => {
+      console.log('error in getWorkoutTree(): ', e);
+    });
     AsyncStorage.getItem('workoutTree').then(result => {
       if (result) {
         this.props.dispatch(HomeState.setWorkoutTree(JSON.parse(result)));
