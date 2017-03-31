@@ -153,6 +153,24 @@ const styles = StyleSheet.create({
 class LiveWorkout extends Component {
 
   componentWillMount() {
+    const token = this.props.nextWorkoutToken;
+    fetch('https://strivermobile-api.herokuapp.com/api/private',{
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then((response) => {
+      if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+        auth0.showLogin()
+          .then(() => console.warn('Here2'))
+          .catch(e => console.log('error in showLogin()', e))
+      }
+      return response.json();
+    })
+    .catch((e) => {
+      console.log('error in getWorkoutTree(): ', e);
+    });
     this.props.dispatch(HomeState.checkEnter(false));
     AsyncStorage.getItem('checked').then(result => {
       const res = JSON.parse(result);
