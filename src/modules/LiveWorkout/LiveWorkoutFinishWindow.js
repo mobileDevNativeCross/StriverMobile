@@ -12,6 +12,8 @@ import {
   NetInfo,
   Alert,
   ActivityIndicator,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
@@ -24,7 +26,6 @@ import {
   MKButton,
   mdl,
 } from 'react-native-material-kit';
-
 import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
 
@@ -92,8 +93,8 @@ const styles = StyleSheet.create({
   },
   viewFinishButton: {
     marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+   flexDirection: 'row',
+    flexWrap: 'wrap',
     paddingBottom: 20,
   },
   viewInputScore: {
@@ -111,10 +112,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontFamily: medium,
   },
+  
   button: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     height: 36,
+    width: (width / 2) - 15,
   },
+
   viewComments: {
     marginLeft: 30,
     width: (width - 60),
@@ -179,9 +183,12 @@ componentWillReceiveProps(nextProps)
       errorComents: '',
       scroll: false,
       workoutDuration: null,
-      loadResult: false,
-  }
+      loadResult: false}
 
+  setModalVisible(visible){
+    //this.setState({modalVisible:visible});
+   this.props.closeWindowFinish()
+  }
   getHeight = () => {
     if (this.props.windowFinishVisible) {
       return height;
@@ -360,7 +367,7 @@ componentWillReceiveProps(nextProps)
   renderFinishButton = () => {
     const FinishButton = MKButton.button()
       .withBackgroundColor(this.checkEnableFinishButton() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
-      .withStyle([styles.button, this.checkEnableFinishButton() && {shadowRadius: 0, elevation: 0}])
+      .withStyle([styles.button, this.checkEnableFinishButton() && {shadowRadius: 1, elevation: 2}])
       .build();
     return (
       <FinishButton disabled={this.checkEnableFinishButton() || this.state.loadResult} onPress={() => {this.onFinish()}}>
@@ -386,15 +393,16 @@ componentWillReceiveProps(nextProps)
     const { windowFinishVisible } = this.props;
     return (
       <View style={{ position: 'absolute', width, height: this.getHeight() }}>
-        <Display
-          enable = {windowFinishVisible}
-          enterDuration = {500}
-          exitDuration = {250}
-          exit = "fadeOut"
-          enter = "fadeIn"
-          style= {{ width, height, bottom: 0,}}
-        >
-          <View style={styles.container} />
+       <Modal
+         animationType={"slide"}
+          transparent={false}
+           visible={windowFinishVisible}
+            onRequestClose={() => {
+              this.setModalVisible(false);
+             }}>
+       <View style={{marginTop: 22}}>
+          <View>
+            <View style={styles.container} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
             <KeyboardAvoidingView
               behavior={'padding'}
@@ -403,7 +411,7 @@ componentWillReceiveProps(nextProps)
               <View style={styles.viewIntensityScore}>
                 <View style={styles.viewIntensityScoreText}>
                   <Text style={styles.textIntensityScore}>
-                    Perceived Intensity Score/PRE:
+                    Intensity Score (1-10):
                   </Text>
                 </View>
                 <View style={styles.viewInputScore}>
@@ -432,7 +440,7 @@ componentWillReceiveProps(nextProps)
               <View style={styles.viewFocusScore}>
                 <View style={styles.viewFocusScoreText}>
                   <Text style={styles.textIntensityScore}>
-                    Perceived Focus Score:
+                    Focus Score (1-10):
                   </Text>
                 </View>
                 <View style={styles.viewInputScore}>
@@ -479,7 +487,6 @@ componentWillReceiveProps(nextProps)
               <View style={styles.viewError}>
                 {
                   this.state.errorComents !== '' &&
-
                   <Text style={styles.textError}>
                     {this.state.errorComents}
                   </Text>
@@ -491,12 +498,29 @@ componentWillReceiveProps(nextProps)
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                {this.renderFinishButton()}
+                      <MKButton
+                        backgroundColor={MKColor.Grey}
+                        shadowColor="black"
+                        style={[styles.button,{shadowRadius: 1, elevation: 2}]}
+                        onPress={() => {
+                          this.setModalVisible(false);
+                        }}
+                        >
+                        <Text style={[styles.textFinish,{color:'white'}]}>
+                          Cancel
+                        </Text>
+                      </MKButton>
+                      {this.renderFinishButton()}
               </View>
+            
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
           </ScrollView>
-        </Display>
+            
+          </View>
+         </View>
+        </Modal>
+    
       </View>
     );
   }

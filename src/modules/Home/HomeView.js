@@ -91,11 +91,14 @@ const styles = StyleSheet.create({
 const {
   MKButton,
   MKColor,
+  getTheme
 } = MK;
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
   .withStyle([styles.liveWorkoutButton, {height: 36,}])
   .build();
+
+const theme = getTheme();
 
 class HomeView extends Component{
 
@@ -148,7 +151,7 @@ class HomeView extends Component{
 
   renderItem(item) {
     return (
-      <View key={item._id} style={styles.exerciseItem}>
+      <View key={item._id} >
         <Icon
           name="dot-single"
           size={20}
@@ -164,14 +167,14 @@ class HomeView extends Component{
   render() {
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
-    const Focus = this.props.nextWorkoutTree.goal;
+    const focus = this.props.nextWorkoutTree.goal;
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
     const { nextWorkoutTree } = this.props;
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <View>
+        <ScrollView >
+          <View style={theme.cardStyle}>
             <View style={styles.title}>
               {
                 // <View style={styles.titleBox}>
@@ -191,12 +194,12 @@ class HomeView extends Component{
               </View>
               <View style={styles.titleBox}>
                 <Text style={styles.titleText}>
-                  Intensity Score: {intensityScore}
+                  Intensity: {intensityScore}
                 </Text>
               </View>
               <View style={styles.titleBox}>
                 <Text style={styles.titleText}>
-                 Focus: {Focus}
+                 Focus: {focus}
                 </Text>
               </View>
             </View>
@@ -204,7 +207,7 @@ class HomeView extends Component{
               <Text style={styles.exText}>
                 Exercises:
               </Text>
-              <View >
+              <View  >
                 {
                   nextWorkoutTree.liveWorkoutComponents &&
                   Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
