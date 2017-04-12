@@ -51,18 +51,18 @@ const styles = StyleSheet.create({
   viewIntensityScore: {
     width: (width - 60),
     marginTop: 30,
-    marginLeft: 30,
+    // marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   viewFocusScore: {
     width: (width - 60),
     marginTop: 10,
-    marginLeft: 30,
+    // marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  textIntensityScore: {
+  fieldTitle: {
     color: '#7b7b7b',
     fontSize: 18,
     fontFamily: bold,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   viewTime: {
     marginTop: 10,
-    marginLeft: 30,
+    // marginLeft: 30,
   },
   textFinish: {
     color: 'white',
@@ -95,10 +95,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   viewFinishButton: {
-    marginTop: 20,
    flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingBottom: 20,
+    backgroundColor: 'green',
+    borderStyle: 'solid',
+    borderTopColor: 'rgba(0,0,0,0.1)',
+    borderTopWidth: 1,
+    padding: 8,
   },
   viewInputScore: {
     justifyContent: 'center',
@@ -119,11 +122,13 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 18,
     height: 36,
-    width: (width / 2) - 15,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // width: (width / 2) - 15,
   },
 
   viewComments: {
-    marginLeft: 30,
+    // marginLeft: 30,
     width: (width - 60),
     marginTop: 20,
   }
@@ -134,7 +139,7 @@ const TextfieldScore = MKTextField.textfield()
   .withTextInputStyle({
     flex: 1,
     backgroundColor: 'white',
-    color: '#ececec',
+    color: '#7b7b7b',
     fontFamily: medium,
     fontSize: 16,
     textAlign: 'center'
@@ -150,7 +155,7 @@ const TextfieldComment = MKTextField.textfield()
     backgroundColor: 'white',
     paddingTop: -5,
     fontFamily: medium,
-    color: '#ececec',
+    color: '#7b7b7b',
     fontSize: 16,
     textAlignVertical: 'bottom'
   })
@@ -401,110 +406,112 @@ componentWillReceiveProps(nextProps)
     <View style={{ position: 'absolute', width, height: this.getHeight() }}>
       <Modal
         animationType={"slide"}
-        transparent={false}
+        transparent={true}
         visible={windowFinishVisible}
         onRequestClose={() => {
           this.setModalVisible(false);
         }}
       >
         <View style={{marginTop: 22}}>
-        <View style={[styles.container, {backgroundColor: 'red'}]} />
+        <View style={[styles.container, {backgroundColor: 'white'}]} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
-          <View style={[theme.cardStyle, {width: width - 30}]}>
+          <View style={[theme.cardStyle, {borderRadius: 2, width: width - 30, backgroundColor: 'white', alignSelf: 'center', marginVertical: 10, shadowOffset: {width: 0, height: 1}}]}>
             {//<Text style={[theme.cardTitleStyle, {position: 'relative'}]}>Welcome</Text>
           }
             <KeyboardAvoidingView
               behavior={'padding'}
-              style={styles.viewFinish}
+              style={[styles.viewFinish, {backgroundColor: 'pink'}]}
             >
-              <View style={styles.viewIntensityScore}>
-                <View style={styles.viewIntensityScoreText}>
-                  <Text style={styles.textIntensityScore}>
-                    Intensity Score (1-10):
-                  </Text>
+              <View style={{backgroundColor: 'orange', padding: 16}}>
+                <View style={styles.viewIntensityScore}>
+                  <View style={styles.viewIntensityScoreText}>
+                    <Text style={styles.fieldTitle}>
+                      Intensity Score (1-10):
+                    </Text>
+                  </View>
+                  <View style={styles.viewInputScore}>
+                    <TextfieldScore
+                      onChangeText={this.setIntensityScore}
+                      value={this.state.intensityScoreText}
+                      maxLength={2}
+                      selectionColor={'#409ac9'}
+                      keyboardType="numeric"
+                      underlineSize={3}
+                      underlineColorAndroid="transparent"
+                      onFocus={() => {this.setState({scroll: true})}}
+                      onBlur={() => {this.setState({scroll: false})}}
+                    />
+                  </View>
                 </View>
-                <View style={styles.viewInputScore}>
-                  <TextfieldScore
-                    onChangeText={this.setIntensityScore}
-                    value={this.state.intensityScoreText}
-                    maxLength={2}
-                    selectionColor={'#409ac9'}
-                    keyboardType="numeric"
-                    underlineSize={3}
-                    underlineColorAndroid="transparent"
-                    onFocus={() => {this.setState({scroll: true})}}
-                    onBlur={() => {this.setState({scroll: false})}}
-                  />
-                </View>
-              </View>
-              <View style={styles.viewError}>
-                {
-                  this.state.errorIntensityScore !== '' &&
+                <View style={styles.viewError}>
+                  {
+                    this.state.errorIntensityScore !== '' &&
 
-                  <Text style={styles.textError}>
-                    {this.state.errorIntensityScore}
-                  </Text>
-                }
-              </View>
-              <View style={styles.viewFocusScore}>
-                <View style={styles.viewFocusScoreText}>
-                  <Text style={styles.textIntensityScore}>
-                    Focus Score (1-10):
-                  </Text>
+                    <Text style={styles.textError}>
+                      {this.state.errorIntensityScore}
+                    </Text>
+                  }
                 </View>
-                <View style={styles.viewInputScore}>
-                  <TextfieldScore
-                    onChangeText={this.setFocusScore}
-                    value={this.state.focusScoreText}
-                    maxLength={2}
-                    keyboardType="numeric"
-                    underlineSize={3}
-                    selectionColor={'#409ac9'}
-                    underlineColorAndroid="transparent"
-                    onFocus={() => {this.setState({scroll: true})}}
-                    onBlur={() => {this.setState({scroll: false})}}
-                  />
+                <View style={styles.viewFocusScore}>
+                  <View style={styles.viewFocusScoreText}>
+                    <Text style={styles.fieldTitle}>
+                      Focus Score (1-10):
+                    </Text>
+                  </View>
+                  <View style={styles.viewInputScore}>
+                    <TextfieldScore
+                      onChangeText={this.setFocusScore}
+                      value={this.state.focusScoreText}
+                      maxLength={2}
+                      keyboardType="numeric"
+                      underlineSize={3}
+                      selectionColor={'#409ac9'}
+                      underlineColorAndroid="transparent"
+                      onFocus={() => {this.setState({scroll: true})}}
+                      onBlur={() => {this.setState({scroll: false})}}
+                    />
+                  </View>
                 </View>
-              </View>
-              <View style={styles.viewError}>
-                {
-                  this.state.errorFocusScore !== '' &&
+                <View style={styles.viewError}>
+                  {
+                    this.state.errorFocusScore !== '' &&
 
-                  <Text style={styles.textError}>
-                    {this.state.errorFocusScore}
-                  </Text>
-                }
-              </View>
-              <View style={styles.viewComments}>
-                <Text style={styles.textIntensityScore}>
-                  Comments:
-                </Text>
-                <View>
-                  <TextfieldComment
-                    onChangeText={this.setComments}
-                    value={this.state.comments}
-                    multiline
-                    underlineSize={3}
-                    autoCorrect={false}
-                    selectionColor={'#409ac9'}
-                    underlineColorAndroid="transparent"
-                    onFocus={() => {this.setState({scroll: true})}}
-                    onBlur={() => {this.setState({scroll: false})}}
-                  />
+                    <Text style={styles.textError}>
+                      {this.state.errorFocusScore}
+                    </Text>
+                  }
                 </View>
-              </View>
-              <View style={styles.viewError}>
-                {
-                  this.state.errorComents !== '' &&
-                  <Text style={styles.textError}>
-                    {this.state.errorComents}
+                <View style={styles.viewComments}>
+                  <Text style={styles.fieldTitle}>
+                    Comments:
                   </Text>
-                }
-              </View>
-              <View style={styles.viewTime}>
-                <Text style={styles.textIntensityScore}>
-                  Time: {this.state.workoutDuration}
-                </Text>
+                  <View>
+                    <TextfieldComment
+                      onChangeText={this.setComments}
+                      value={this.state.comments}
+                      multiline
+                      underlineSize={3}
+                      autoCorrect={false}
+                      selectionColor={'#409ac9'}
+                      underlineColorAndroid="transparent"
+                      onFocus={() => {this.setState({scroll: true})}}
+                      onBlur={() => {this.setState({scroll: false})}}
+                    />
+                  </View>
+                </View>
+                <View style={styles.viewError}>
+                  {
+                    this.state.errorComents !== '' &&
+                    <Text style={styles.textError}>
+                      {this.state.errorComents}
+                    </Text>
+                  }
+                </View>
+                <View style={styles.viewTime}>
+                  <Text style={styles.fieldTitle}>
+                    Time: {this.state.workoutDuration}
+                  </Text>
+                </View>
               </View>
               <View style={styles.viewFinishButton}>
                 <MKButton
@@ -516,11 +523,24 @@ componentWillReceiveProps(nextProps)
                   }}
                 >
                   <Text style={[styles.textFinish, {color:'white'}]}>
-                  Cancel
+                  CANCEL
                   </Text>
                 </MKButton>
                 {this.renderFinishButton()}
+                <MKButton
+                  backgroundColor={MKColor.Grey}
+                  shadowColor="black"
+                  style={[styles.button,{shadowRadius: 1, elevation: 2}]}
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}
+                >
+                  <Text style={[styles.textFinish, {color:'white'}]}>
+                  FINISH
+                  </Text>
+                </MKButton>
               </View>
+              <Text style={theme.cardActionStyle}>My Action</Text>
 
 
 
@@ -530,7 +550,6 @@ componentWillReceiveProps(nextProps)
               //<Text>Menu</Text>
             //</View>
             }
-            <Text style={theme.cardActionStyle}>My Action</Text>
           </View>
           {
             // <KeyboardAvoidingView
@@ -539,7 +558,7 @@ componentWillReceiveProps(nextProps)
             // >
             //   <View style={styles.viewIntensityScore}>
             //     <View style={styles.viewIntensityScoreText}>
-            //       <Text style={styles.textIntensityScore}>
+            //       <Text style={styles.fieldTitle}>
             //         Intensity Score (1-10):
             //       </Text>
             //     </View>
@@ -568,7 +587,7 @@ componentWillReceiveProps(nextProps)
             //   </View>
             //   <View style={styles.viewFocusScore}>
             //     <View style={styles.viewFocusScoreText}>
-            //       <Text style={styles.textIntensityScore}>
+            //       <Text style={styles.fieldTitle}>
             //         Focus Score (1-10):
             //       </Text>
             //     </View>
@@ -596,7 +615,7 @@ componentWillReceiveProps(nextProps)
             //     }
             //   </View>
             //   <View style={styles.viewComments}>
-            //     <Text style={styles.textIntensityScore}>
+            //     <Text style={styles.fieldTitle}>
             //       Comments:
             //     </Text>
             //     <View>
@@ -622,7 +641,7 @@ componentWillReceiveProps(nextProps)
             //     }
             //   </View>
             //   <View style={styles.viewTime}>
-            //     <Text style={styles.textIntensityScore}>
+            //     <Text style={styles.fieldTitle}>
             //       Time: {this.state.workoutDuration}
             //     </Text>
             //   </View>
