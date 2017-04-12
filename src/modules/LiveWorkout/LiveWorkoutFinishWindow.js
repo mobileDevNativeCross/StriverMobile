@@ -25,11 +25,13 @@ import {
   MKColor,
   MKButton,
   mdl,
+  getTheme,
 } from 'react-native-material-kit';
 import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
 
 const { width, height } = Dimensions.get('window');
+const theme = getTheme();
 const testConnectionListenerWorking = false;
 var endWorkoutTime = "";
 var startWorkoutTime = "";
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
   },
   inputTextComments: {
     marginTop: 5,
-    flex: 1,
+    // flex: 1,
     height: 39,
   },
   viewTime: {
@@ -390,21 +392,26 @@ componentWillReceiveProps(nextProps)
   }
 
   render() {
+    // console.warn(JSON.stringify(theme, null, 2));
     const { windowFinishVisible } = this.props;
     return (
-<View style={{ position: 'absolute', width, height: this.getHeight() }}>
-  <Modal
-    animationType={"slide"}
-    transparent={false}
-    visible={windowFinishVisible}
-    onRequestClose={() => {
-      this.setModalVisible(false);
-    }}
-  >
-    <View style={{marginTop: 22}}>
-      <View>
-        <View style={styles.container} />
-          <ScrollView scrollEnabled={this.state.scroll ? true : false }>
+    <View style={{ position: 'absolute', width, height: this.getHeight() }}>
+      <Modal
+        animationType={"slide"}
+        transparent={false}
+        visible={windowFinishVisible}
+        onRequestClose={() => {
+          this.setModalVisible(false);
+        }}
+      >
+        <View style={{marginTop: 22}}>
+        <View style={[styles.container, {backgroundColor: 'red'}]} />
+          <View style={{backgroundColor: 'green', width: width - 30, height: 400}}>
+          {//delete this View, when finish Material Card adding
+          }
+          <View style={[theme.cardStyle, {width: width - 30}]}>
+            {//<Text style={[theme.cardTitleStyle, {position: 'relative'}]}>Welcome</Text>
+          }
             <KeyboardAvoidingView
               behavior={'padding'}
               style={styles.viewFinish}
@@ -485,6 +492,110 @@ componentWillReceiveProps(nextProps)
                   />
                 </View>
               </View>
+
+
+
+            </KeyboardAvoidingView>
+            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
+
+
+            <Text style={theme.cardContentStyle}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Mauris sagittis pellentesque lacus eleifend lacinia...
+            </Text>
+            {//<View style={theme.cardMenuStyle}>
+              //<Text>Menu</Text>
+            //</View>
+            }
+            <Text style={theme.cardActionStyle}>My Action</Text>
+          </View>
+          </View>
+          {//delete this View, when finish Material Card adding
+          }
+          <ScrollView scrollEnabled={this.state.scroll ? true : false }>
+            <KeyboardAvoidingView
+              behavior={'padding'}
+              style={styles.viewFinish}
+            >
+              <View style={styles.viewIntensityScore}>
+                <View style={styles.viewIntensityScoreText}>
+                  <Text style={styles.textIntensityScore}>
+                    Intensity Score (1-10):
+                  </Text>
+                </View>
+                <View style={styles.viewInputScore}>
+                  <TextfieldScore
+                    onChangeText={this.setIntensityScore}
+                    value={this.state.intensityScoreText}
+                    maxLength={2}
+                    selectionColor={'#409ac9'}
+                    keyboardType="numeric"
+                    underlineSize={3}
+                    underlineColorAndroid="transparent"
+                    onFocus={() => {this.setState({scroll: true})}}
+                    onBlur={() => {this.setState({scroll: false})}}
+                  />
+                </View>
+              </View>
+              <View style={styles.viewError}>
+                {
+                  this.state.errorIntensityScore !== '' &&
+
+                  <Text style={styles.textError}>
+                    {this.state.errorIntensityScore}
+                  </Text>
+                }
+              </View>
+              <View style={styles.viewFocusScore}>
+                <View style={styles.viewFocusScoreText}>
+                  <Text style={styles.textIntensityScore}>
+                    Focus Score (1-10):
+                  </Text>
+                </View>
+                <View style={styles.viewInputScore}>
+                  <TextfieldScore
+                    onChangeText={this.setFocusScore}
+                    value={this.state.focusScoreText}
+                    maxLength={2}
+                    keyboardType="numeric"
+                    underlineSize={3}
+                    selectionColor={'#409ac9'}
+                    underlineColorAndroid="transparent"
+                    onFocus={() => {this.setState({scroll: true})}}
+                    onBlur={() => {this.setState({scroll: false})}}
+                  />
+                </View>
+              </View>
+              <View style={styles.viewError}>
+                {
+                  this.state.errorFocusScore !== '' &&
+
+                  <Text style={styles.textError}>
+                    {this.state.errorFocusScore}
+                  </Text>
+                }
+              </View>
+              <View style={styles.viewComments}>
+                <Text style={styles.textIntensityScore}>
+                  Comments:
+                </Text>
+                {
+                  //**************************************************
+                }
+                <View>
+                  <TextfieldComment
+                    onChangeText={this.setComments}
+                    value={this.state.comments}
+                    multiline
+                    underlineSize={3}
+                    autoCorrect={false}
+                    selectionColor={'#409ac9'}
+                    underlineColorAndroid="transparent"
+                    onFocus={() => {this.setState({scroll: true})}}
+                    onBlur={() => {this.setState({scroll: false})}}
+                  />
+                </View>
+              </View>
               <View style={styles.viewError}>
                 {
                   this.state.errorComents !== '' &&
@@ -519,10 +630,9 @@ componentWillReceiveProps(nextProps)
           </ScrollView>
 
         </View>
-    </View>
-  </Modal>
+      </Modal>
 
-</View>
+    </View>
     );
   }
 }
