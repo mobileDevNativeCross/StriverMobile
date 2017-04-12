@@ -51,14 +51,12 @@ const styles = StyleSheet.create({
   viewIntensityScore: {
     width: (width - 60),
     marginTop: 30,
-    // marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   viewFocusScore: {
     width: (width - 60),
     marginTop: 10,
-    // marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -81,12 +79,10 @@ const styles = StyleSheet.create({
   },
   inputTextComments: {
     marginTop: 5,
-    // flex: 1,
     height: 39,
   },
   viewTime: {
     marginTop: 10,
-    // marginLeft: 30,
   },
   buttonText: {
     color: MKColor.Blue,
@@ -225,8 +221,6 @@ componentWillReceiveProps(nextProps)
     });
 
     NetInfo.isConnected.fetch().done((reach_bool) => { //checking Internet connection
-{//*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!
-}      reach_bool = true //REMOVE AFTER DEVELOPING
       if (reach_bool == true) { // if  device connected to Internet send Workout result to server
         this.sendingWorkoutResult(resultObject);
       } else { //if there is no Internet connection, save Workout result to AsyncStorage
@@ -373,33 +367,7 @@ componentWillReceiveProps(nextProps)
     return true;
   }
 
-  // renderFinishButton = () => {
-  //   const FinishButton = MKButton.button()
-  //     .withBackgroundColor(this.checkEnableFinishButton() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
-  //     .withStyle([styles.button, this.checkEnableFinishButton() && {shadowRadius: 1, elevation: 2}])
-  //     .build();
-  //   return (
-  //     <FinishButton disabled={this.checkEnableFinishButton() || this.state.loadResult} onPress={() => {this.onFinish()}}>
-  //       {
-  //         this.state.loadResult
-  //         ?
-  //           <ActivityIndicator size={Platform.OS === 'android' ? 20 : "small"} color={'white'} />
-  //         :
-  //           <Text style={[
-  //             styles.buttonText,
-  //             this.checkEnableFinishButton()
-  //               ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0}
-  //               : {color: 'white'}
-  //           ]}>
-  //             Finish
-  //           </Text>
-  //       }
-  //     </FinishButton>
-  //   )
-  // }
-
   render() {
-    // console.warn(JSON.stringify(theme, null, 2));
     const { windowFinishVisible } = this.props;
     return (
     <View style={{ position: 'absolute', width, height: this.getHeight() }}>
@@ -415,8 +383,6 @@ componentWillReceiveProps(nextProps)
         <View style={[styles.container, {backgroundColor: 'rgba(0,0,0,.3)'}]} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
           <View style={[theme.cardStyle, {borderRadius: 2, width: width - 30, backgroundColor: 'white', alignSelf: 'center', marginVertical: 10, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>
-            {//<Text style={[theme.cardTitleStyle, {position: 'relative'}]}>Welcome</Text>
-          }
             <KeyboardAvoidingView
               behavior={'padding'}
               style={styles.viewFinish}
@@ -551,124 +517,7 @@ componentWillReceiveProps(nextProps)
 
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
-            {//<View style={theme.cardMenuStyle}>
-              //<Text>Menu</Text>
-            //</View>
-            }
           </View>
-          {
-            // <KeyboardAvoidingView
-            //   behavior={'padding'}
-            //   style={styles.viewFinish}
-            // >
-            //   <View style={styles.viewIntensityScore}>
-            //     <View style={styles.viewIntensityScoreText}>
-            //       <Text style={styles.fieldTitle}>
-            //         Intensity Score (1-10):
-            //       </Text>
-            //     </View>
-            //     <View style={styles.viewInputScore}>
-            //       <TextfieldScore
-            //         onChangeText={this.setIntensityScore}
-            //         value={this.state.intensityScoreText}
-            //         maxLength={2}
-            //         selectionColor={'#409ac9'}
-            //         keyboardType="numeric"
-            //         underlineSize={3}
-            //         underlineColorAndroid="transparent"
-            //         onFocus={() => {this.setState({scroll: true})}}
-            //         onBlur={() => {this.setState({scroll: false})}}
-            //       />
-            //     </View>
-            //   </View>
-            //   <View style={styles.viewError}>
-            //     {
-            //       this.state.errorIntensityScore !== '' &&
-            //
-            //       <Text style={styles.textError}>
-            //         {this.state.errorIntensityScore}
-            //       </Text>
-            //     }
-            //   </View>
-            //   <View style={styles.viewFocusScore}>
-            //     <View style={styles.viewFocusScoreText}>
-            //       <Text style={styles.fieldTitle}>
-            //         Focus Score (1-10):
-            //       </Text>
-            //     </View>
-            //     <View style={styles.viewInputScore}>
-            //       <TextfieldScore
-            //         onChangeText={this.setFocusScore}
-            //         value={this.state.focusScoreText}
-            //         maxLength={2}
-            //         keyboardType="numeric"
-            //         underlineSize={3}
-            //         selectionColor={'#409ac9'}
-            //         underlineColorAndroid="transparent"
-            //         onFocus={() => {this.setState({scroll: true})}}
-            //         onBlur={() => {this.setState({scroll: false})}}
-            //       />
-            //     </View>
-            //   </View>
-            //   <View style={styles.viewError}>
-            //     {
-            //       this.state.errorFocusScore !== '' &&
-            //
-            //       <Text style={styles.textError}>
-            //         {this.state.errorFocusScore}
-            //       </Text>
-            //     }
-            //   </View>
-            //   <View style={styles.viewComments}>
-            //     <Text style={styles.fieldTitle}>
-            //       Comments:
-            //     </Text>
-            //     <View>
-            //       <TextfieldComment
-            //         onChangeText={this.setComments}
-            //         value={this.state.comments}
-            //         multiline
-            //         underlineSize={3}
-            //         autoCorrect={false}
-            //         selectionColor={'#409ac9'}
-            //         underlineColorAndroid="transparent"
-            //         onFocus={() => {this.setState({scroll: true})}}
-            //         onBlur={() => {this.setState({scroll: false})}}
-            //       />
-            //     </View>
-            //   </View>
-            //   <View style={styles.viewError}>
-            //     {
-            //       this.state.errorComents !== '' &&
-            //       <Text style={styles.textError}>
-            //         {this.state.errorComents}
-            //       </Text>
-            //     }
-            //   </View>
-            //   <View style={styles.viewTime}>
-            //     <Text style={styles.fieldTitle}>
-            //       Time: {this.state.workoutDuration}
-            //     </Text>
-            //   </View>
-            //   <View style={styles.viewFinishButton}>
-            //     <MKButton
-            //       backgroundColor={MKColor.Grey}
-            //       shadowColor="black"
-            //       style={[styles.button,{shadowRadius: 1, elevation: 2}]}
-            //       onPress={() => {
-            //         this.setModalVisible(false);
-            //       }}
-            //     >
-            //       <Text style={[styles.buttonText,{color:'white'}]}>
-            //       Cancel
-            //       </Text>
-            //     </MKButton>
-            //     {this.renderFinishButton()}
-            //   </View>
-            //
-            // </KeyboardAvoidingView>
-            // <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
-          }
           </ScrollView>
 
         </View>
