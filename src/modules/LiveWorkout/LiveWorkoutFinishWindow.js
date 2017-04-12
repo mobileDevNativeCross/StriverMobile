@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontFamily: medium,
   },
-  
+
   button: {
     paddingHorizontal: 18,
     height: 36,
@@ -392,17 +392,18 @@ componentWillReceiveProps(nextProps)
   render() {
     const { windowFinishVisible } = this.props;
     return (
-      <View style={{ position: 'absolute', width, height: this.getHeight() }}>
-       <Modal
-         animationType={"slide"}
-          transparent={false}
-           visible={windowFinishVisible}
-            onRequestClose={() => {
-              this.setModalVisible(false);
-             }}>
-       <View style={{marginTop: 22}}>
-          <View>
-            <View style={styles.container} />
+<View style={{ position: 'absolute', width, height: this.getHeight() }}>
+  <Modal
+    animationType={"slide"}
+    transparent={false}
+    visible={windowFinishVisible}
+    onRequestClose={() => {
+      this.setModalVisible(false);
+    }}
+  >
+    <View style={{marginTop: 22}}>
+      <View>
+        <View style={styles.container} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
             <KeyboardAvoidingView
               behavior={'padding'}
@@ -498,30 +499,30 @@ componentWillReceiveProps(nextProps)
                 </Text>
               </View>
               <View style={styles.viewFinishButton}>
-                      <MKButton
-                        backgroundColor={MKColor.Grey}
-                        shadowColor="black"
-                        style={[styles.button,{shadowRadius: 1, elevation: 2}]}
-                        onPress={() => {
-                          this.setModalVisible(false);
-                        }}
-                        >
-                        <Text style={[styles.textFinish,{color:'white'}]}>
-                          Cancel
-                        </Text>
-                      </MKButton>
-                      {this.renderFinishButton()}
+                <MKButton
+                  backgroundColor={MKColor.Grey}
+                  shadowColor="black"
+                  style={[styles.button,{shadowRadius: 1, elevation: 2}]}
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}
+                >
+                  <Text style={[styles.textFinish,{color:'white'}]}>
+                  Cancel
+                  </Text>
+                </MKButton>
+                {this.renderFinishButton()}
               </View>
-            
+
             </KeyboardAvoidingView>
             <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
           </ScrollView>
-            
-          </View>
-         </View>
-        </Modal>
-    
-      </View>
+
+        </View>
+    </View>
+  </Modal>
+
+</View>
     );
   }
 }
