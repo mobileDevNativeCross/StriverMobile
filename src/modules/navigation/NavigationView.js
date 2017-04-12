@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     height: 45,
     shadowRadius: 0,
+    elevation: 0,
   },
   textFooterButtons: {
     color: 'white',

@@ -29,7 +29,7 @@ const {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    height: Platform.OS === 'android' ? (height - 105) : (height - 116),
+    height: Platform.OS === 'android' ? (height - 150) : (height - 130),
     width,
   },
   container: {
