@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    width: displayWidth,
+    // width: displayWidth,
     paddingVertical: 25,
     paddingHorizontal: 40,
     backgroundColor: 'white',
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: bold
   },
   exercises: {
-    width: displayWidth,
+    // width: displayWidth,
     paddingVertical: 14,
     backgroundColor: 'rgb(231,231,231)',
   },
@@ -151,7 +151,7 @@ class HomeView extends Component{
 
   renderItem(item) {
     return (
-      <View key={item._id} >
+      <View key={item._id} style={styles.exerciseItem}>
         <Icon
           name="dot-single"
           size={20}
@@ -174,7 +174,7 @@ class HomeView extends Component{
     return (
       <View style={styles.container}>
         <ScrollView >
-          <View style={theme.cardStyle}>
+          <View style={[theme.cardStyle, {borderWidth: 0, width: displayWidth - 30, alignSelf: 'center', paddingTop: 3}]}>
             <View style={styles.title}>
               {
                 // <View style={styles.titleBox}>
