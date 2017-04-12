@@ -80,6 +80,7 @@ const ButtonGoToHistory = MKButton.coloredButton()
 const NavigationView = React.createClass({
   propTypes: {
     onNavigateBack: PropTypes.func.isRequired,
+    backToHomeFromLiveWorkout: PropTypes.func.isRequired,
     navigationState: PropTypes.shape({
       tabs: PropTypes.shape({
         routes: PropTypes.arrayOf(PropTypes.shape({
@@ -120,7 +121,7 @@ const NavigationView = React.createClass({
         'Are you sure you want to exit workout?',
         [
           {text: 'Cancel', onPress: () => {}},
-          {text: 'Exit', onPress: ()=> {console.warn('EXITPRESS')}}
+          {text: 'Exit', onPress: ()=> {this.props.backToHomeFromLiveWorkout()}}
         ]
       )
     );
