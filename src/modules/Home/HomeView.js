@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   title: {
-    width: displayWidth,
+    // width: displayWidth,
     paddingVertical: 25,
     paddingHorizontal: 40,
     backgroundColor: 'white',
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: bold
   },
   exercises: {
-    width: displayWidth,
+    // width: displayWidth,
     paddingVertical: 14,
     backgroundColor: 'rgb(231,231,231)',
   },
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
   exerciseItem: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 16,
+    // paddingRight: 10,
+    paddingLeft: 8,
     marginVertical: 6,
   },
   exText: {
@@ -75,7 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: fontColor,
     fontFamily: regular,
-    marginLeft: 10
+    marginLeft: 10,
+    flex: 1,
   },
   liveWorkoutButtonBox: {
     width: displayWidth,
@@ -95,7 +97,7 @@ const {
 } = MK;
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
-  .withStyle([styles.liveWorkoutButton, {height: 36,}])
+  .withStyle([styles.liveWorkoutButton, {height: 36, elevation: 2}])
   .build();
 
 const theme = getTheme();
@@ -151,7 +153,7 @@ class HomeView extends Component{
 
   renderItem(item) {
     return (
-      <View key={item._id} >
+      <View key={item._id} style={styles.exerciseItem}>
         <Icon
           name="dot-single"
           size={20}
@@ -174,8 +176,8 @@ class HomeView extends Component{
     return (
       <View style={styles.container}>
         <ScrollView >
-          <View style={theme.cardStyle}>
-            <View style={styles.title}>
+          <View style={[theme.cardStyle, {borderWidth: 0, borderRadius: 2, width: displayWidth - 30, alignSelf: 'center', marginTop: 3, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>
+            <View style={[styles.title, {borderTopRightRadius: 2, borderTopLeftRadius: 2,}]}>
               {
                 // <View style={styles.titleBox}>
                 //   <Text style={styles.titleText}>
@@ -203,7 +205,7 @@ class HomeView extends Component{
                 </Text>
               </View>
             </View>
-            <View style={styles.exercises}>
+            <View style={[styles.exercises, {borderBottomRightRadius: 2, borderBottomLeftRadius: 2,}]}>
               <Text style={styles.exText}>
                 Exercises:
               </Text>
