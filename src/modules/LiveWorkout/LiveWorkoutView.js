@@ -29,7 +29,7 @@ const {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    height: Platform.OS === 'android' ? (height - 105) : (height - 80),
+    height: Platform.OS === 'android' ? (height - 150) : (height - 125),
     width,
   },
   container: {
@@ -330,7 +330,7 @@ class LiveWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text style={styles.textTop}>
+              <Text onPress={() => {this.backToHome()}} style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
@@ -370,7 +370,7 @@ class LiveWorkout extends Component {
           clearCheck={() => {this.clearCheck()}}
 
         />
-        <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/>
+        {/* <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/> */}
       </View>
     );
   }
