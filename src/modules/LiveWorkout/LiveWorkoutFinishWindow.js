@@ -412,9 +412,9 @@ componentWillReceiveProps(nextProps)
         }}
       >
         <View style={{marginTop: 22}}>
-        <View style={[styles.container, {backgroundColor: 'white'}]} />
+        <View style={[styles.container, {backgroundColor: 'rgba(0,0,0,.3)'}]} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
-          <View style={[theme.cardStyle, {borderRadius: 2, width: width - 30, backgroundColor: 'white', alignSelf: 'center', marginVertical: 10, shadowOffset: {width: 0, height: 1}}]}>
+          <View style={[theme.cardStyle, {borderRadius: 2, width: width - 30, backgroundColor: 'white', alignSelf: 'center', marginVertical: 10, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>
             {//<Text style={[theme.cardTitleStyle, {position: 'relative'}]}>Welcome</Text>
           }
             <KeyboardAvoidingView

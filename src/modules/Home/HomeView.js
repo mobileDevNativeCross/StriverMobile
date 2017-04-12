@@ -97,7 +97,7 @@ const {
 } = MK;
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
-  .withStyle([styles.liveWorkoutButton, {height: 36,}])
+  .withStyle([styles.liveWorkoutButton, {height: 36, elevation: 2}])
   .build();
 
 const theme = getTheme();
@@ -176,7 +176,7 @@ class HomeView extends Component{
     return (
       <View style={styles.container}>
         <ScrollView >
-          <View style={[theme.cardStyle, {borderWidth: 0, borderRadius: 2, width: displayWidth - 30, alignSelf: 'center', marginTop: 3, shadowOffset: {width: 0, height: 1}}]}>
+          <View style={[theme.cardStyle, {borderWidth: 0, borderRadius: 2, width: displayWidth - 30, alignSelf: 'center', marginTop: 3, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>
             <View style={[styles.title, {borderTopRightRadius: 2, borderTopLeftRadius: 2,}]}>
               {
                 // <View style={styles.titleBox}>
