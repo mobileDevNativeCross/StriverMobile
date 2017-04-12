@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     // marginLeft: 30,
   },
-  textFinish: {
-    color: 'white',
+  buttonText: {
+    color: MKColor.Blue,
     fontFamily: bold,
     fontSize: 14,
     backgroundColor: 'transparent',
@@ -97,11 +97,9 @@ const styles = StyleSheet.create({
   viewFinishButton: {
    flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'green',
     borderStyle: 'solid',
     borderTopColor: 'rgba(0,0,0,0.1)',
     borderTopWidth: 1,
-    padding: 8,
   },
   viewInputScore: {
     justifyContent: 'center',
@@ -123,8 +121,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     height: 36,
     justifyContent: 'center',
-    alignItems: 'center'
-    // width: (width / 2) - 15,
+    alignItems: 'center',
+    margin: 8,
+    marginRight: 0,
   },
 
   viewComments: {
@@ -145,7 +144,7 @@ const TextfieldScore = MKTextField.textfield()
     textAlign: 'center'
   })
   .withTintColor('#ececec')
-  .withHighlightColor('#409ac9')
+  .withHighlightColor(MKColor.Blue)
   .build();
 
 const TextfieldComment = MKTextField.textfield()
@@ -160,7 +159,7 @@ const TextfieldComment = MKTextField.textfield()
     textAlignVertical: 'bottom'
   })
   .withTintColor('#ececec')
-  .withHighlightColor('#409ac9')
+  .withHighlightColor(MKColor.Blue)
   .build();
 
 class LiveWorkoutFinishWindow extends Component {
@@ -374,30 +373,30 @@ componentWillReceiveProps(nextProps)
     return true;
   }
 
-  renderFinishButton = () => {
-    const FinishButton = MKButton.button()
-      .withBackgroundColor(this.checkEnableFinishButton() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
-      .withStyle([styles.button, this.checkEnableFinishButton() && {shadowRadius: 1, elevation: 2}])
-      .build();
-    return (
-      <FinishButton disabled={this.checkEnableFinishButton() || this.state.loadResult} onPress={() => {this.onFinish()}}>
-        {
-          this.state.loadResult
-          ?
-            <ActivityIndicator size={Platform.OS === 'android' ? 20 : "small"} color={'white'} />
-          :
-            <Text style={[
-              styles.textFinish,
-              this.checkEnableFinishButton()
-                ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0}
-                : {color: 'white'}
-            ]}>
-              Finish
-            </Text>
-        }
-      </FinishButton>
-    )
-  }
+  // renderFinishButton = () => {
+  //   const FinishButton = MKButton.button()
+  //     .withBackgroundColor(this.checkEnableFinishButton() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
+  //     .withStyle([styles.button, this.checkEnableFinishButton() && {shadowRadius: 1, elevation: 2}])
+  //     .build();
+  //   return (
+  //     <FinishButton disabled={this.checkEnableFinishButton() || this.state.loadResult} onPress={() => {this.onFinish()}}>
+  //       {
+  //         this.state.loadResult
+  //         ?
+  //           <ActivityIndicator size={Platform.OS === 'android' ? 20 : "small"} color={'white'} />
+  //         :
+  //           <Text style={[
+  //             styles.buttonText,
+  //             this.checkEnableFinishButton()
+  //               ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0}
+  //               : {color: 'white'}
+  //           ]}>
+  //             Finish
+  //           </Text>
+  //       }
+  //     </FinishButton>
+  //   )
+  // }
 
   render() {
     // console.warn(JSON.stringify(theme, null, 2));
@@ -420,9 +419,9 @@ componentWillReceiveProps(nextProps)
           }
             <KeyboardAvoidingView
               behavior={'padding'}
-              style={[styles.viewFinish, {backgroundColor: 'pink'}]}
+              style={styles.viewFinish}
             >
-              <View style={{backgroundColor: 'orange', padding: 16}}>
+              <View style={{padding: 16}}>
                 <View style={styles.viewIntensityScore}>
                   <View style={styles.viewIntensityScoreText}>
                     <Text style={styles.fieldTitle}>
@@ -515,32 +514,38 @@ componentWillReceiveProps(nextProps)
               </View>
               <View style={styles.viewFinishButton}>
                 <MKButton
-                  backgroundColor={MKColor.Grey}
-                  shadowColor="black"
-                  style={[styles.button,{shadowRadius: 1, elevation: 2}]}
+                  backgroundColor={'transparent'}
+                  rippleColor='rgba(0,0,0,.3)'
+                  style={styles.button}
                   onPress={() => {
                     this.setModalVisible(false);
                   }}
                 >
-                  <Text style={[styles.textFinish, {color:'white'}]}>
+                  <Text style={styles.buttonText}>
                   CANCEL
                   </Text>
                 </MKButton>
-                {this.renderFinishButton()}
                 <MKButton
-                  backgroundColor={MKColor.Grey}
-                  shadowColor="black"
-                  style={[styles.button,{shadowRadius: 1, elevation: 2}]}
-                  onPress={() => {
-                    this.setModalVisible(false);
-                  }}
+                  backgroundColor={'transparent'}
+                  rippleColor='rgba(0,0,0,.3)'
+                  disabled={this.checkEnableFinishButton() || this.state.loadResult}
+                  style={styles.button}
+                  onPress={() => {this.onFinish()}}
                 >
-                  <Text style={[styles.textFinish, {color:'white'}]}>
-                  FINISH
-                  </Text>
+                  {
+                    this.state.loadResult
+                    ?
+                      <ActivityIndicator size={Platform.OS === 'android' ? 20 : "small"} color={'#b7b7b7'} />
+                    :
+                    <Text style={[styles.buttonText,
+                    this.checkEnableFinishButton()
+                      ? {color: 'rgba(0,0,0,0.26)'}
+                      : styles.buttonText]}>
+                    FINISH
+                    </Text>
+                  }
                 </MKButton>
               </View>
-              <Text style={theme.cardActionStyle}>My Action</Text>
 
 
 
@@ -654,7 +659,7 @@ componentWillReceiveProps(nextProps)
             //         this.setModalVisible(false);
             //       }}
             //     >
-            //       <Text style={[styles.textFinish,{color:'white'}]}>
+            //       <Text style={[styles.buttonText,{color:'white'}]}>
             //       Cancel
             //       </Text>
             //     </MKButton>
