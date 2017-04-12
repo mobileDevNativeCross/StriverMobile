@@ -50,7 +50,7 @@ const AppView = React.createClass({
     return (
       <View style={{flex: 1}}>
         <NavigationViewContainer />
-        {__DEV__ && <DeveloperMenu />}
+        {!__DEV__ && <DeveloperMenu />}
       </View>
     );
   }

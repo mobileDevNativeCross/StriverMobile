@@ -236,7 +236,7 @@ class HomeView extends Component{
             </BeginWorkout>
           </View>
         </ScrollView>
-        <NavButton />
+        {/* <NavButton /> */}
       </View>
     );
   }

@@ -6,7 +6,10 @@ import {
   Dimensions,
   Image,
   Text,
+  Alert,
 } from 'react-native';
+import { bold, medium } from 'AppFonts';
+
 const {
   CardStack: NavigationCardStack,
   Header: NavigationHeader,
@@ -15,10 +18,64 @@ const {
 import AppRouter from '../AppRouter';
 import {
   MKColor,
+  MKButton,
 } from 'react-native-material-kit';
 
 const logo = require('../../assets/logo.png');
 const { width, height } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  sceneContainer: {
+    flex: 1,
+  },
+  viewLogo: {
+    backgroundColor: 'white',
+    width,
+    paddingTop: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textLogo: {
+    marginLeft: 2,
+    fontWeight: '600',
+    fontSize: 23,
+  },
+  imageLogo: {
+    width: 30,
+    height: 50,
+    tintColor: MKColor.LightBlue,
+  },
+  footerButtons: {
+    width: (width / 2),
+    borderRadius: 0,
+    height: 45,
+    shadowRadius: 0,
+  },
+  textFooterButtons: {
+    color: 'white',
+    fontFamily: medium,
+    fontSize: 20,
+  },
+  viewFooter: {
+    width,
+    height: 45,
+    flexDirection: 'row',
+  },
+});
+
+const ButtonGoHome = MKButton.coloredButton()
+  .withBackgroundColor(MKColor.Blue)
+  .withStyle(styles.footerButtons)
+  .build();
+const ButtonGoToHistory = MKButton.coloredButton()
+  .withBackgroundColor(MKColor.Blue)
+  .withStyle(styles.footerButtons)
+  .build();
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -56,10 +113,58 @@ const NavigationView = React.createClass({
       </View>
     );
   },
+  goHomeFromLiveWorkout() {
+    return (
+      Alert.alert(
+        'Warning',
+        'Are you sure you want to exit workout?',
+        [
+          {text: 'Cancel', onPress: () => {}},
+          {text: 'Exit', onPress: ()=> {console.warn('EXITPRESS')}}
+        ]
+      )
+    );
+  },
+  goHome(sceneName) {
+    switch (sceneName) {
+      case 'home':
+        break;
+      case 'liveWorkout':
+        this.goHomeFromLiveWorkout();
+        break;
+      default:
+        break;
+    }
+  },
+  renderFooter(sceneName) {
+    return (
+      <View style={styles.viewFooter}>
+        <ButtonGoHome
+          onPress={() => {this.goHome(sceneName)}}
+        >
+          <Text
+            pointerEvents="none"
+            style={styles.textFooterButtons}
+          >
+            Home
+          </Text>
+        </ButtonGoHome>
+        <ButtonGoToHistory>
+          <Text
+            pointerEvents="none"
+            style={styles.textFooterButtons}
+          >
+            History
+          </Text>
+        </ButtonGoToHistory>
+      </View>
+    );
+  },
   render() {
     const {tabs} = this.props.navigationState;
     const tabKey = tabs.routes[tabs.index].key;
     const scenes = this.props.navigationState[tabKey];
+    const indexScene = scenes.index;
     return (
       <View style={styles.container}>
         <NavigationCardStack
@@ -69,37 +174,10 @@ const NavigationView = React.createClass({
           renderHeader={this.renderHeader}
           renderScene={this.renderScene}
         />
+        {this.renderFooter(scenes.routes[indexScene].key)}
       </View>
     );
   }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  sceneContainer: {
-    flex: 1,
-  },
-  viewLogo: {
-    backgroundColor: 'white',
-   width,
-   paddingTop: 30,
-   flexDirection: 'row',
-   alignItems: 'center',
-   justifyContent: 'center',
-   alignItems: 'center',
- },
- textLogo: {
-   marginLeft: 2,
-   fontWeight: '600',
-   fontSize: 23,
- },
- imageLogo: {
-   width: 30,
-   height: 50,
-   tintColor: MKColor.LightBlue,
- },
 });
 
 export default NavigationView;
