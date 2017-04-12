@@ -368,7 +368,7 @@ class LiveWorkout extends Component {
           nextWorkoutToken={this.props.nextWorkoutToken}
           popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
-         
+
         />
         <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/>
       </View>
