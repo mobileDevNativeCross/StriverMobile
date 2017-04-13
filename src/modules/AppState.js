@@ -6,24 +6,34 @@ const initialState = Map({
   currentToken: null,
 });
 
+const wrongToken = {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'idToken': 'test2'};
 
 // Actions
 const SET_CURRENT_TOKEN_TO_REDUX = 'SET_CURRENT_TOKEN_TO_REDUX';
+const SET_WRONG_TOKEN = 'AuthState/SET_WRONG_TOKEN'; //for old token debugging
+
 
 // Action creators
-export const setTokenToRedux = () => (dispatch) => {
-    AsyncStorage.getItem('currentToken')
-      .then(token => {
-        console.warn('token in reducer: ', token);
-        if (token) {
+export const setTokenToRedux = (token) => (dispatch) => {
+    // AsyncStorage.getItem('currentToken')
+    //   .then(token => {
+    //     console.warn('token in reducer: ', token);
+    //     if (token) {
           dispatch({
             type: SET_CURRENT_TOKEN_TO_REDUX,
-            setToken: JSON.parse(token),
+            setToken: token,
           })
-        }
-      })
-      .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)})
+      //   }
+      // })
+      // .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)})
     };
+
+//This function is for old token debugging
+export function setWrongToken() {
+    return {
+        type: SET_WRONG_TOKEN,
+    }
+}
 
 // Reducer
 export default function AppStateReducer(state = initialState, action = {}) {
@@ -32,6 +42,10 @@ export default function AppStateReducer(state = initialState, action = {}) {
       return state
         .set('currentToken', action.setToken);
 
+    case SET_WRONG_TOKEN:
+    AsyncStorage.setItem('currentToken', JSON.stringify(wrongToken))
+        return state
+            .set('currentToken', wrongToken);
 
     default:
       return state;

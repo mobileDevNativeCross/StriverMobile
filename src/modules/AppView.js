@@ -22,7 +22,7 @@ const AppView = React.createClass({
         auth0.showLogin();
         // dispatch(SessionStateActions.initializeSessionState());
       } else {
-        console.warn('checking old token');
+        console.log('checking old token');
       }
     })
     .catch(e => {console.warn('error in getItem(\'newToken\')',e)})
