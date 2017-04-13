@@ -5,7 +5,8 @@ export default connect(
   state => ({
     // userName: state.getIn(['auth', 'currentUser', 'name']),
     // userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture']),
-    nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
+    reduxCurrentToken: state.getIn(['app', 'currentToken', 'idToken']),
+    // nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
     checkEnter: state.getIn(['home', 'checkEnter']),
     state: state, //for developing

@@ -1,4 +1,5 @@
 import * as HomeState from './HomeState';
+import * as AppState from '.././AppState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {Component} from 'react';
 import {
@@ -109,7 +110,53 @@ class HomeView extends Component{
     checkEnter: true,
   }
 
+  componentDidMount()  {
+  const { reduxCurrentToken } = this.props;
+    console.warn('this.props.reduxCurrentToken', reduxCurrentToken);
+    if (reduxCurrentToken) {
+      fetch('https://strivermobile-api.herokuapp.com/api/private',{
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + reduxCurrentToken
+        }
+      })
+      .then((response) => {
+        if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+          auth0.showLogin()
+            .catch(e => console.warn('error in showLogin()', e))
+        }
+        return response.json();
+      })
+      .catch((e) => {
+        console.warn('error in getWorkoutTree(): ', e);
+      });
+    }
+    // console.warn('WillMount on HomeView');
+    // const token = this.props.nextWorkoutToken;
+    // console.warn('TOKEN', token);
+    // fetch('https://strivermobile-api.herokuapp.com/api/private',{
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': 'Bearer ' + token
+    //   }
+    // })
+    // .then((response) => {
+    //   if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+    //     auth0.showLogin()
+    //       .catch(e => console.warn('error in showLogin()', e))
+    //   }
+    //   return response.json();
+    // })
+    // .catch((e) => {
+    //   console.warn('error in getWorkoutTree(): ', e);
+    // });
+  }
+
+
+
   componentWillMount() {
+    this.props.dispatch(AppState.setTokenToRedux());
+    console.warn('state: ', this.props.state);
     // console.warn('WillMount on HomeView');
     // const token = this.props.nextWorkoutToken;
     // console.warn('TOKEN', token);

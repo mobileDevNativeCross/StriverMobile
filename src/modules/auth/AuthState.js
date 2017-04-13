@@ -14,9 +14,9 @@ const initialState = Map({
 
 //actions
 
-const USER_LOGIN_SUCCESS = 'AppState/USER_LOGIN_SUCCESS';
-const USER_LOGIN_ERROR = 'AppState/USER_LOGIN_ERROR';
-const SET_WRONG_TOKEN = 'AppState/SET_WRONG_TOKEN'; //for old token debugging
+const USER_LOGIN_SUCCESS = 'AuthState/USER_LOGIN_SUCCESS';
+const USER_LOGIN_ERROR = 'AuthState/USER_LOGIN_ERROR';
+const SET_WRONG_TOKEN = 'AuthState/SET_WRONG_TOKEN'; //for old token debugging
 
 export function onUserLoginSuccess(profile, token) {
   return (dispatch) => {

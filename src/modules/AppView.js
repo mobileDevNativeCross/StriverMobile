@@ -15,7 +15,8 @@ const AppView = React.createClass({
   },
   componentDidMount() {
     const {dispatch} = this.props;
-    AsyncStorage.getItem('newToken').then(token => {
+    AsyncStorage.getItem('currentToken')
+    .then(token => {
       // console.warn(token);
       if (!token) {
         auth0.showLogin();
@@ -23,7 +24,8 @@ const AppView = React.createClass({
       } else {
         console.warn('checking old token');
       }
-    }).catch(e => {console.warn('error in getItem(\'newToken\')',e)})
+    })
+    .catch(e => {console.warn('error in getItem(\'newToken\')',e)})
     // snapshotUtil.resetSnapshot()
     //   .then(snapshot => {
     //     const {dispatch} = this.props;
@@ -61,7 +63,7 @@ const AppView = React.createClass({
     return (
       <View style={{flex: 1}}>
         <NavigationViewContainer />
-        {!__DEV__ && <DeveloperMenu />}
+        {__DEV__ && <DeveloperMenu />}
       </View>
     );
   }
