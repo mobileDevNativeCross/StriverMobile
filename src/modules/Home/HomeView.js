@@ -101,7 +101,7 @@ const BeginWorkout = MKButton.coloredButton()
   .build();
 
 const theme = getTheme();
-
+let a = false;
 class HomeView extends Component{
 
   state = {
@@ -109,37 +109,46 @@ class HomeView extends Component{
     checkEnter: true,
   }
 
-  componentWillMount() {
-    const token = this.props.nextWorkoutToken;
-    fetch('https://strivermobile-api.herokuapp.com/api/private',{
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-    .then((response) => {
-      if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-        auth0.showLogin()
-          .catch(e => console.log('error in showLogin()', e))
-      }
-      return response.json();
-    })
-    .catch((e) => {
-      console.log('error in getWorkoutTree(): ', e);
-    });
+  componentDidMount() {
+    console.warn('WillMount on HomeView');
+    // const token = this.props.nextWorkoutToken;
+    // console.warn('TOKEN', token);
+    // fetch('https://strivermobile-api.herokuapp.com/api/private',{
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': 'Bearer ' + token
+    //   }
+    // })
+    // .then((response) => {
+    //   if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+    //     auth0.showLogin()
+    //       .catch(e => console.warn('error in showLogin()', e))
+    //   }
+    //   return response.json();
+    // })
+    // .catch((e) => {
+    //   console.warn('error in getWorkoutTree(): ', e);
+    // });
     AsyncStorage.getItem('workoutTree').then(result => {
+      console.warn('result before if', result);
       if (result) {
         this.props.dispatch(HomeState.setWorkoutTree(JSON.parse(result)));
+        console.warn('result after if ', result);
+
+        setTimeout(() => {
+          console.warn('setTimeout', JSON.stringify(this.props.nextWorkoutTree.liveWorkoutComponents));
+        }, 3000);
       }
-    });
-    this.props.dispatch(HomeState.checkEnter(true));
+    })
+    .catch (e => {console.warn(e)});
+    // this.props.dispatch(HomeState.checkEnter(true));
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
-      this.setState({ isLoaded: true });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
+  //     this.setState({ isLoaded: true });
+  //   }
+  // }
 
   goToLiveWorkout() {
     if (this.props.checkEnter) {
@@ -172,7 +181,14 @@ class HomeView extends Component{
     const focus = this.props.nextWorkoutTree.goal;
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
-    const { nextWorkoutTree } = this.props;
+    const { nextWorkoutTree, state} = this.props;
+    console.warn('nextWorkoutTree.liveWorkoutComponents', JSON.stringify(this.props.nextWorkoutTree.liveWorkoutComponents, null, 2))
+    // console.warn('TOTAL: \n nextWorkoutTree.liveWorkoutComponents: ', nextWorkoutTree.liveWorkoutComponents ? 'TRUE' : 'FALSE', '\n Array.isArray(nextWorkoutTree.liveWorkoutComponents:' , Array.isArray(nextWorkoutTree.liveWorkoutComponents) ? 'TRUE' : 'FALSE');
+    // console.warn('Array.isArray(nextWorkoutTree.liveWorkoutComponents: ', Array.isArray(nextWorkoutTree.liveWorkoutComponents) ? 'TRUE' : 'FALSE ');
+    // console.warn('nextWorkoutTree.liveWorkoutComponents.length: ', nextWorkoutTree.liveWorkoutComponents && nextWorkoutTree.liveWorkoutComponents.length);
+    // console.warn('nextWorkoutTree: ', nextWorkoutTree.liveWorkoutComponents && JSON.stringify(nextWorkoutTree, null, 2));
+    // console.warn('state: ', JSON.stringify(state, null, 2));
+    // return null;
     return (
       <View style={styles.container}>
         <ScrollView >
@@ -211,6 +227,7 @@ class HomeView extends Component{
               </Text>
               <View  >
                 {
+
                   nextWorkoutTree.liveWorkoutComponents &&
                   Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
                   nextWorkoutTree.liveWorkoutComponents.length > 0

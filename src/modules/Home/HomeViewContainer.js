@@ -8,5 +8,6 @@ export default connect(
     nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
     nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
     checkEnter: state.getIn(['home', 'checkEnter']),
+    state: state, //for developing
   })
 )(HomeView);

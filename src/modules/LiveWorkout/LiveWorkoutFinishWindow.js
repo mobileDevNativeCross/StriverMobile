@@ -290,16 +290,17 @@ componentWillReceiveProps(nextProps)
           'Send Success',
           'Workout result was sent successfully.',
           [
-            {text: 'OK', onPress: () => {}},
+            {text: 'OK', onPress: () => {
+              this.props.popToStartScreen();
+              this.props.closeWindowFinish();
+              this.props.clearCheck();
+            }},
           ],
           { cancelable: true }
         )
         this.setState({
           loadResult: false,
         });
-        this.props.popToStartScreen();
-        this.props.closeWindowFinish();
-        this.props.clearCheck();
       } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
         AsyncStorage.setItem('resultObject', resultObject);
         Alert.alert(

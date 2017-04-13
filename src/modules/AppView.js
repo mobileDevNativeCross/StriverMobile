@@ -14,19 +14,22 @@ const AppView = React.createClass({
     dispatch: PropTypes.func.isRequired
   },
   componentDidMount() {
-    snapshotUtil.resetSnapshot()
-      .then(snapshot => {
-        const {dispatch} = this.props;
-        if (snapshot) {
-          dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
-        } else {
-          dispatch(SessionStateActions.initializeSessionState());
-        }
-        store.subscribe(() => {
-          snapshotUtil.saveSnapshot(store.getState());
-        });
-      })
-      .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
+    console.warn('HERETOKENNEW', this.props.nextWorkoutToken);
+    const {dispatch} = this.props;
+    dispatch(SessionStateActions.initializeSessionState());
+    // snapshotUtil.resetSnapshot()
+    //   .then(snapshot => {
+    //     const {dispatch} = this.props;
+    //     if (snapshot) {
+    //       dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
+    //     } else {
+    //       dispatch(SessionStateActions.initializeSessionState());
+    //     }
+    //     store.subscribe(() => {
+    //       snapshotUtil.saveSnapshot(store.getState());
+    //     });
+    //   })
+    //   .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
   },
 
   componentWillReceiveProps({isReady, isLoggedIn}){
