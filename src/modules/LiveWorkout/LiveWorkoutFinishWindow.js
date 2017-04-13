@@ -126,7 +126,15 @@ const styles = StyleSheet.create({
   viewComments: {
     width: (width - 60),
     marginTop: 20,
-  }
+  },
+  viewFinitWindowMargin: {
+    ...Platform.select({
+      ios: {
+        paddingTop: 25,
+      },
+      android: {},
+    })
+  },
 });
 
 const TextfieldScore = MKTextField.textfield()
@@ -389,7 +397,7 @@ componentWillReceiveProps(nextProps)
   render() {
     const { windowFinishVisible } = this.props;
     return (
-    <View style={{ position: 'absolute', width, height: this.getHeight() }}>
+    <View style={{ position: 'absolute', width /*, height: this.getHeight() */ }}>
       <Modal
         animationType={"slide"}
         transparent={true}
@@ -398,7 +406,7 @@ componentWillReceiveProps(nextProps)
           this.setModalVisible(false);
         }}
       >
-        <View style={{marginTop: 22}}>
+        <View style={styles.viewFinitWindowMargin}>
         <View style={[styles.container, {backgroundColor: 'rgba(0,0,0,.3)'}]} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
           <View style={[theme.cardStyle, {borderRadius: 2, width: width - 30, backgroundColor: 'white', alignSelf: 'center', marginVertical: 10, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>

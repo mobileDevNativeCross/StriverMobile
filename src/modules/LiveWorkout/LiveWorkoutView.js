@@ -29,7 +29,8 @@ const {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    height: Platform.OS === 'android' ? (height - 150) : (height - 125),
+    // height: Platform.OS === 'android' ? (height - 150) : (height - 125),
+    flex: 1,
     width,
   },
   container: {
@@ -344,7 +345,7 @@ class LiveWorkout extends Component {
               </Text>
             </View>
             <View style={styles.viewHeadItem}>
-              <Text onPress={() => {this.backToHome()}} style={styles.textTop}>
+              <Text style={styles.textTop}>
                 Focus: {nextWorkoutTree.goal}
               </Text>
             </View>
