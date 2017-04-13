@@ -139,26 +139,8 @@ const styles = StyleSheet.create({
 class LiveWorkout extends Component {
 
   componentWillMount() {
-    // const token = this.props.nextWorkoutToken;
-    // fetch('https://strivermobile-api.herokuapp.com/api/private',{
-    //   method: 'GET',
-    //   headers: {
-    //     'Authorization': 'Bearer ' + token
-    //   }
-    // })
-    // .then((response) => {
-    //   if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-    //     auth0.showLogin()
-    //       .catch(e => console.log('error in showLogin()', e))
-    //   }
-    //   return response.json();
-    // })
-    // .catch((e) => {
-    //   console.log('error in getWorkoutTree(): ', e);
-    // });
     AsyncStorage.getItem('currentToken')
       .then(token => {
-        // console.warn('token in reducer: ', token);
         if (token) {
           this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
         }
@@ -166,7 +148,6 @@ class LiveWorkout extends Component {
       .then(() => {
         const { reduxCurrentToken, state } = this.props;
         const currentToken = reduxCurrentToken.idToken;
-        // console.warn('checking next token: ', reduxCurrentToken.idToken);
         if (currentToken) {
           fetch('https://strivermobile-api.herokuapp.com/api/private',{
             method: 'GET',

@@ -28,7 +28,7 @@ import {
 } from 'react-native-material-kit';
 import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
-import * as AppState from '.././AppState';
+import * as AppState from '../AppState';
 
 
 const { width, height } = Dimensions.get('window');
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   },
 
   viewComments: {
-    // marginLeft: 30,
     width: (width - 60),
     marginTop: 20,
   }

@@ -12,7 +12,6 @@ export default connect(
     nextWorkoutTree: state.getIn(['home', 'nextWorkoutTree']),
     check: state.getIn(['liveWorkout', 'check']),
     currentTimerValue: state.getIn(['home', 'timerValue']),
-    // reduxTimerId: state.getIn(['home', 'timerId']),
     showWindowFinish: state.getIn(['liveWorkout', 'show']),
   })
 )(LiveWorkoutView);
