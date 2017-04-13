@@ -139,23 +139,56 @@ const styles = StyleSheet.create({
 class LiveWorkout extends Component {
 
   componentWillMount() {
-    const token = this.props.nextWorkoutToken;
-    fetch('https://strivermobile-api.herokuapp.com/api/private',{
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-    .then((response) => {
-      if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-        auth0.showLogin()
-          .catch(e => console.log('error in showLogin()', e))
-      }
-      return response.json();
-    })
-    .catch((e) => {
-      console.log('error in getWorkoutTree(): ', e);
-    });
+    // const token = this.props.nextWorkoutToken;
+    // fetch('https://strivermobile-api.herokuapp.com/api/private',{
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': 'Bearer ' + token
+    //   }
+    // })
+    // .then((response) => {
+    //   if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+    //     auth0.showLogin()
+    //       .catch(e => console.log('error in showLogin()', e))
+    //   }
+    //   return response.json();
+    // })
+    // .catch((e) => {
+    //   console.log('error in getWorkoutTree(): ', e);
+    // });
+    AsyncStorage.getItem('currentToken')
+      .then(token => {
+        // console.warn('token in reducer: ', token);
+        if (token) {
+          this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
+        }
+      })
+      .then(() => {
+        const { reduxCurrentToken, state } = this.props;
+        const currentToken = reduxCurrentToken.idToken;
+        // console.warn('checking next token: ', reduxCurrentToken.idToken);
+        if (currentToken) {
+          fetch('https://strivermobile-api.herokuapp.com/api/private',{
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + currentToken
+            }
+          })
+          .then((response) => {
+            if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+              console.warn('bad responce');
+              auth0.showLogin()
+                .catch(e => console.log('error in showLogin()', e))
+            }
+            return response.json();
+          })
+          .catch((e) => {
+            console.log('error in getWorkoutTree(): ', e);
+          });
+        }
+      })
+      .catch(e => {console.log('error in getItem(\'newToken\') in reducer', e)})
+
     this.props.dispatch(HomeState.checkEnter(false));
     AsyncStorage.getItem('checked').then(result => {
       const res = JSON.parse(result);
@@ -368,7 +401,7 @@ class LiveWorkout extends Component {
           nextWorkoutToken={this.props.nextWorkoutToken}
           popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
-
+          reduxCurrentToken={this.props.reduxCurrentToken}
         />
         {/* <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/> */}
       </View>

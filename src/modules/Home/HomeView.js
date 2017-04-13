@@ -102,7 +102,8 @@ const BeginWorkout = MKButton.coloredButton()
   .build();
 
 const theme = getTheme();
-let a = false;
+// let a = false;
+
 class HomeView extends Component{
 
   state = {
@@ -136,6 +137,8 @@ class HomeView extends Component{
 
 
   componentWillMount() {
+    // oldTokenCheck(this.props.reduxCurrentToken);
+    // console.warn(oldTokenCheck(this.props.reduxCurrentToken));
     AsyncStorage.getItem('currentToken')
       .then(token => {
         // console.warn('token in reducer: ', token);

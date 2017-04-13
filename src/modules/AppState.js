@@ -55,7 +55,7 @@ export default function AppStateReducer(state = initialState, action = {}) {
 // import {setLength} from '../LiveWorkout/LiveWorkoutState';
 // import * as auth0 from '../../services/auth0';
 // import { AsyncStorage } from 'react-native';
-//
+// git push --force-with-lease
 // // Initial state
 // const initialState = Map({
 //   checkEnter: true,
