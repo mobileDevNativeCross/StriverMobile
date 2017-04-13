@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, StatusBar} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import * as auth0 from '../services/auth0';
 import * as snapshotUtil from '../utils/snapshot';
@@ -49,6 +49,11 @@ const AppView = React.createClass({
 
     return (
       <View style={{flex: 1}}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={'white'}
+          translucent={true}
+        />
         <NavigationViewContainer />
         {!__DEV__ && <DeveloperMenu />}
       </View>
