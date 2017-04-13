@@ -4,6 +4,7 @@ import AppView from './AppView';
 export default connect(
   state => ({
     isReady: state.getIn(['session', 'isReady']),
-    isLoggedIn: state.getIn(['auth', 'isLoggedIn'])
+    isLoggedIn: state.getIn(['auth', 'isLoggedIn']),
+    nextWorkoutToken: state.getIn(['auth', 'authenticationToken', 'idToken']),
   })
 )(AppView);

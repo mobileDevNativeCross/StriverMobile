@@ -34,7 +34,7 @@ export const getWorkoutTree = () => (dispatch, getState) => {
     }
     return response.json();
   })
-  .then((responseJson) => {
+  .then((responseJson) => {// chnge to setWorkoutTree action
     dispatch(({
       type: GET_WORKOUT_TREE,
       response: responseJson,

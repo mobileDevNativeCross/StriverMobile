@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
   View,
@@ -29,6 +28,8 @@ import {
 } from 'react-native-material-kit';
 import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
+import * as AppState from '../AppState';
+
 
 const { width, height } = Dimensions.get('window');
 const theme = getTheme();
@@ -123,7 +124,6 @@ const styles = StyleSheet.create({
   },
 
   viewComments: {
-    // marginLeft: 30,
     width: (width - 60),
     marginTop: 20,
   },
@@ -278,53 +278,72 @@ componentWillReceiveProps(nextProps)
     this.setState({
       loadResult: true
     });
-    fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + this.props.nextWorkoutToken,
-        'Content-Type': 'application/json',
-      },
-      body: resultObject
-    })
-    .then((response) => {
-      if ((response.status == 401) && (response.ok == false)  && (response._bodyText === 'Unauthorized', '\\n')) {
-        this.setState({
-          loadResult: false
-        });
-        auth0.showLogin()
-          .catch(e => console.log('error in showLogin()', e));
-      } else if (response.status === 200 && response.ok === true) { //checking server response on failing
-        Alert.alert(
-          'Send Success',
-          'Workout result was sent successfully.',
-          [
-            {text: 'OK', onPress: () => {}},
-          ],
-          { cancelable: true }
-        )
-        this.setState({
-          loadResult: false,
-        });
-        this.props.popToStartScreen();
-        this.props.closeWindowFinish();
-        this.props.clearCheck();
-      } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
-        AsyncStorage.setItem('resultObject', resultObject);
-        Alert.alert(
-          'Bad server respond',
-          'Unable to Save Workout At This Time.',
-          [
-            {text: 'OK', onPress: () => {}},
-          ],
-          { cancelable: false }
-        )
-        console.log('There is something wrong. Server response: ', response);
-      }
-    })
-    .catch((e) => {
-      AsyncStorage.setItem('resultObject', resultObject);
-      console.log('error in first POST request: ', e);
-    });
+    AsyncStorage.getItem('currentToken')
+      .then(token => {
+        if (token) {
+          this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
+        }
+      })
+      .then(() => {
+        const { reduxCurrentToken } = this.props;
+        console.warn('reduxCurrentToken is: ', reduxCurrentToken);
+        const currentToken = reduxCurrentToken.idToken;
+        console.warn('currentToken is: ', currentToken);
+        if (currentToken) {
+          //**
+          fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + currentToken,
+              'Content-Type': 'application/json',
+            },
+            body: resultObject
+          })
+          .then((response) => {
+            if ((response.status == 401) && (response.ok == false)  && (response._bodyText === 'Unauthorized', '\\n')) {
+              console.warn('bad responce');
+              this.setState({
+                loadResult: false
+              });
+              auth0.showLogin()
+                .catch(e => console.log('error in showLogin()', e));
+            } else if (response.status === 200 && response.ok === true) { //checking server response on failing
+              Alert.alert(
+                'Send Success',
+                'Workout result was sent successfully.',
+                [
+                  {text: 'OK', onPress: () => {
+                    this.props.popToStartScreen();
+                    this.props.closeWindowFinish();
+                    this.props.clearCheck();
+                  }},
+                ],
+                { cancelable: true }
+              )
+              this.setState({
+                loadResult: false,
+              });
+            } else { // in case of "not ok" server response, saving Workout result to AsyncStorage and trying to attempt
+              AsyncStorage.setItem('resultObject', resultObject);
+              Alert.alert(
+                'Bad server respond',
+                'Unable to Save Workout At This Time.',
+                [
+                  {text: 'OK', onPress: () => {}},
+                ],
+                { cancelable: false }
+              )
+              console.log('There is something wrong. Server response: ', response);
+            }
+          })
+          .catch((e) => {
+            AsyncStorage.setItem('resultObject', resultObject);
+            console.log('error in first POST request: ', e);
+          });
+        }
+      })
+      .catch(e => {console.warn(/*'error in getItem(\'newToken\') in reducer', */e)});
+          //**
   }
 
   setIntensityScore = (text) => {

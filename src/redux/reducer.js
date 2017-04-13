@@ -3,6 +3,7 @@ import {loop, combineReducers} from 'redux-loop';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
 import AuthStateReducer from '../modules/auth/AuthState';
 import HomeStateReducer from '../modules/Home/HomeState';
+import AppStateReducer from '../modules/AppState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import LiveWorkoutStateReducer from '../modules/LiveWorkout/LiveWorkoutState';
 
@@ -19,6 +20,8 @@ const reducers = {
   session: SessionStateReducer,
 
   liveWorkout: LiveWorkoutStateReducer,
+
+  app: AppStateReducer,
 
 };
 

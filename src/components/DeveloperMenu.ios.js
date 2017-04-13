@@ -2,7 +2,7 @@ import React from 'react';
 import * as snapshot from '../utils/snapshot';
 import * as auth0 from '../services/auth0';
 import store from '../redux/store';//for old token debugging
-import * as AuthStateActions from '../modules/auth/AuthState';//for old token debugging
+import * as AppStateActions from '../modules/AppState';//for old token debugging
 
 
 import {
@@ -36,7 +36,7 @@ const DeveloperMenu = React.createClass({
         await auth0.showLogin();
       }
       else if (index === options.setWrongToken) { //for old token debugging
-        store.dispatch(AuthStateActions.setWrongToken());//for old token debugging
+        store.dispatch(AppStateActions.setWrongToken());//for old token debugging
       } //for old token debugging
     };
 

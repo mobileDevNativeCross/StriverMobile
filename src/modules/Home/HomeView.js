@@ -1,4 +1,5 @@
 import * as HomeState from './HomeState';
+import * as AppState from '.././AppState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {Component} from 'react';
 import {
@@ -101,6 +102,7 @@ const BeginWorkout = MKButton.coloredButton()
   .build();
 
 const theme = getTheme();
+// let a = false;
 
 class HomeView extends Component{
 
@@ -110,35 +112,42 @@ class HomeView extends Component{
   }
 
   componentWillMount() {
-    const token = this.props.nextWorkoutToken;
-    fetch('https://strivermobile-api.herokuapp.com/api/private',{
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-    .then((response) => {
-      if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-        auth0.showLogin()
-          .catch(e => console.log('error in showLogin()', e))
-      }
-      return response.json();
-    })
-    .catch((e) => {
-      console.log('error in getWorkoutTree(): ', e);
-    });
+    AsyncStorage.getItem('currentToken')
+      .then(token => {
+        if (token) {
+          this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
+        }
+      })
+      .then(() => {
+        const { reduxCurrentToken, state } = this.props;
+        const currentToken = reduxCurrentToken.idToken;
+        if (currentToken) {
+          fetch('https://strivermobile-api.herokuapp.com/api/private',{
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + currentToken
+            }
+          })
+          .then((response) => {
+            if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
+              console.warn('bad responce');
+              auth0.showLogin()
+                .catch(e => console.log('error in showLogin()', e))
+            }
+            return response.json();
+          })
+          .catch((e) => {
+            console.log('error in getWorkoutTree(): ', e);
+          });
+        }
+      })
+      .catch(e => {console.log('error in getItem(\'newToken\') in reducer', e)})
     AsyncStorage.getItem('workoutTree').then(result => {
       if (result) {
         this.props.dispatch(HomeState.setWorkoutTree(JSON.parse(result)));
       }
-    });
-    this.props.dispatch(HomeState.checkEnter(true));
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.nextWorkoutToken && !this.state.isLoaded) {
-      this.setState({ isLoaded: true });
-    }
+    })
+    .catch (e => {console.warn(e)});
   }
 
   goToLiveWorkout() {
@@ -172,7 +181,7 @@ class HomeView extends Component{
     const focus = this.props.nextWorkoutTree.goal;
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
-    const { nextWorkoutTree } = this.props;
+    const { nextWorkoutTree, state} = this.props;
     return (
       <View style={styles.container}>
         <ScrollView >
@@ -211,6 +220,7 @@ class HomeView extends Component{
               </Text>
               <View  >
                 {
+
                   nextWorkoutTree.liveWorkoutComponents &&
                   Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
                   nextWorkoutTree.liveWorkoutComponents.length > 0
