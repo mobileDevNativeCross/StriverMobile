@@ -109,8 +109,8 @@ class HomeView extends Component{
     checkEnter: true,
   }
 
-  componentDidMount() {
-    console.warn('WillMount on HomeView');
+  componentWillMount() {
+    // console.warn('WillMount on HomeView');
     // const token = this.props.nextWorkoutToken;
     // console.warn('TOKEN', token);
     // fetch('https://strivermobile-api.herokuapp.com/api/private',{
@@ -130,14 +130,14 @@ class HomeView extends Component{
     //   console.warn('error in getWorkoutTree(): ', e);
     // });
     AsyncStorage.getItem('workoutTree').then(result => {
-      console.warn('result before if', result);
+      // console.warn('result before if', result);
       if (result) {
         this.props.dispatch(HomeState.setWorkoutTree(JSON.parse(result)));
-        console.warn('result after if ', result);
+        // console.warn('result after if ', result);
 
-        setTimeout(() => {
-          console.warn('setTimeout', JSON.stringify(this.props.nextWorkoutTree.liveWorkoutComponents));
-        }, 3000);
+        // setTimeout(() => {
+        //   console.warn('setTimeout', JSON.stringify(this.props.nextWorkoutTree.liveWorkoutComponents));
+        // }, 3000);
       }
     })
     .catch (e => {console.warn(e)});
@@ -182,7 +182,7 @@ class HomeView extends Component{
     const rawWorkoutDate = (this.props.nextWorkoutTree.workoutDate == undefined) ? "" : this.props.nextWorkoutTree.workoutDate;
     const workoutDate = moment(rawWorkoutDate).format('L');
     const { nextWorkoutTree, state} = this.props;
-    console.warn('nextWorkoutTree.liveWorkoutComponents', JSON.stringify(this.props.nextWorkoutTree.liveWorkoutComponents, null, 2))
+    // console.warn('nextWorkoutTree.liveWorkoutComponents', JSON.stringify(this.props.nextWorkoutTree.liveWorkoutComponents, null, 2))
     // console.warn('TOTAL: \n nextWorkoutTree.liveWorkoutComponents: ', nextWorkoutTree.liveWorkoutComponents ? 'TRUE' : 'FALSE', '\n Array.isArray(nextWorkoutTree.liveWorkoutComponents:' , Array.isArray(nextWorkoutTree.liveWorkoutComponents) ? 'TRUE' : 'FALSE');
     // console.warn('Array.isArray(nextWorkoutTree.liveWorkoutComponents: ', Array.isArray(nextWorkoutTree.liveWorkoutComponents) ? 'TRUE' : 'FALSE ');
     // console.warn('nextWorkoutTree.liveWorkoutComponents.length: ', nextWorkoutTree.liveWorkoutComponents && nextWorkoutTree.liveWorkoutComponents.length);

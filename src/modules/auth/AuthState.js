@@ -3,6 +3,7 @@ import {
     fromJS
 } from 'immutable';
 import * as HomeState from '../Home/HomeState';
+import { AsyncStorage } from 'react-native';
 
 //initial state
 const initialState = Map({
@@ -26,6 +27,7 @@ export function onUserLoginSuccess(profile, token) {
         token: fromJS(token)
       }
     });
+    AsyncStorage.setItem('currentToken', JSON.stringify(fromJS(token)));
     dispatch(HomeState.getWorkoutTree());
   };
 }
