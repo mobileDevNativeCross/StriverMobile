@@ -28,21 +28,28 @@ const StriverMobile = React.createClass({
     //
     // // if we are in the beginning of our tab stack
     // if (currentTab.get('index') === 0) {
-    //
+    //   console.warn('index = 0');
     //   // if we are not in the first tab, switch tab to the leftmost one
     //   if (tabs.get('index') !== 0) {
-    //     store.dispatch(NavigationStateActions.switchTab(0));
+    //     console.warn('index>0');
+    //     store.dispatch(NavigationStateActions.popRoute());
+    //     // store.dispatch(NavigationStateActions.switchTab(0));
     //     return true;
     //   }
     //
     //   // otherwise let OS handle the back button action
-    //   return false;
+    //   return true;
     // }
     //
     //
     //
-    // store.dispatch(NavigationStateActions.popRoute());
-    return false;
+    if (currentTab.get('index') === 0) {
+      return false;
+    }
+    if (currentTab.get('index') !== 0) {
+      store.dispatch(NavigationStateActions.popRoute());
+      return true;
+    }
   },
 
   render() {
