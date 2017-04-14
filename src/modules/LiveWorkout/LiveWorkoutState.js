@@ -94,7 +94,7 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
       .then(() => {
         if (action.show) {
           StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true)
-      }
+        }
       })
       .catch(e => console.warn('error in SHOW_WINDOW: ', e));
       return state.set('show', action.show);

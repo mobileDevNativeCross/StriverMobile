@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   viewFocusScore: {
     width: (width - 60),
-    marginTop: 10,
+    // marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
   viewError: {
     width: (width - 60),
     marginTop: 3,
-    marginLeft: 30,
+    height: 18,
+    // marginLeft: 30,
     alignItems: 'flex-end'
   },
   textError: {
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
 
   viewComments: {
     width: (width - 60),
-    marginTop: 20,
+    // marginTop: 20,
   },
   viewFinishWindowMargin: {
     ...Platform.select({
@@ -407,7 +408,7 @@ componentWillReceiveProps(nextProps)
   render() {
     const { windowFinishVisible } = this.props;
     return (
-    <View style={{ position: 'absolute', width, height: this.getHeight()  }}>
+    <View style={{ position: 'absolute', width }}>
       <Modal
         animationType={"slide"}
         transparent={true}
@@ -445,7 +446,7 @@ componentWillReceiveProps(nextProps)
                     />
                   </View>
                 </View>
-                <View style={styles.viewError}>
+                <View style={[styles.viewError, {height: 18}]}>
                   {
                     this.state.errorIntensityScore !== '' &&
 
@@ -553,7 +554,7 @@ componentWillReceiveProps(nextProps)
 
 
             </KeyboardAvoidingView>
-            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} />
+            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} style={{height: 0}} />
           </View>
           </ScrollView>
 
