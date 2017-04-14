@@ -91,6 +91,7 @@ const NavigationView = React.createClass({
       }).isRequired,
       HomeTab: NavigationPropTypes.navigationState.isRequired,
       LiveWorkout: NavigationPropTypes.navigationState.isRequired,
+      History: NavigationPropTypes.navigationState.isRequired,
     }),
     pushRoute: PropTypes.func.isRequired
   },
@@ -133,7 +134,19 @@ const NavigationView = React.createClass({
         break;
       case 'liveWorkout':
         this.goHomeFromLiveWorkout();
+      case 'history':
+        this.props.onNavigateBack();
+      default:
         break;
+    }
+  },
+  goHisroty(sceneName) {
+    switch (sceneName) {
+      case 'home':
+        this.props.pushRoute({ key: 'history' });
+      case 'history':
+        break;
+      // case ''
       default:
         break;
     }
@@ -151,7 +164,9 @@ const NavigationView = React.createClass({
             Home
           </Text>
         </ButtonGoHome>
-        <ButtonGoToHistory>
+        <ButtonGoToHistory
+          onPress={() => {this.goHisroty(sceneName)}}
+        >
           <Text
             pointerEvents="none"
             style={styles.textFooterButtons}
