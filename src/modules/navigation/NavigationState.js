@@ -15,7 +15,7 @@ const initialState = fromJS({
     index: 0,
     routes: [
       {key: 'HomeTab', title: 'HOME'},
-      {key: 'LiveWorkout', title: 'BEGIN'},
+      {key: 'LiveWorkout', title: 'WORKOUT'},
       {key: 'History', title: 'HISTORY'},
     ],
   },
@@ -54,6 +54,7 @@ export function firstPageRoute() {
 }
 
 export default function NavigationReducer(state = initialState, action) {
+  console.warn('NavigationReducer state: ', JSON.stringify(state, null, 2));
   switch (action.type) {
     case PUSH_ROUTE: {
       // Push a route into the scenes stack.
@@ -70,6 +71,7 @@ export default function NavigationReducer(state = initialState, action) {
       } catch (e) {
         nextScenes = scenes;
       }
+      console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
         return state.set(tabKey, fromJS(nextScenes));
       }
