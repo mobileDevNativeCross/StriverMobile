@@ -8,6 +8,7 @@ import {
   Dimensions,
   ActivityIndicator,
   AsyncStorage,
+  StatusBar,
 } from 'react-native';
 import moment from 'moment';
 import * as NavigationState from '../../modules/navigation/NavigationState';
@@ -235,6 +236,7 @@ class LiveWorkout extends Component {
 
   closeWindowFinish = () => {
     this.props.dispatch(LiveWorkoutState.showWindowFinish(false));
+    StatusBar.setBackgroundColor('white', true)
   }
 
   checkExsercise = (index) => {

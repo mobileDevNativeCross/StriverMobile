@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
       ios: {
         paddingTop: 25,
       },
-      android: {marginTop: 2},
+      android: {},
     })
   },
 });
@@ -168,6 +168,15 @@ const TextfieldComment = MKTextField.textfield()
 
 class LiveWorkoutFinishWindow extends Component {
 
+// componentWillMount(){
+// console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\') in Will');
+// StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);
+// }
+
+// componentDidMount(){
+// console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\') in Did');
+// StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);}
+
 componentWillReceiveProps(nextProps)
 {
   if (nextProps.windowFinishVisible) {
@@ -199,6 +208,8 @@ componentWillReceiveProps(nextProps)
   setModalVisible(visible){
     //this.setState({modalVisible:visible});
    this.props.closeWindowFinish()
+   console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\')');
+   StatusBar.setBackgroundColor('white', true);
   }
   getHeight = () => {
     if (this.props.windowFinishVisible) {

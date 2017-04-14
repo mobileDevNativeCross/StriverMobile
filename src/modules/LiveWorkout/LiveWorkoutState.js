@@ -1,5 +1,5 @@
-import {Map} from 'immutable';
-import {AsyncStorage} from 'react-native';
+import { Map } from 'immutable';
+import { AsyncStorage, StatusBar } from 'react-native';
 
 // Initial state
 const initialState = Map({
@@ -91,6 +91,12 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
 
     case SHOW_WINDOW: {
       AsyncStorage.setItem('showWindowFinish', JSON.stringify(action.show))
+      .then(() => {
+        if (action.show) {
+          StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true)
+      }
+      })
+      .catch(e => console.warn('error in SHOW_WINDOW: ', e));
       return state.set('show', action.show);
     }
 

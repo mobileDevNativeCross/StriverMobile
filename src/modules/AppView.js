@@ -64,8 +64,8 @@ const AppView = React.createClass({
     return (
       <View style={{flex: 1}}>
         <StatusBar
-          barStyle="light-content"
-          // backgroundColor={'red'}
+          barStyle="dark-content"
+          // backgroundColor={'white'}
           translucent={true}
         />
         <NavigationViewContainer />
