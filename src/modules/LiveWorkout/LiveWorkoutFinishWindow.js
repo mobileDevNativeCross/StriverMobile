@@ -12,7 +12,8 @@ import {
   Alert,
   ActivityIndicator,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  StatusBar
 } from 'react-native';
 import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
@@ -126,12 +127,12 @@ const styles = StyleSheet.create({
     width: (width - 60),
     marginTop: 20,
   },
-  viewFinitWindowMargin: {
+  viewFinishWindowMargin: {
     ...Platform.select({
       ios: {
         paddingTop: 25,
       },
-      android: {},
+      android: {marginTop: 2},
     })
   },
 });
@@ -395,7 +396,7 @@ componentWillReceiveProps(nextProps)
   render() {
     const { windowFinishVisible } = this.props;
     return (
-    <View style={{ position: 'absolute', width /*, height: this.getHeight() */ }}>
+    <View style={{ position: 'absolute', width, height: this.getHeight()  }}>
       <Modal
         animationType={"slide"}
         transparent={true}
@@ -404,7 +405,7 @@ componentWillReceiveProps(nextProps)
           this.setModalVisible(false);
         }}
       >
-        <View style={styles.viewFinitWindowMargin}>
+        <View style={styles.viewFinishWindowMargin}>
         <View style={[styles.container, {backgroundColor: 'rgba(0,0,0,.3)'}]} />
           <ScrollView scrollEnabled={this.state.scroll ? true : false }>
           <View style={[theme.cardStyle, {borderRadius: 2, width: width - 30, backgroundColor: 'white', alignSelf: 'center', marginVertical: 10, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>
