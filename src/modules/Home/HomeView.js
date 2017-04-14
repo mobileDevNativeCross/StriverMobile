@@ -1,6 +1,6 @@
 import * as HomeState from './HomeState';
 import * as AppState from '.././AppState';
-import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as NavigationState from '../navigation/NavigationState';
 import React, {Component} from 'react';
 import {
   Dimensions,

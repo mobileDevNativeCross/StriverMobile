@@ -286,9 +286,7 @@ componentWillReceiveProps(nextProps)
       })
       .then(() => {
         const { reduxCurrentToken } = this.props;
-        console.warn('reduxCurrentToken is: ', reduxCurrentToken);
         const currentToken = reduxCurrentToken.idToken;
-        console.warn('currentToken is: ', currentToken);
         if (currentToken) {
           //**
           fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
