@@ -5,6 +5,7 @@ import NavigationViewContainer from './navigation/NavigationViewContainer';
 import * as auth0 from '../services/auth0';
 import * as snapshotUtil from '../utils/snapshot';
 import * as SessionStateActions from '../modules/session/SessionState';
+import * as NavigationState from './navigation/NavigationState';
 import store from '../redux/store';
 import DeveloperMenu from '../components/DeveloperMenu';
 
@@ -14,7 +15,16 @@ const AppView = React.createClass({
     isLoggedIn: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired
   },
+
+  // componentWIllMount() {
+  //   console.warn('going to get previous state');
+  //   dispatch(NavigationState.getPrevNavigationState());
+  // },
+
   componentDidMount() {
+    // console.warn('did mount');
+    // console.warn('going to get previous state');
+    // this.props.dispatch(NavigationState.getPrevNavigationState());
     const {dispatch} = this.props;
     AsyncStorage.getItem('currentToken')
     .then(token => {

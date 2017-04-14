@@ -1,12 +1,13 @@
 import {fromJS} from 'immutable';
 
-import {NavigationExperimental} from 'react-native';
+import { NavigationExperimental, AsyncStorage } from 'react-native';
 
 const {StateUtils: NavigationStateUtils} = NavigationExperimental;
 
 // Actions
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
+const GET_PREV_NAVIGAION_STATE = 'NavigationState/GET_PREV_NAVIGAION_STATE';
 const FIRSTPAGE_ROUTE = 'NavigationState/FIRSTPAGE_ROUTE';
 
 // reducers for tabs and scenes are separate
@@ -46,6 +47,10 @@ export function popRoute() {
   return {type: POP_ROUTE};
 }
 
+export function getPrevNavigationState() {
+  return {type: GET_PREV_NAVIGAION_STATE};
+}
+
 export function firstPageRoute() {
   return {
     type: FIRSTPAGE_ROUTE,
@@ -73,7 +78,11 @@ export default function NavigationReducer(state = initialState, action) {
       }
       console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
-        return state.set(tabKey, fromJS(nextScenes));
+        setNewState = state.set(tabKey, fromJS(nextScenes));
+        AsyncStorage.setItem('storageNavigationState', JSON.stringify(setNewState))
+          .catch(e => {console.warn('error in NavigationReducer - PUSH_ROUTE: ', e);})
+        // console.warn('setNewState: ', setNewState);
+        return setNewState;
       }
       return state;
     }
@@ -88,6 +97,17 @@ export default function NavigationReducer(state = initialState, action) {
         return state.set(tabKey, fromJS(nextScenes));
       }
       return state;
+    }
+
+    case GET_PREV_NAVIGAION_STATE: {
+      console.warn('getting previous state from storage');
+      AsyncStorage.getItem('storageNavigationState')
+        .then(prevState => {
+          console.warn('upate state');
+          return state.set(prevState);
+        })
+        .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
+      // return initialState;
     }
 
     case FIRSTPAGE_ROUTE: {

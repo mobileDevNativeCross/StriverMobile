@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { bold, medium } from 'AppFonts';
+import * as NavigationState from '../navigation/NavigationState';
 
 const {
   CardStack: NavigationCardStack,
@@ -107,6 +108,11 @@ const NavigationView = React.createClass({
       </View>
     );
   },
+
+  componentWillMount(){
+    this.props.containerGetPrevNavigationState();
+  },
+
   renderScene(sceneProps) {
     // render scene and apply padding to cover
     // for app bar and navigation bar
@@ -184,7 +190,7 @@ const NavigationView = React.createClass({
     const tabKey = tabs.routes[tabs.index].key;
     const scenes = this.props.navigationState[tabKey];
     const indexScene = scenes.index;
-    console.warn('state of NavView:', JSON.stringify(this.props.state, null, 2));
+    // console.warn('state of NavView:', JSON.stringify(this.props.state, null, 2));
     return (
       <View style={styles.container}>
         <NavigationCardStack
