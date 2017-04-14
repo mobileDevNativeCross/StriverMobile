@@ -13,6 +13,7 @@ export default connect(
       dispatch(pushRoute(index));
     },
     onNavigateBack() {
+      console.warn('onNavigateBack()');
       dispatch(popRoute());
     },
     backToHomeFromLiveWorkout() {

@@ -134,8 +134,10 @@ const NavigationView = React.createClass({
         break;
       case 'liveWorkout':
         this.goHomeFromLiveWorkout();
+        break;
       case 'history':
         this.props.onNavigateBack();
+        break;
       default:
         break;
     }
