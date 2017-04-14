@@ -59,7 +59,6 @@ export function firstPageRoute() {
 }
 
 export default function NavigationReducer(state = initialState, action) {
-  console.warn('NavigationReducer state: ', JSON.stringify(state, null, 2));
   switch (action.type) {
     case PUSH_ROUTE: {
       // Push a route into the scenes stack.
@@ -76,12 +75,12 @@ export default function NavigationReducer(state = initialState, action) {
       } catch (e) {
         nextScenes = scenes;
       }
-      console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
+      // // fixing a bug with not saving current Scene
+      // console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
         setNewState = state.set(tabKey, fromJS(nextScenes));
         AsyncStorage.setItem('storageNavigationState', JSON.stringify(setNewState))
           .catch(e => {console.warn('error in NavigationReducer - PUSH_ROUTE: ', e);})
-        // console.warn('setNewState: ', setNewState);
         return setNewState;
       }
       return state;
@@ -100,14 +99,15 @@ export default function NavigationReducer(state = initialState, action) {
     }
 
     case GET_PREV_NAVIGAION_STATE: {
-      console.warn('getting previous state from storage');
-      AsyncStorage.getItem('storageNavigationState')
-        .then(prevState => {
-          console.warn('upate state');
-          return state.set(prevState);
-        })
-        .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
-      // return initialState;
+      // // fixing a bug with not saving current Scene
+      // console.warn('getting previous state from storage');
+      // AsyncStorage.getItem('storageNavigationState')
+      //   .then(prevState => {
+      //     console.warn('got prevState: ' +  JSON.stringify(JSON.parse(prevState), null, 2));
+      //     return state.set(prevState);
+      //   })
+      //   .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
+      // // return initialState;
     }
 
     case FIRSTPAGE_ROUTE: {

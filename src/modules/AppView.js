@@ -16,19 +16,10 @@ const AppView = React.createClass({
     dispatch: PropTypes.func.isRequired
   },
 
-  // componentWIllMount() {
-  //   console.warn('going to get previous state');
-  //   dispatch(NavigationState.getPrevNavigationState());
-  // },
-
   componentDidMount() {
-    // console.warn('did mount');
-    // console.warn('going to get previous state');
-    // this.props.dispatch(NavigationState.getPrevNavigationState());
     const {dispatch} = this.props;
     AsyncStorage.getItem('currentToken')
     .then(token => {
-      // console.warn(token);
       if (!token) {
         auth0.showLogin();
         // dispatch(SessionStateActions.initializeSessionState());

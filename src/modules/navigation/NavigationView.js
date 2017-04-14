@@ -109,9 +109,15 @@ const NavigationView = React.createClass({
     );
   },
 
-  componentWillMount(){
-    this.props.containerGetPrevNavigationState();
-  },
+  // // fixing a bug with not saving current Scene
+  // componentWillMount(){
+  //   this.props.containerGetPrevNavigationState();
+  // },
+
+  // // fixing a bug with not saving current Scene
+  // componentWillReceiveProps(prevState){
+  //   console.warn('prevState: ' + JSON.stringify(prevState, null, 2));
+  // },
 
   renderScene(sceneProps) {
     // render scene and apply padding to cover
@@ -190,7 +196,6 @@ const NavigationView = React.createClass({
     const tabKey = tabs.routes[tabs.index].key;
     const scenes = this.props.navigationState[tabKey];
     const indexScene = scenes.index;
-    // console.warn('state of NavView:', JSON.stringify(this.props.state, null, 2));
     return (
       <View style={styles.container}>
         <NavigationCardStack
