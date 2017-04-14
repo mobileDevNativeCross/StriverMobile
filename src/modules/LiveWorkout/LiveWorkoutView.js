@@ -14,6 +14,7 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as auth0 from '../../services/auth0';
 import * as HomeState from '../Home/HomeState';
 import * as LiveWorkoutState from './LiveWorkoutState';
+import * as AppState from '../AppState';
 import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
@@ -384,6 +385,7 @@ class LiveWorkout extends Component {
           popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
           reduxCurrentToken={this.props.reduxCurrentToken}
+          dispatchTokenToRedux={(token) => {this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)))}}
         />
         {/* <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/> */}
       </View>

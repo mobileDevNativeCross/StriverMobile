@@ -28,7 +28,6 @@ import {
 } from 'react-native-material-kit';
 import * as auth0 from '../../services/auth0';
 import { regular, bold, medium} from 'AppFonts';
-import * as AppState from '../AppState';
 
 
 const { width, height } = Dimensions.get('window');
@@ -281,7 +280,8 @@ componentWillReceiveProps(nextProps)
     AsyncStorage.getItem('currentToken')
       .then(token => {
         if (token) {
-          this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
+          this.props.dispatchTokenToRedux(token);
+          //this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
         }
       })
       .then(() => {
@@ -313,13 +313,13 @@ componentWillReceiveProps(nextProps)
                 'Workout result was sent successfully.',
                 [
                   {text: 'OK', onPress: () => {
-                    this.props.popToStartScreen();
                     this.props.closeWindowFinish();
-                    this.props.clearCheck();
                   }},
                 ],
                 { cancelable: true }
               )
+              this.props.popToStartScreen();
+              this.props.clearCheck();
               this.setState({
                 loadResult: false,
               });
