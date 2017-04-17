@@ -8,7 +8,8 @@ import * as HomeState from '../Home/HomeState';
 export default connect(
   state => ({
     navigationState: state.get('navigationState').toJS(),
-    state: state
+    state: state,
+    checkEnter: state.getIn(['home', 'checkEnter']),
   }),
   dispatch => ({
     pushRoute(index) {
@@ -19,8 +20,10 @@ export default connect(
     },
     // fixing a bug with not saving current Scene
     containerGetPrevNavigationState() {
-      console.warn('going to get previous state');
       dispatch(NavigationState.getPrevNavigationState());
+    },
+    backToFirstPage() {
+      dispatch(NavigationState.firstPageRoute());
     },
     backToHomeFromLiveWorkout() {
       dispatch(popRoute());
