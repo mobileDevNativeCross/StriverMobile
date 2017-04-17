@@ -17,11 +17,11 @@ export default connect(
     onNavigateBack() {
       dispatch(popRoute());
     },
-    // // fixing a bug with not saving current Scene
-    // containerGetPrevNavigationState() {
-    //   console.warn('going to get previous state');
-    //   dispatch(NavigationState.getPrevNavigationState());
-    // },
+    // fixing a bug with not saving current Scene
+    containerGetPrevNavigationState() {
+      console.warn('going to get previous state');
+      dispatch(NavigationState.getPrevNavigationState());
+    },
     backToHomeFromLiveWorkout() {
       dispatch(popRoute());
       dispatch(HomeState.checkEnter(true));

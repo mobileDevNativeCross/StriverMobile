@@ -47,8 +47,20 @@ export function popRoute() {
   return {type: POP_ROUTE};
 }
 
-export function getPrevNavigationState() {
-  return {type: GET_PREV_NAVIGAION_STATE};
+export const getPrevNavigationState = () => dispatch => {
+  console.warn('getting previous state from storage');
+  // fixing a bug with not saving current Scene
+  // AsyncStorage.getItem('storageNavigationState')
+  //   .then(prevState => {
+  //     // console.warn('got prevState: ' +  JSON.stringify(JSON.parse(prevState), null, 2));
+  //     if (prevState) {
+  //       dispatch ({
+  //         type: GET_PREV_NAVIGAION_STATE,
+  //         prevState,
+  //       });
+  //     }
+  //   })
+  //   .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
 }
 
 export function firstPageRoute() {
@@ -76,7 +88,7 @@ export default function NavigationReducer(state = initialState, action) {
         nextScenes = scenes;
       }
       // // fixing a bug with not saving current Scene
-      // console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
+      console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
         setNewState = state.set(tabKey, fromJS(nextScenes));
         AsyncStorage.setItem('storageNavigationState', JSON.stringify(setNewState))
@@ -99,15 +111,15 @@ export default function NavigationReducer(state = initialState, action) {
     }
 
     case GET_PREV_NAVIGAION_STATE: {
-      // // fixing a bug with not saving current Scene
-      // console.warn('getting previous state from storage');
-      // AsyncStorage.getItem('storageNavigationState')
-      //   .then(prevState => {
-      //     console.warn('got prevState: ' +  JSON.stringify(JSON.parse(prevState), null, 2));
-      //     return state.set(prevState);
-      //   })
-      //   .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
-      // // return initialState;
+      // fixing a bug with not saving current Scene
+      console.warn('action.prevState', action.prevState);
+          return state
+            .set('tabs', action.prevState.tabs)
+            .set('HomeTab', action.prevState.HomeTab)
+            .set('LiveWorkout', action.prevState.LiveWorkout)
+            .set('History', action.prevState.History);
+
+      // return initialState;
     }
 
     case FIRSTPAGE_ROUTE: {

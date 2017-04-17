@@ -109,15 +109,15 @@ const NavigationView = React.createClass({
     );
   },
 
-  // // fixing a bug with not saving current Scene
-  // componentWillMount(){
-  //   this.props.containerGetPrevNavigationState();
-  // },
+  // fixing a bug with not saving current Scene
+  componentWillMount(){
+    this.props.containerGetPrevNavigationState();
+  },
 
-  // // fixing a bug with not saving current Scene
-  // componentWillReceiveProps(prevState){
-  //   console.warn('prevState: ' + JSON.stringify(prevState, null, 2));
-  // },
+  // fixing a bug with not saving current Scene
+  componentWillReceiveProps(prevState){
+    console.warn('prevState: ' + JSON.stringify(prevState, null, 2));
+  },
 
   renderScene(sceneProps) {
     // render scene and apply padding to cover
@@ -192,10 +192,13 @@ const NavigationView = React.createClass({
     );
   },
   render() {
-    const {tabs} = this.props.navigationState;
+    console.warn('this.props.state', JSON.stringify(this.props.state, null, 2));
+    const {tabs} = this.props.navigationState; // put to AsyncStorage
     const tabKey = tabs.routes[tabs.index].key;
     const scenes = this.props.navigationState[tabKey];
     const indexScene = scenes.index;
+    console.warn('\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nindexScene: ', indexScene );
+    // console.warn('tabs in NavView: ', tabs);
     return (
       <View style={styles.container}>
         <NavigationCardStack

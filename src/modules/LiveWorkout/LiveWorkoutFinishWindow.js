@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   viewFinishButton: {
    flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'flex-end',
     borderStyle: 'solid',
     borderTopColor: 'rgba(0,0,0,0.1)',
     borderTopWidth: 1,
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 8,
-    marginRight: 0,
+    marginLeft: 0,
   },
 
   viewComments: {
@@ -312,7 +313,7 @@ componentWillReceiveProps(nextProps)
           })
           .then((response) => {
             if ((response.status == 401) && (response.ok == false)  && (response._bodyText === 'Unauthorized', '\\n')) {
-              console.warn('bad responce');
+              console.warn('Unauthorized');
               this.setState({
                 loadResult: false
               });

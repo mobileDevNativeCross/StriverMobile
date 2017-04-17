@@ -27,7 +27,7 @@ export default oldTokenCheck = function(reduxCurrentToken) {
         })
         .then((response) => {
           if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-            console.warn('bad responce');
+            console.warn('Unauthorized');
             auth0.showLogin()
               .catch(e => console.warn('error in showLogin()', e))
           }
