@@ -25,10 +25,16 @@ export default connect(
     backToFirstPage() {
       dispatch(NavigationState.firstPageRoute());
     },
-    backToHomeFromLiveWorkout() {
+    exit_backToHomeFromLiveWorkout() {
       dispatch(popRoute());
       dispatch(HomeState.checkEnter(true));
       dispatch(LiveWorkoutState.clearCheck());
+      dispatch(LiveWorkoutState.showWindowFinish(false));
+    },
+    pause_backToHomeFromLiveWorkout() {
+      dispatch(popRoute());
+      dispatch(HomeState.checkEnter(true));
+      // dispatch(LiveWorkoutState.clearCheck());
       dispatch(LiveWorkoutState.showWindowFinish(false));
     }
   })
