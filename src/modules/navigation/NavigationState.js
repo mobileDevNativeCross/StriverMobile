@@ -48,26 +48,22 @@ export function popRoute() {
 }
 
 export const getPrevNavigationState = () => dispatch => {
-  // console.warn('getting previous state from storage');
   // fixing a bug with not saving current Scene
-  // AsyncStorage.getItem('storageNavigationState')
-  //   .then(prevState => {
-  //     // console.warn('got prevState: ' +  JSON.stringify(JSON.parse(prevState), null, 2));
-  //     if (prevState) {
-  //       dispatch ({
-  //         type: GET_PREV_NAVIGAION_STATE,
-  //         prevState,
-  //       });
-  //     }
-  //   })
-  //   .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
+  AsyncStorage.getItem('storageNavigationState')
+    .then(prevState => {
+      if (prevState) {
+        parsedState = JSON.parse(prevState);
+        dispatch ({
+          type: GET_PREV_NAVIGAION_STATE,
+          prevState: parsedState,
+        });
+      }
+    })
+    .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
 }
 
 export function firstPageRoute() {
-  return {
-    type: FIRSTPAGE_ROUTE,
-    initialState,
-  };
+  return {type: FIRSTPAGE_ROUTE};
 }
 
 export default function NavigationReducer(state = initialState, action) {
@@ -91,7 +87,7 @@ export default function NavigationReducer(state = initialState, action) {
       // console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
         setNewState = state.set(tabKey, fromJS(nextScenes));
-        AsyncStorage.setItem('storageNavigationState', JSON.stringify(setNewState))
+        AsyncStorage.setItem('storageNavigationState', JSON.stringify(nextScenes))
           .catch(e => {console.warn('error in NavigationReducer - PUSH_ROUTE: ', e);})
         return setNewState;
       }
@@ -105,24 +101,24 @@ export default function NavigationReducer(state = initialState, action) {
       const scenes = state.get(tabKey).toJS();
       const nextScenes = NavigationStateUtils.pop(scenes);
       if (scenes !== nextScenes) {
-        return state.set(tabKey, fromJS(nextScenes));
+        setNewState = state.set(tabKey, fromJS(nextScenes));
+        AsyncStorage.setItem('storageNavigationState', JSON.stringify(nextScenes))
+          .catch(e => {console.warn('error in NavigationReducer - POP_ROUTE: ', e);})
+        return setNewState;
       }
       return state;
     }
 
     case GET_PREV_NAVIGAION_STATE: {
       // fixing a bug with not saving current Scene
-      // console.warn('action.prevState', action.prevState);
-          return state
-            .set('tabs', action.prevState.tabs)
-            .set('HomeTab', action.prevState.HomeTab)
-            .set('LiveWorkout', action.prevState.LiveWorkout)
-            .set('History', action.prevState.History);
-
-      // return initialState;
+      return state
+        .set('HomeTab', fromJS(action.prevState));
     }
 
     case FIRSTPAGE_ROUTE: {
+      const initState = initialState.get('HomeTab');
+      AsyncStorage.setItem('storageNavigationState', JSON.stringify(initState))
+        .catch(e => {console.warn('error in NavigationReducer - FIRST_PAGE_ROUTE: ', e);})
       return initialState;
     }
 

@@ -121,11 +121,6 @@ const NavigationView = React.createClass({
     this.props.containerGetPrevNavigationState();
   },
 
-  // fixing a bug with not saving current Scene
-  componentWillReceiveProps(nextProps){
-    // console.warn('prevState: ' + JSON.stringify(prevState, null, 2));
-  },
-
   renderScene(sceneProps) {
     // render scene and apply padding to cover
     // for app bar and navigation bar
@@ -178,7 +173,7 @@ const NavigationView = React.createClass({
         this.goHomeFromLiveWorkout();
         break;
       case 'history':
-        this.props.onNavigateBack();
+        this.props.backToFirstPage();
         break;
       default:
         break;
@@ -190,7 +185,8 @@ const NavigationView = React.createClass({
         this.props.pushRoute({ key: 'history' });
       case 'history':
         break;
-      // case ''
+      case 'liveWorkout':
+        this.props.pushRoute({ key: 'history' });
       default:
         break;
     }
@@ -222,13 +218,10 @@ const NavigationView = React.createClass({
     );
   },
   render() {
-    // console.warn('this.props.state', JSON.stringify(this.props.state, null, 2));
     const {tabs} = this.props.navigationState; // put to AsyncStorage
     const tabKey = tabs.routes[tabs.index].key;
     const scenes = this.props.navigationState[tabKey];
     const indexScene = scenes.index;
-    console.warn('\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nindexScene: ', indexScene );
-    // console.warn('tabs in NavView: ', tabs);
     return (
       <View style={styles.container}>
         <NavigationCardStack
