@@ -22,10 +22,16 @@ export default connect(
       console.warn('going to get previous state');
       dispatch(NavigationState.getPrevNavigationState());
     },
-    backToHomeFromLiveWorkout() {
+    exit_backToHomeFromLiveWorkout() {
       dispatch(popRoute());
       dispatch(HomeState.checkEnter(true));
       dispatch(LiveWorkoutState.clearCheck());
+      dispatch(LiveWorkoutState.showWindowFinish(false));
+    },
+    pause_backToHomeFromLiveWorkout() {
+      dispatch(popRoute());
+      dispatch(HomeState.checkEnter(true));
+      // dispatch(LiveWorkoutState.clearCheck());
       dispatch(LiveWorkoutState.showWindowFinish(false));
     }
   })

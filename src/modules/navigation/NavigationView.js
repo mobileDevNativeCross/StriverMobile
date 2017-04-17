@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 import { bold, medium } from 'AppFonts';
 import * as NavigationState from '../navigation/NavigationState';
@@ -96,6 +97,12 @@ const NavigationView = React.createClass({
     }),
     pushRoute: PropTypes.func.isRequired
   },
+
+  // getInitialState() {
+  //   return {
+  //     isCancelWorkout: false,
+  //   }
+  // },
   // NavigationHeader accepts a prop style
   // NavigationHeader.title accepts a prop textStyle
   renderHeader(sceneProps) {
@@ -115,8 +122,8 @@ const NavigationView = React.createClass({
   },
 
   // fixing a bug with not saving current Scene
-  componentWillReceiveProps(prevState){
-    console.warn('prevState: ' + JSON.stringify(prevState, null, 2));
+  componentWillReceiveProps(nextProps){
+    // console.warn('prevState: ' + JSON.stringify(prevState, null, 2));
   },
 
   renderScene(sceneProps) {
@@ -135,7 +142,30 @@ const NavigationView = React.createClass({
         'Are you sure you want to exit workout?',
         [
           {text: 'Cancel', onPress: () => {}},
-          {text: 'Exit', onPress: ()=> {this.props.backToHomeFromLiveWorkout()}}
+          {text: 'Pause', onPress: ()=> {
+            let endWorkoutTime = moment().format();
+            AsyncStorage.getItem('beginWorkoutTime')
+              .then((asyncStartWorkoutTime) => {
+                startWorkoutTime = asyncStartWorkoutTime;
+                AsyncStorage.getItem('savedWorkoutTime')
+                  .then((savedWorkoutTime) => {
+                    savedWorkoutTime = JSON.parse(savedWorkoutTime)
+                    // console.warn('typeof savedWorkoutTime: ', typeof savedWorkoutTime);
+                    let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
+                    // console.warn('typeof totalWorkoutDuration: ', typeof totalWorkoutDuration);
+                    console.warn('setting savedWorkoutTime by value: ', totalWorkoutDuration);
+                    AsyncStorage.setItem('savedWorkoutTime', JSON.stringify(totalWorkoutDuration));
+                    this.setState({isCancelWorkout: false,})
+                  })
+                  .catch(error => console.warn(/*'err. in getItem(\'savedWorkoutTime\') - Nav View',*/ error));
+              })
+              .catch(error => console.warn('err. in getItem(\'beginWorkoutTime\') - Nav View', error));
+            this.props.pause_backToHomeFromLiveWorkout()
+          }},
+          {text: 'Exit', onPress: ()=> {
+            AsyncStorage.setItem('savedWorkoutTime', '0');
+            this.props.exit_backToHomeFromLiveWorkout()}
+          },
         ]
       )
     );
@@ -192,7 +222,7 @@ const NavigationView = React.createClass({
     );
   },
   render() {
-    console.warn('this.props.state', JSON.stringify(this.props.state, null, 2));
+    // console.warn('this.props.state', JSON.stringify(this.props.state, null, 2));
     const {tabs} = this.props.navigationState; // put to AsyncStorage
     const tabKey = tabs.routes[tabs.index].key;
     const scenes = this.props.navigationState[tabKey];

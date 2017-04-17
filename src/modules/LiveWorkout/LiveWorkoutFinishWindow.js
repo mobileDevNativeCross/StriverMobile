@@ -179,23 +179,60 @@ class LiveWorkoutFinishWindow extends Component {
 // console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\') in Did');
 // StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);}
 
-componentWillReceiveProps(nextProps)
-{
+
+/* for developing:
+AsyncStorage.getItem('a')
+  .then((a) => {
+    AsyncStorage.getItem('b')
+      .then((b) => {
+        c = a * coeficient + b;
+      })
+      .catch(error => console.warn(error));
+  })
+  .catch(error => console.warn(error));
+
+-----------
+
+  let a = 18.256564654;
+  a -= a % 1;
+  console.warn('a: ', a);
+*/
+componentWillReceiveProps(nextProps){
   if (nextProps.windowFinishVisible) {
     AsyncStorage.getItem('endWorkoutTime')
       .then((asyncEndWorkoutTime) => {
         endWorkoutTime = asyncEndWorkoutTime;
       })
-      .catch(error => console.log('error in AsyncStorage.getItem(\'endWorkoutTime\'): ', error));
+      .catch(error => console.warn('error in AsyncStorage.getItem(\'endWorkoutTime\'): ', error));
     AsyncStorage.getItem('beginWorkoutTime')
       .then((asyncStartWorkoutTime) => {
         startWorkoutTime = asyncStartWorkoutTime;
-        let getWorkoutDuration = moment(startWorkoutTime).preciseDiff(endWorkoutTime);
-        this.setState({workoutDuration: getWorkoutDuration})
+        AsyncStorage.getItem('savedWorkoutTime')
+          .then((savedWorkoutTime) => {
+            savedWorkoutTime = JSON.parse(savedWorkoutTime);
+
+            let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
+
+            let humanizeDurationHours = moment.duration(totalWorkoutDuration).asHours();
+            humanizeDurationHours -= humanizeDurationHours % 1;
+            humanizeDurationHours = (humanizeDurationHours === 0) ? '' :  humanizeDurationHours + ' hour(s), ';
+            let humanizeDurationMinutes = moment.duration(totalWorkoutDuration).minutes();
+            humanizeDurationMinutes = (humanizeDurationMinutes === 0) ? '' :  humanizeDurationMinutes + ' minute(s), ';
+            let humanizeDurationSeconds = moment.duration(totalWorkoutDuration).seconds();
+            humanizeDurationSeconds = (humanizeDurationSeconds === 0) ? '' :  humanizeDurationSeconds + ' second(s)';
+            let totalWorkoutDurationString = humanizeDurationHours + humanizeDurationMinutes + humanizeDurationSeconds;
+
+            this.setState({totalWorkoutDuration: totalWorkoutDurationString})
+          })
+          .catch(error => console.warn('err. in getItem(\'savedWorkoutTime\')', error));
+        // let totalWorkoutDuration = moment(startWorkoutTime).preciseDiff(endWorkoutTime);
+
+        // this.setState({totalWorkoutDuration: totalWorkoutDuration})
       })
-      .catch(error => console.log('error in AsyncStorage.getItem(\'startWorkoutTime\'): ', error));
+      .catch(error => console.warn('err. in getItem(\'beginWorkoutTime\')', error));
   }
 }
+
   state={
       intensityScoreText: '',
       focusScoreText: '',
@@ -204,7 +241,7 @@ componentWillReceiveProps(nextProps)
       errorFocusScore: '',
       errorComents: '',
       scroll: false,
-      workoutDuration: null,
+      totalWorkoutDuration: null,
       loadResult: false}
 
   setModalVisible(visible){
@@ -274,10 +311,10 @@ componentWillReceiveProps(nextProps)
       AsyncStorage.getItem('resultObject')
         .then((savedResultObject) => {
           AsyncStorage.removeItem('resultObject')
-          .catch(error => console.log('error AsyncStorage.removeItem(\'resultObject\'): ', error));
+          .catch(error => console.warn('error AsyncStorage.removeItem(\'resultObject\'): ', error));
           this.sendingWorkoutResult(savedResultObject);
         })
-        .catch(error => console.log('error AsyncStorage.getItem(\'resultObject\'): ', error));
+        .catch(error => console.warn('error AsyncStorage.getItem(\'resultObject\'): ', error));
       testConnectionListenerWorking = false;
       NetInfo.removeEventListener( //turning off connection listener
         'change',
@@ -318,7 +355,7 @@ componentWillReceiveProps(nextProps)
                 loadResult: false
               });
               auth0.showLogin()
-                .catch(e => console.log('error in showLogin()', e));
+                .catch(e => console.warn('error in showLogin()', e));
             } else if (response.status === 200 && response.ok === true) { //checking server response on failing
               Alert.alert(
                 'Send Success',
@@ -330,6 +367,7 @@ componentWillReceiveProps(nextProps)
                 ],
                 { cancelable: true }
               )
+              AsyncStorage.setItem('savedWorkoutTime', '0');
               this.props.popToStartScreen();
               this.props.clearCheck();
               this.setState({
@@ -345,12 +383,12 @@ componentWillReceiveProps(nextProps)
                 ],
                 { cancelable: false }
               )
-              console.log('There is something wrong. Server response: ', response);
+              console.warn('There is something wrong. Server response: ', response);
             }
           })
           .catch((e) => {
             AsyncStorage.setItem('resultObject', resultObject);
-            console.log('error in first POST request: ', e);
+            console.warn('error in first POST request: ', e);
           });
         }
       })
@@ -513,7 +551,7 @@ componentWillReceiveProps(nextProps)
                 </View>
                 <View style={styles.viewTime}>
                   <Text style={styles.fieldTitle}>
-                    Time: {this.state.workoutDuration}
+                    Time: {this.state.totalWorkoutDuration}
                   </Text>
                 </View>
               </View>

@@ -48,7 +48,7 @@ export function popRoute() {
 }
 
 export const getPrevNavigationState = () => dispatch => {
-  console.warn('getting previous state from storage');
+  // console.warn('getting previous state from storage');
   // fixing a bug with not saving current Scene
   // AsyncStorage.getItem('storageNavigationState')
   //   .then(prevState => {
@@ -88,7 +88,7 @@ export default function NavigationReducer(state = initialState, action) {
         nextScenes = scenes;
       }
       // // fixing a bug with not saving current Scene
-      console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
+      // console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
         setNewState = state.set(tabKey, fromJS(nextScenes));
         AsyncStorage.setItem('storageNavigationState', JSON.stringify(setNewState))
@@ -112,7 +112,7 @@ export default function NavigationReducer(state = initialState, action) {
 
     case GET_PREV_NAVIGAION_STATE: {
       // fixing a bug with not saving current Scene
-      console.warn('action.prevState', action.prevState);
+      // console.warn('action.prevState', action.prevState);
           return state
             .set('tabs', action.prevState.tabs)
             .set('HomeTab', action.prevState.HomeTab)
