@@ -34,7 +34,6 @@ export default connect(
     pause_backToHomeFromLiveWorkout() {
       dispatch(popRoute());
       dispatch(HomeState.checkEnter(true));
-      // dispatch(LiveWorkoutState.clearCheck());
       dispatch(LiveWorkoutState.showWindowFinish(false));
     }
   })

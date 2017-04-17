@@ -102,7 +102,6 @@ const BeginWorkout = MKButton.coloredButton()
   .build();
 
 const theme = getTheme();
-// let a = false;
 
 class HomeView extends Component{
 
