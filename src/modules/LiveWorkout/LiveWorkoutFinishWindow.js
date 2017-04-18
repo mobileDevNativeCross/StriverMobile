@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   viewFinishWindowMargin: {
     ...Platform.select({
       ios: {
-        paddingTop: 65,
+        paddingTop: 25,
       },
       android: {},
     })
@@ -574,12 +574,10 @@ afterInternetConnectionChecking = (reach_bool) => {
                   }
                 </MKButton>
               </View>
-
-
-
             </KeyboardAvoidingView>
-            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 50} style={{ height: 0 }} />
+            {Platform.OS === 'android' && <KeyboardSpacer topSpacing={80} style={{ height: 0 }} />}
           </View>
+          {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={20} />}
           </ScrollView>
 
         </View>

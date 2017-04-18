@@ -238,7 +238,7 @@ class LiveWorkout extends Component {
 
   closeWindowFinish = () => {
     this.props.dispatch(LiveWorkoutState.showWindowFinish(false));
-    StatusBar.setBackgroundColor('white', true)
+    StatusBar.setBackgroundColor('white', true);
   }
 
   checkExsercise = (index) => {

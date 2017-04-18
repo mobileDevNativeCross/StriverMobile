@@ -68,7 +68,7 @@ export const showWindowFinish = (show) => dispatch => {
 
 export const setWindowFinishVisible = () => (dispatch) => {
   AsyncStorage.getItem('showWindowFinish').then(visible => {
-    if (visible) {
+    if (visible && JSON.parse(visible)) {
       parsedVisible = JSON.parse(visible);
       StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);
       dispatch({

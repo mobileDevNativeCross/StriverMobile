@@ -8,6 +8,7 @@ import {
   Text,
   Alert,
   AsyncStorage,
+  StatusBar,
 } from 'react-native';
 import { bold, medium } from 'AppFonts';
 import * as NavigationState from '../navigation/NavigationState';
@@ -119,6 +120,7 @@ const NavigationView = React.createClass({
 
   componentWillMount() {
     this.props.getWindowFinishVisible();
+    StatusBar.setBackgroundColor('white', true);
   },
 
   renderScene(sceneProps) {
