@@ -24,8 +24,7 @@ const AppView = React.createClass({
   propTypes: {
     isReady: PropTypes.bool.isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
-    // dispatch: PropTypes.func.isRequired,
-    // containerGetPrevNavigationState: PropTypes.func.isRequired,
+    containerGetPrevNavigationState: PropTypes.func.isRequired,
   },
 
   componentDidMount() {
@@ -35,7 +34,6 @@ const AppView = React.createClass({
     .then(token => {
       if (!token) {
         auth0.showLogin();
-        // dispatch(SessionStateActions.initializeSessionState());
       } else {
         console.log('checking old token');
       }
@@ -57,24 +55,7 @@ const AppView = React.createClass({
     //   .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
   },
 
-  // componentWillReceiveProps({isReady, isLoggedIn}){
-  //   if (!this.props.isReady) {
-  //     if (isReady && !isLoggedIn) {
-  //       auth0.showLogin();
-  //     }
-  //   }
-  // },
-
-
   render() {
-    // if (!this.props.isReady) {
-    //   return (
-    //     <View style={{flex: 1}}>
-    //       <ActivityIndicator style={styles.centered}/>
-    //     </View>
-    //   );
-    // }
-    // console.warn(this.props.isReady);
     return (
       <View style={styles.container}>
         {
