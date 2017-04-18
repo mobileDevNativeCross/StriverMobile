@@ -113,8 +113,12 @@ const NavigationView = React.createClass({
   },
 
   // fixing a bug with not saving current Scene
-  componentWillMount(){
-    this.props.containerGetPrevNavigationState();
+  // componentWillMount(){
+  //   this.props.containerGetPrevNavigationState();
+  // },
+
+  componentWillMount() {
+    this.props.getWindowFinishVisible();
   },
 
   renderScene(sceneProps) {

@@ -22,6 +22,9 @@ export default connect(
     containerGetPrevNavigationState() {
       dispatch(NavigationState.getPrevNavigationState());
     },
+    getWindowFinishVisible() {
+      dispatch(LiveWorkoutState.setWindowFinishVisible());
+    },
     backToFirstPage() {
       dispatch(NavigationState.firstPageRoute());
     },

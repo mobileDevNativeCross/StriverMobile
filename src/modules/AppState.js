@@ -15,24 +15,17 @@ const SET_WRONG_TOKEN = 'AuthState/SET_WRONG_TOKEN'; //for old token debugging
 
 // Action creators
 export const setTokenToRedux = (token) => (dispatch) => {
-    // AsyncStorage.getItem('currentToken')
-    //   .then(token => {
-    //     console.warn('token in reducer: ', token);
-    //     if (token) {
-          dispatch({
-            type: SET_CURRENT_TOKEN_TO_REDUX,
-            setToken: token,
-          })
-      //   }
-      // })
-      // .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)})
-    };
+  dispatch({
+    type: SET_CURRENT_TOKEN_TO_REDUX,
+    setToken: token,
+  })
+};
 
 //This function is for old token debugging
 export function setWrongToken() {
-    return {
-        type: SET_WRONG_TOKEN,
-    }
+  return {
+      type: SET_WRONG_TOKEN,
+  }
 }
 
 // Reducer

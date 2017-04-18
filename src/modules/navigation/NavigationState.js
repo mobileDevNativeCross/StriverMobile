@@ -9,6 +9,7 @@ const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
 const GET_PREV_NAVIGAION_STATE = 'NavigationState/GET_PREV_NAVIGAION_STATE';
 const FIRSTPAGE_ROUTE = 'NavigationState/FIRSTPAGE_ROUTE';
+const CHECK_ISREADY = 'NavigationState/CHECK_ISREADY';
 
 // reducers for tabs and scenes are separate
 const initialState = fromJS({
@@ -33,6 +34,7 @@ const initialState = fromJS({
     index: 0,
     routes: [{key: 'history', title: 'History Screen'}],
   },
+  isReady: false,
 });
 
 // Action creators
@@ -58,6 +60,9 @@ export const getPrevNavigationState = () => dispatch => {
           prevState: parsedState,
         });
       }
+      dispatch({
+        type: CHECK_ISREADY,
+      })
     })
     .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
 }
@@ -115,11 +120,15 @@ export default function NavigationReducer(state = initialState, action) {
         .set('HomeTab', fromJS(action.prevState));
     }
 
+    case CHECK_ISREADY: {
+      return state.set('isReady', true);
+    }
+
     case FIRSTPAGE_ROUTE: {
       const initState = initialState.get('HomeTab');
       AsyncStorage.setItem('storageNavigationState', JSON.stringify(initState))
         .catch(e => {console.warn('error in NavigationReducer - FIRST_PAGE_ROUTE: ', e);})
-      return initialState;
+      return state.set('HomeTab', initState);
     }
 
     default:
