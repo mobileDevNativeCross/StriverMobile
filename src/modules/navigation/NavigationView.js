@@ -140,7 +140,6 @@ const NavigationView = React.createClass({
           .then((savedWorkoutTime) => {
             savedWorkoutTime = JSON.parse(savedWorkoutTime)
             let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
-            console.warn('setting savedWorkoutTime by value: ', totalWorkoutDuration);
             AsyncStorage.setItem('savedWorkoutTime', JSON.stringify(totalWorkoutDuration));
           })
           .catch(error => console.warn('err. in getItem(\'savedWorkoutTime\') - Nav View', error));
@@ -189,7 +188,17 @@ const NavigationView = React.createClass({
         break;
       case 'liveWorkout':
         this.saveWoroutTime();
+        AsyncStorage.setItem('beginWorkoutTime', '');
+        AsyncStorage.setItem('endWorkoutTime', '');
         this.props.pushRoute({ key: 'history' });
+        Alert.alert(
+          'Pause',
+          'The workout have paused. To continue press Home and then \'Begin Workout\'',
+          [
+            {text: 'OK', onPress: () => {}},
+          ],
+          { cancelable: true }
+        )
       default:
         break;
     }

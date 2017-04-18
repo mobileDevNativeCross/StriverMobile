@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   },
   viewFocusScore: {
     width: (width - 60),
-    // marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
     width: (width - 60),
     marginTop: 3,
     height: 18,
-    // marginLeft: 30,
     alignItems: 'flex-end'
   },
   textError: {
@@ -127,7 +125,6 @@ const styles = StyleSheet.create({
 
   viewComments: {
     width: (width - 60),
-    // marginTop: 20,
   },
   viewFinishWindowMargin: {
     ...Platform.select({
@@ -169,34 +166,6 @@ const TextfieldComment = MKTextField.textfield()
   .build();
 
 class LiveWorkoutFinishWindow extends Component {
-
-// componentWillMount(){
-// console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\') in Will');
-// StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);
-// }
-
-// componentDidMount(){
-// console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\') in Did');
-// StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);}
-
-
-/* for developing:
-AsyncStorage.getItem('a')
-  .then((a) => {
-    AsyncStorage.getItem('b')
-      .then((b) => {
-        c = a * coeficient + b;
-      })
-      .catch(error => console.warn(error));
-  })
-  .catch(error => console.warn(error));
-
------------
-
-  let a = 18.256564654;
-  a -= a % 1;
-  console.warn('a: ', a);
-*/
 componentWillReceiveProps(nextProps){
   if (nextProps.windowFinishVisible) {
     AsyncStorage.getItem('endWorkoutTime')
@@ -212,6 +181,8 @@ componentWillReceiveProps(nextProps){
             savedWorkoutTime = JSON.parse(savedWorkoutTime);
 
             let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
+            console.warn('start at: ' + startWorkoutTime + '\n end at: ' + endWorkoutTime + '\n savedWorkoutTime: ' + savedWorkoutTime + '\
+              \n Adding: duration + savedWorkoutTime: ' + moment(endWorkoutTime).diff(moment(startWorkoutTime)) + ' + ' + savedWorkoutTime + '\n totalWorkoutDuration: ' + totalWorkoutDuration);
 
             let humanizeDurationHours = moment.duration(totalWorkoutDuration).asHours();
             humanizeDurationHours -= humanizeDurationHours % 1;
@@ -247,7 +218,6 @@ componentWillReceiveProps(nextProps){
   setModalVisible(visible){
     //this.setState({modalVisible:visible});
    this.props.closeWindowFinish()
-  //  console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\')');
    StatusBar.setBackgroundColor('white', true);
   }
   getHeight = () => {
@@ -392,7 +362,7 @@ componentWillReceiveProps(nextProps){
           });
         }
       })
-      .catch(e => {console.warn(/*'error in getItem(\'newToken\') in reducer', */e)});
+      .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)});
           //**
   }
 
