@@ -181,7 +181,7 @@ componentWillReceiveProps(nextProps){
             savedWorkoutTime = JSON.parse(savedWorkoutTime);
 
             let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
-            console.warn('totalWorkoutDuration: \n startWorkoutTime: ' + startWorkoutTime + '\n endWorkoutTime: ' + endWorkoutTime + '\n savedWorkoutTime: ' + savedWorkoutTime + '\
+            console.warn('start at: ' + startWorkoutTime + '\n end at: ' + endWorkoutTime + '\n savedWorkoutTime: ' + savedWorkoutTime + '\
               \n Adding: duration + savedWorkoutTime: ' + moment(endWorkoutTime).diff(moment(startWorkoutTime)) + ' + ' + savedWorkoutTime + '\n totalWorkoutDuration: ' + totalWorkoutDuration);
 
             let humanizeDurationHours = moment.duration(totalWorkoutDuration).asHours();
@@ -362,7 +362,7 @@ componentWillReceiveProps(nextProps){
           });
         }
       })
-      .catch(e => {console.warn(/*'error in getItem(\'newToken\') in reducer', */e)});
+      .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)});
           //**
   }
 

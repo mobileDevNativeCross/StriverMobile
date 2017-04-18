@@ -129,21 +129,14 @@ const NavigationView = React.createClass({
 
   saveWoroutTime() {
     let endWorkoutTime = moment().format();
-    console.warn('NV - got a moment, set to endWorkoutTime: ', endWorkoutTime);
     AsyncStorage.getItem('beginWorkoutTime')
       .then((asyncStartWorkoutTime) => {
         startWorkoutTime = asyncStartWorkoutTime;
-        console.warn('NV - got \'beginWorkoutTime\' from AsyncStorage, set to startWorkoutTime: ', startWorkoutTime);
         AsyncStorage.getItem('savedWorkoutTime')
           .then((savedWorkoutTime) => {
             savedWorkoutTime = JSON.parse(savedWorkoutTime)
-            console.warn('NV - got \'savedWorkoutTime\' from AsyncStorage, set to savedWorkoutTime: ', savedWorkoutTime);
             let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
-            console.warn('NV - add savedWorkoutTime to workout duration, set to totalWorkoutDuration: \
-              \nduration + savedWorkoutTime: ' + moment(endWorkoutTime).diff(moment(startWorkoutTime)) + ' + ' + savedWorkoutTime + '\ntotalWorkoutDuration: ' + totalWorkoutDuration);
-            // console.warn('setting savedWorkoutTime by value: ', totalWorkoutDuration);
             AsyncStorage.setItem('savedWorkoutTime', JSON.stringify(totalWorkoutDuration));
-            console.warn('NV - set to AsyncStorage (\'savedWorkoutTime\') JSON.stringify(totalWorkoutDuration): ', JSON.stringify(totalWorkoutDuration));
           })
           .catch(error => console.warn('err. in getItem(\'savedWorkoutTime\') - Nav View', error));
       })
@@ -194,6 +187,14 @@ const NavigationView = React.createClass({
         AsyncStorage.setItem('beginWorkoutTime', '');
         AsyncStorage.setItem('endWorkoutTime', '');
         this.props.pushRoute({ key: 'history' });
+        Alert.alert(
+          'Pause',
+          'The workout have paused. To continue press Home and then \'Begin Workout\'',
+          [
+            {text: 'OK', onPress: () => {}},
+          ],
+          { cancelable: true }
+        )
       default:
         break;
     }
