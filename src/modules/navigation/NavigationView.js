@@ -83,7 +83,8 @@ const ButtonGoToHistory = MKButton.coloredButton()
 const NavigationView = React.createClass({
   propTypes: {
     onNavigateBack: PropTypes.func.isRequired,
-    backToHomeFromLiveWorkout: PropTypes.func.isRequired,
+    exit_backToHomeFromLiveWorkout: PropTypes.func.isRequired,
+    pause_backToHomeFromLiveWorkout: PropTypes.func.isRequired,
     navigationState: PropTypes.shape({
       tabs: PropTypes.shape({
         routes: PropTypes.arrayOf(PropTypes.shape({
@@ -112,9 +113,9 @@ const NavigationView = React.createClass({
   },
 
   // fixing a bug with not saving current Scene
-  componentWillMount(){
-    this.props.containerGetPrevNavigationState();
-  },
+  // componentWillMount(){
+  //   this.props.containerGetPrevNavigationState();
+  // },
 
   renderScene(sceneProps) {
     // render scene and apply padding to cover
