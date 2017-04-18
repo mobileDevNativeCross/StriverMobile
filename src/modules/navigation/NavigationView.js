@@ -208,7 +208,7 @@ const NavigationView = React.createClass({
       case 'history':
         break;
       case 'liveWorkout':
-        goHistoryFromLiveWorkout()
+        this.goHistoryFromLiveWorkout()
       default:
         break;
     }
@@ -240,7 +240,7 @@ const NavigationView = React.createClass({
       </View>
     );
   },
-  
+
   render() {
     const {tabs} = this.props.navigationState; // put to AsyncStorage
     const tabKey = tabs.routes[tabs.index].key;
