@@ -209,8 +209,9 @@ class LiveWorkout extends Component {
 
   pop = () => {
     console.warn('pop working');
-    this.props.dispatch(NavigationState.popRoute());
+    this.props.dispatch(NavigationState.firstPageRoute());
     this.props.dispatch(HomeState.checkEnter(true));
+    this.closeWindowFinish();
     AsyncStorage.setItem('beginWorkoutTime', '');
     AsyncStorage.setItem('endWorkoutTime', '');
   }
@@ -248,11 +249,11 @@ class LiveWorkout extends Component {
     this.props.dispatch(LiveWorkoutState.clearCheck());
   }
 
-  backToHome = () => {
-    this.clearCheck();
-    this.closeWindowFinish();
-    this.pop();
-  }
+  // backToHome = () => {
+  //   this.clearCheck();
+  //   // this.closeWindowFinish();
+  //   this.pop();
+  // }
 
   renderRow = (set) => {
     return (

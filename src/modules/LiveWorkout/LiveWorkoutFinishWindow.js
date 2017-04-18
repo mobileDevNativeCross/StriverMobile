@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewFinish: {
-    paddingTop: Platform.OS === 'android' ? 0 : 25,
+    paddingTop: Platform.OS === 'android' ? 0 : 0,
     backgroundColor: 'white',
   },
   viewIntensityScore: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   viewFinishWindowMargin: {
     ...Platform.select({
       ios: {
-        paddingTop: 25,
+        paddingTop: 65,
       },
       android: {},
     })
@@ -181,9 +181,6 @@ componentWillReceiveProps(nextProps){
             savedWorkoutTime = JSON.parse(savedWorkoutTime);
 
             let totalWorkoutDuration = moment(endWorkoutTime).diff(moment(startWorkoutTime)) + savedWorkoutTime;
-            console.warn('start at: ' + startWorkoutTime + '\n end at: ' + endWorkoutTime + '\n savedWorkoutTime: ' + savedWorkoutTime + '\
-              \n Adding: duration + savedWorkoutTime: ' + moment(endWorkoutTime).diff(moment(startWorkoutTime)) + ' + ' + savedWorkoutTime + '\n totalWorkoutDuration: ' + totalWorkoutDuration);
-
             let humanizeDurationHours = moment.duration(totalWorkoutDuration).asHours();
             humanizeDurationHours -= humanizeDurationHours % 1;
             humanizeDurationHours = (humanizeDurationHours === 0) ? '' :  humanizeDurationHours + ' hour(s), ';
@@ -196,9 +193,6 @@ componentWillReceiveProps(nextProps){
             this.setState({totalWorkoutDuration: totalWorkoutDurationString})
           })
           .catch(error => console.warn('err. in getItem(\'savedWorkoutTime\')', error));
-        // let totalWorkoutDuration = moment(startWorkoutTime).preciseDiff(endWorkoutTime);
-
-        // this.setState({totalWorkoutDuration: totalWorkoutDuration})
       })
       .catch(error => console.warn('err. in getItem(\'beginWorkoutTime\')', error));
   }
@@ -216,7 +210,6 @@ componentWillReceiveProps(nextProps){
       loadResult: false}
 
   setModalVisible(visible){
-    //this.setState({modalVisible:visible});
    this.props.closeWindowFinish()
    StatusBar.setBackgroundColor('white', true);
   }
@@ -231,51 +224,75 @@ componentWillReceiveProps(nextProps){
     const {intensityScoreText, focusScoreText, comments, errorIntensityScore, errorFocusScore, errorComents} = this.state;
     if (errorIntensityScore.length === 0 && errorFocusScore.length === 0 && errorComents.length === 0) {
       this.handleFinishPress();
+      console.warn('HEREIFONFINISH');
     }
   }
 
   handleFinishPress = () => {
-    let sendStartTime = moment(startWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
-    let sendEndTime = moment(endWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
-    var resultObject = JSON.stringify({
-      "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
-      "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
-      "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
-      "PerceivedIntensityScore": Number(this.state.intensityScoreText), //scaled 1-10
-      "PerceivedFocusScore": Number(this.state.focusScoreText), //scaled 1-10
-      "Notes": this.state.comments, //string
-      "StartTime": sendStartTime, //start of timer
-      "EndTime": sendEndTime, //end of timer
-    });
-
-    NetInfo.isConnected.fetch().done((reach_bool) => { //checking Internet connection
-      if (reach_bool == true) { // if  device connected to Internet send Workout result to server
-        this.sendingWorkoutResult(resultObject);
-      } else { //if there is no Internet connection, save Workout result to AsyncStorage
-        AsyncStorage.setItem('resultObject', resultObject);
-        if (!testConnectionListenerWorking) {
-          testConnectionListenerWorking = true;
-            NetInfo.addEventListener( // creating listener on connection changing
-              'change',
-              this.handleConnectivityChange
-            );
-            checkListener = BackgroundTimer.setInterval(() => {
-              console.warn('Internet connection checking');
-            }, 1000);
-        };
-        Alert.alert(
-          'No Internet Connection',
-          'Unable to send workout result. Please check your Internet connection. Don\'t start next workout before StriverMobile will send previous one after getting connection.',
-          [
-            {text: 'OK', onPress: () => {}},
-          ],
-          { cancelable: false }
-        )
-      }
-    });
+    console.warn('HEREHANDLEFINISH');
+    if (Platform.OS === 'ios') {
+      NetInfo.isConnected.addEventListener('change', this.handleIOSConnectivityChange);
+      console.warn('HEREHANDLEFINISH ON IOS IF');
+    } else {
+      NetInfo.isConnected.fetch().then((reach_bool) => { //checking Internet connection
+        this.afterInternetConnectionChecking(reach_bool);
+      });
+    }
   }
 
+afterInternetConnectionChecking = (reach_bool) => {
+  let sendStartTime = moment(startWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
+  let sendEndTime = moment(endWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
+  var resultObject = JSON.stringify({
+    "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
+    "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
+    "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
+    "PerceivedIntensityScore": Number(this.state.intensityScoreText), //scaled 1-10
+    "PerceivedFocusScore": Number(this.state.focusScoreText), //scaled 1-10
+    "Notes": this.state.comments, //string
+    "StartTime": sendStartTime, //start of timer
+    "EndTime": sendEndTime, //end of timer
+  });
+  if (reach_bool === true) { // if  device connected to Internet send Workout result to server
+    console.warn('reach_bool true');
+    this.sendingWorkoutResult(resultObject);
+  } else { //if there is no Internet connection, save Workout result to AsyncStorage
+    console.warn('reach_bool ELSE', reach_bool);
+    AsyncStorage.setItem('resultObject', resultObject);
+    if (!testConnectionListenerWorking) {
+      testConnectionListenerWorking = true;
+        NetInfo.addEventListener( // creating listener on connection changing
+          'change',
+          this.handleConnectivityChange
+        );
+        checkListener = BackgroundTimer.setInterval(() => {
+          console.warn('Internet connection checking');
+        }, 1000);
+    };
+    Alert.alert(
+      'No Internet Connection',
+      'Unable to send workout result. Please check your Internet connection. Don\'t start next workout before StriverMobile will send previous one after getting connection.',
+      [
+        {text: 'OK', onPress: () => {}},
+      ],
+      { cancelable: false }
+    )
+  }
+};
+
+
+  handleIOSConnectivityChange = (reach) => {
+    console.warn('reach at IOS', reach);
+    NetInfo.isConnected.removeEventListener( //turning off connection listener
+      'change',
+      this.handleIOSConnectivityChange
+    );
+    this.afterInternetConnectionChecking(reach);
+
+  };
+
   handleConnectivityChange = (reach) => {
+    console.warn('handleConnectivityChange() with reach: ', reach);
     const isConnected = ((reach.toLowerCase() !== 'none') && (reach.toLowerCase() !== 'unknown'));
     if (isConnected) {
       AsyncStorage.getItem('resultObject')
@@ -302,7 +319,6 @@ componentWillReceiveProps(nextProps){
       .then(token => {
         if (token) {
           this.props.dispatchTokenToRedux(token);
-          //this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
         }
       })
       .then(() => {
@@ -332,14 +348,13 @@ componentWillReceiveProps(nextProps){
                 'Workout result was sent successfully.',
                 [
                   {text: 'OK', onPress: () => {
-                    this.props.closeWindowFinish();
+                    this.props.popToStartScreen();
+                    this.props.clearCheck();
                   }},
                 ],
                 { cancelable: true }
               )
               AsyncStorage.setItem('savedWorkoutTime', '0');
-              this.props.popToStartScreen();
-              this.props.clearCheck();
               this.setState({
                 loadResult: false,
               });
@@ -563,7 +578,7 @@ componentWillReceiveProps(nextProps){
 
 
             </KeyboardAvoidingView>
-            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 20} style={{height: 0}} />
+            <KeyboardSpacer topSpacing={Platform.OS === 'android' ? 80 : 50} style={{ height: 0 }} />
           </View>
           </ScrollView>
 
