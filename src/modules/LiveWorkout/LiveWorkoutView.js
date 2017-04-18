@@ -208,7 +208,6 @@ class LiveWorkout extends Component {
   }
 
   pop = () => {
-    console.warn('pop working');
     this.props.dispatch(NavigationState.firstPageRoute());
     this.props.dispatch(HomeState.checkEnter(true));
     this.closeWindowFinish();
@@ -248,12 +247,6 @@ class LiveWorkout extends Component {
   clearCheck = () => {
     this.props.dispatch(LiveWorkoutState.clearCheck());
   }
-
-  // backToHome = () => {
-  //   this.clearCheck();
-  //   // this.closeWindowFinish();
-  //   this.pop();
-  // }
 
   renderRow = (set) => {
     return (
@@ -391,7 +384,6 @@ class LiveWorkout extends Component {
           reduxCurrentToken={this.props.reduxCurrentToken}
           dispatchTokenToRedux={(token) => {this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)))}}
         />
-        {/* <NavButton titleHome={'Back to Home'} onPressHome={() => {this.backToHome()}}/> */}
       </View>
     );
   }

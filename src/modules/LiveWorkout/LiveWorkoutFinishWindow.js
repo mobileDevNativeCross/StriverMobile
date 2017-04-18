@@ -224,15 +224,12 @@ componentWillReceiveProps(nextProps){
     const {intensityScoreText, focusScoreText, comments, errorIntensityScore, errorFocusScore, errorComents} = this.state;
     if (errorIntensityScore.length === 0 && errorFocusScore.length === 0 && errorComents.length === 0) {
       this.handleFinishPress();
-      console.warn('HEREIFONFINISH');
     }
   }
 
   handleFinishPress = () => {
-    console.warn('HEREHANDLEFINISH');
     if (Platform.OS === 'ios') {
       NetInfo.isConnected.addEventListener('change', this.handleIOSConnectivityChange);
-      console.warn('HEREHANDLEFINISH ON IOS IF');
     } else {
       NetInfo.isConnected.fetch().then((reach_bool) => { //checking Internet connection
         this.afterInternetConnectionChecking(reach_bool);
@@ -254,10 +251,8 @@ afterInternetConnectionChecking = (reach_bool) => {
     "EndTime": sendEndTime, //end of timer
   });
   if (reach_bool === true) { // if  device connected to Internet send Workout result to server
-    console.warn('reach_bool true');
     this.sendingWorkoutResult(resultObject);
   } else { //if there is no Internet connection, save Workout result to AsyncStorage
-    console.warn('reach_bool ELSE', reach_bool);
     AsyncStorage.setItem('resultObject', resultObject);
     if (!testConnectionListenerWorking) {
       testConnectionListenerWorking = true;
@@ -266,7 +261,7 @@ afterInternetConnectionChecking = (reach_bool) => {
           this.handleConnectivityChange
         );
         checkListener = BackgroundTimer.setInterval(() => {
-          console.warn('Internet connection checking');
+          console.log('Internet connection checking');
         }, 1000);
     };
     Alert.alert(
@@ -282,7 +277,6 @@ afterInternetConnectionChecking = (reach_bool) => {
 
 
   handleIOSConnectivityChange = (reach) => {
-    console.warn('reach at IOS', reach);
     NetInfo.isConnected.removeEventListener( //turning off connection listener
       'change',
       this.handleIOSConnectivityChange
@@ -292,7 +286,6 @@ afterInternetConnectionChecking = (reach_bool) => {
   };
 
   handleConnectivityChange = (reach) => {
-    console.warn('handleConnectivityChange() with reach: ', reach);
     const isConnected = ((reach.toLowerCase() !== 'none') && (reach.toLowerCase() !== 'unknown'));
     if (isConnected) {
       AsyncStorage.getItem('resultObject')
@@ -325,7 +318,6 @@ afterInternetConnectionChecking = (reach_bool) => {
         const { reduxCurrentToken } = this.props;
         const currentToken = reduxCurrentToken.idToken;
         if (currentToken) {
-          //**
           fetch('https://strivermobile-api.herokuapp.com/api/workoutcomplete',{
             method: 'POST',
             headers: {
@@ -378,7 +370,6 @@ afterInternetConnectionChecking = (reach_bool) => {
         }
       })
       .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)});
-          //**
   }
 
   setIntensityScore = (text) => {

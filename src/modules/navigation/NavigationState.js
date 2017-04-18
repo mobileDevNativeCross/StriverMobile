@@ -89,7 +89,6 @@ export default function NavigationReducer(state = initialState, action) {
         nextScenes = scenes;
       }
       // // fixing a bug with not saving current Scene
-      // console.warn('\n\nroute: ', route, '\n\ntabs: ', tabs, '\n\ntabKey: ', tabKey, '\n\nscenes', scenes, '\n\nnextScenes: ', nextScenes );
       if (scenes !== nextScenes) {
         setNewState = state.set(tabKey, fromJS(nextScenes));
         AsyncStorage.setItem('storageNavigationState', JSON.stringify(nextScenes))

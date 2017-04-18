@@ -5,7 +5,6 @@ import store from '../redux/store';
 
 //module.exports = function
 export default oldTokenCheck = function(reduxCurrentToken) {
-  console.warn('reduxCurrentToken', reduxCurrentToken);
   AsyncStorage.getItem('currentToken')
     .then(token => {
       // console.warn('token in reducer: ', token);
