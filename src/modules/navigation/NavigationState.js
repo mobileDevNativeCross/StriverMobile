@@ -60,12 +60,10 @@ export const getPrevNavigationState = () => dispatch => {
           prevState: parsedState,
         });
       }
-    })
-    .then(
       dispatch({
         type: CHECK_ISREADY,
       })
-    )
+    })
     .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
 }
 
@@ -130,7 +128,7 @@ export default function NavigationReducer(state = initialState, action) {
       const initState = initialState.get('HomeTab');
       AsyncStorage.setItem('storageNavigationState', JSON.stringify(initState))
         .catch(e => {console.warn('error in NavigationReducer - FIRST_PAGE_ROUTE: ', e);})
-      return initialState;
+      return state.set('HomeTab', initState);
     }
 
     default:

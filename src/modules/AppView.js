@@ -91,7 +91,7 @@ const AppView = React.createClass({
             </View>
           :
             <View style={styles.centered}>
-              <ActivityIndicator color='red' size={Platform.OS === 'android' ? 25 : "large"}/>
+              <ActivityIndicator size={Platform.OS === 'android' ? 25 : "large"}/>
             </View>
         }
       </View>
