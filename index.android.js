@@ -22,34 +22,21 @@ const StriverMobile = React.createClass({
 
     const checkEnter = store.getState().get('home').get('checkEnter');
 
-    if (!checkEnter) {
-      return true;
+    const currentTabIndex = currentTab.get('index');
+    const currentTabKeyName = currentTab.getIn(['routes', currentTabIndex]).get('key');
+
+    switch (currentTabKeyName) {
+      case 'home':
+        return false;
+      case 'liveWorkout':
+        return true;
+      case 'history':
+        store.dispatch(NavigationStateActions.firstPageRoute());
+        break;
+      default:
+
     }
-    //
-    // // if we are in the beginning of our tab stack
-    // if (currentTab.get('index') === 0) {
-    //   console.warn('index = 0');
-    //   // if we are not in the first tab, switch tab to the leftmost one
-    //   if (tabs.get('index') !== 0) {
-    //     console.warn('index>0');
-    //     store.dispatch(NavigationStateActions.popRoute());
-    //     // store.dispatch(NavigationStateActions.switchTab(0));
-    //     return true;
-    //   }
-    //
-    //   // otherwise let OS handle the back button action
-    //   return true;
-    // }
-    //
-    //
-    //
-    if (currentTab.get('index') === 0) {
-      return false;
-    }
-    if (currentTab.get('index') !== 0) {
-      store.dispatch(NavigationStateActions.popRoute());
-      return true;
-    }
+    return true;
   },
 
   render() {
