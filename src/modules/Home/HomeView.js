@@ -153,10 +153,11 @@ class HomeView extends Component{
     this.props.dispatch(NavigationState.pushRoute({
       key: 'liveWorkout',
     }));
-    if (this.props.checkEnter) {
+
+    // if (this.props.checkEnter) {
       let beginWorkoutTime = moment().format();
       AsyncStorage.setItem('beginWorkoutTime', beginWorkoutTime);
-    }
+    // }
   }
 
   renderItem(item) {

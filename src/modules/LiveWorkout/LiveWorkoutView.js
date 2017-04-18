@@ -208,6 +208,7 @@ class LiveWorkout extends Component {
   }
 
   pop = () => {
+    console.warn('pop working');
     this.props.dispatch(NavigationState.popRoute());
     this.props.dispatch(HomeState.checkEnter(true));
     AsyncStorage.setItem('beginWorkoutTime', '');
