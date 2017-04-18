@@ -162,6 +162,24 @@ const NavigationView = React.createClass({
       )
     );
   },
+
+  goHistoryFromLiveWorkout() {
+    Alert.alert(
+      'Warning',
+      'The workout will be paused. To continue workout after, press “Home” and “Begin Workout”',
+      [
+        {text: 'Cancel', onPress: () => {}},
+        {text: 'OK', onPress: () => {
+          this.saveWoroutTime();
+          AsyncStorage.setItem('beginWorkoutTime', '');
+          AsyncStorage.setItem('endWorkoutTime', '');
+          this.props.pushRoute({ key: 'history' });
+        }},
+      ],
+      { cancelable: true }
+    )
+  },
+
   goHome(sceneName) {
     switch (sceneName) {
       case 'home':
@@ -176,6 +194,7 @@ const NavigationView = React.createClass({
         break;
     }
   },
+
   goHisroty(sceneName) {
     switch (sceneName) {
       case 'home':
@@ -183,22 +202,12 @@ const NavigationView = React.createClass({
       case 'history':
         break;
       case 'liveWorkout':
-        this.saveWoroutTime();
-        AsyncStorage.setItem('beginWorkoutTime', '');
-        AsyncStorage.setItem('endWorkoutTime', '');
-        this.props.pushRoute({ key: 'history' });
-        Alert.alert(
-          'Pause',
-          'The workout have paused. To continue press Home and then \'Begin Workout\'',
-          [
-            {text: 'OK', onPress: () => {}},
-          ],
-          { cancelable: true }
-        )
+        goHistoryFromLiveWorkout()
       default:
         break;
     }
   },
+
   renderFooter(sceneName) {
     return (
       <View style={styles.viewFooter}>
@@ -225,6 +234,7 @@ const NavigationView = React.createClass({
       </View>
     );
   },
+  
   render() {
     const {tabs} = this.props.navigationState; // put to AsyncStorage
     const tabKey = tabs.routes[tabs.index].key;
