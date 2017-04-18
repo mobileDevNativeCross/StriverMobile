@@ -247,7 +247,7 @@ componentWillReceiveProps(nextProps){
   setModalVisible(visible){
     //this.setState({modalVisible:visible});
    this.props.closeWindowFinish()
-   console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\')');
+  //  console.warn('StatusBar.setBackgroundColor(\'0,0,0,.3\')');
    StatusBar.setBackgroundColor('white', true);
   }
   getHeight = () => {

@@ -53,11 +53,32 @@ export const clearCheck = () => ({
 });
 
 export const showWindowFinish = (show) => dispatch => {
+  AsyncStorage.setItem('showWindowFinish', JSON.stringify(show))
+  .then(() => {
+    if (show) {
+      StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true)
+    }
+  })
+  .catch(e => console.warn('error in SHOW_WINDOW: ', e));
   dispatch({
     type: SHOW_WINDOW,
     show: show,
   })
 }
+
+export const setWindowFinishVisible = () => (dispatch) => {
+  AsyncStorage.getItem('showWindowFinish').then(visible => {
+    if (visible) {
+      parsedVisible = JSON.parse(visible);
+      StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true);
+      dispatch({
+        type: SHOW_WINDOW,
+        show: parsedVisible,
+      });
+    }
+  })
+}
+
 
 // Reducer
 export default function LiveWorkoutStateReducer(state = initialState, action = {}) {
@@ -90,13 +111,6 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
     }
 
     case SHOW_WINDOW: {
-      AsyncStorage.setItem('showWindowFinish', JSON.stringify(action.show))
-      .then(() => {
-        if (action.show) {
-          StatusBar.setBackgroundColor('rgba(0,0,0,.3)', true)
-        }
-      })
-      .catch(e => console.warn('error in SHOW_WINDOW: ', e));
       return state.set('show', action.show);
     }
 

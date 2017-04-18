@@ -117,6 +117,10 @@ const NavigationView = React.createClass({
   //   this.props.containerGetPrevNavigationState();
   // },
 
+  componentWillMount() {
+    this.props.getWindowFinishVisible();
+  },
+
   renderScene(sceneProps) {
     // render scene and apply padding to cover
     // for app bar and navigation bar
