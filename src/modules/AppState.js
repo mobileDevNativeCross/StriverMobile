@@ -10,7 +10,7 @@ const wrongToken = {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'i
 
 // Actions
 const SET_CURRENT_TOKEN_TO_REDUX = 'SET_CURRENT_TOKEN_TO_REDUX';
-const SET_WRONG_TOKEN = 'AuthState/SET_WRONG_TOKEN'; //for old token debugging
+const SET_WRONG_TOKEN = 'AppState/SET_WRONG_TOKEN'; //for old token debugging
 
 
 // Action creators

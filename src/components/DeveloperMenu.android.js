@@ -1,7 +1,7 @@
 import React from 'react';
 import * as auth0 from '../services/auth0';
 import store from '../redux/store';//for old token debugging
-import * as AuthStateActions from '../modules/auth/AuthState';//for old token debugging
+import * as AppStateActions from '../modules/AppState';//for old token debugging
 
 import {
   View,
@@ -29,7 +29,7 @@ const DeveloperMenu = React.createClass({
     this.closeMenu();
   },
   async setWrongToken() {//for old token debugging
-    store.dispatch(AuthStateActions.setWrongToken());//for old token debugging
+    store.dispatch(AppStateActions.setWrongToken());//for old token debugging
     this.closeMenu();//for old token debugging
   },//for old token debugging
   closeMenu() {
