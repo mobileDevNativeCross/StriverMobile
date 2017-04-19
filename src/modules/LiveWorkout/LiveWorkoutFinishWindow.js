@@ -444,12 +444,16 @@ class LiveWorkoutFinishWindow extends Component {
                         ?
                           <ActivityIndicator size={Platform.OS === 'android' ? 20 : "small"} color={'#b7b7b7'} />
                         :
-                        <Text style={[styles.buttonText,
-                        this.checkEnableFinishButton()
-                          ? {color: 'rgba(0,0,0,0.26)'}
-                          : styles.buttonText]}>
-                        FINISH
-                        </Text>
+                          <Text
+                            style={[
+                              styles.buttonText,
+                              this.checkEnableFinishButton()
+                                ? {color: 'rgba(0,0,0,0.26)'}
+                                : styles.buttonText
+                            ]}
+                          >
+                            FINISH
+                          </Text>
                       }
                     </MKButton>
                   </View>
