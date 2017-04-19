@@ -1,5 +1,4 @@
 import React from 'react';
-import * as snapshot from '../utils/snapshot';
 import * as auth0 from '../services/auth0';
 import store from '../redux/store';//for old token debugging
 import * as AuthStateActions from '../modules/auth/AuthState';//for old token debugging
@@ -24,12 +23,6 @@ const DeveloperMenu = React.createClass({
   },
   showDeveloperMenu() {
     this.setState({isVisible: true});
-  },
-
-  async clearState() {
-    await snapshot.clearSnapshot();
-    console.warn('(╯°□°）╯︵ ┻━┻ \nState cleared, Cmd+R to reload the application now');
-    this.closeMenu();
   },
   async showLogin() {
     await auth0.showLogin();
@@ -70,7 +63,6 @@ const DeveloperMenu = React.createClass({
     }
 
     const buttons = [
-      this.renderMenuItem('Clear state', this.clearState),
       this.renderMenuItem('Show login', this.showLogin),
       this.renderMenuItem('Set wrong token ', this.setWrongToken),//for old token debugging
       this.renderMenuItem('Cancel', this.closeMenu)

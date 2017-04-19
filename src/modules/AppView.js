@@ -11,7 +11,6 @@ import {
 
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import * as auth0 from '../services/auth0';
-import * as snapshotUtil from '../utils/snapshot';
 import * as SessionStateActions from '../modules/session/SessionState';
 import * as NavigationState from './navigation/NavigationState';
 import store from '../redux/store';
@@ -39,20 +38,6 @@ const AppView = React.createClass({
       }
     })
     .catch(e => {console.warn('error in getItem(\'newToken\')',e)})
-    // snapshotUtil.resetSnapshot()
-    //   .then(snapshot => {
-    //     const {dispatch} = this.props;
-    //     console.warn('snapshot',snapshot);
-    //     if (snapshot) {
-    //       dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
-    //     } else {
-    //       dispatch(SessionStateActions.initializeSessionState());
-    //     }
-    //     store.subscribe(() => {
-    //       snapshotUtil.saveSnapshot(store.getState());
-    //     });
-    //   })
-    //   .catch(error => console.warn('snapshotUtil.resetSnapshot() error', error));
   },
 
   render() {

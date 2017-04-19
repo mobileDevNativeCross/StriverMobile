@@ -1,5 +1,4 @@
 import React from 'react';
-import * as snapshot from '../utils/snapshot';
 import * as auth0 from '../services/auth0';
 import store from '../redux/store';//for old token debugging
 import * as AppStateActions from '../modules/AppState';//for old token debugging
@@ -28,11 +27,7 @@ const DeveloperMenu = React.createClass({
     };
 
     const callback = async index => {
-      if (index === options.clearState) {
-        await snapshot.clearSnapshot();
-        console.warn('(╯°□°）╯︵ ┻━┻ \nState cleared, Cmd+R to reload the application now');
-      }
-      else if (index === options.showLogin) {
+      if (index === options.showLogin) {
         await auth0.showLogin();
       }
       else if (index === options.setWrongToken) { //for old token debugging
@@ -42,7 +37,6 @@ const DeveloperMenu = React.createClass({
 
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
-        'Clear state',
         'Show login',
         'Set wrong token', //for old token debugging
         'Cancel'
