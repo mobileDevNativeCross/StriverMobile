@@ -13,7 +13,6 @@ const reducers = {
   home: HomeStateReducer,
 
   // @NOTE: By convention, the navigation state must live in a subtree called
-  //`navigationState`
   navigationState: NavigationStateReducer,
 
   liveWorkout: LiveWorkoutStateReducer,

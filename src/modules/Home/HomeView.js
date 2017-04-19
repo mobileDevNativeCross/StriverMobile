@@ -109,13 +109,6 @@ class HomeView extends Component{
         <ScrollView>
           <View style={[theme.cardStyle, styles.workoutInfo]}>
             <View style={styles.title}>
-              {
-                // <View style={styles.titleBox}>
-                //   <Text style={styles.titleText}>
-                //     {(workoutName !== undefined) ? workoutName : "*Server didn't send workoutName*" }
-                //   </Text>
-                // </View>
-              }
               <View style={styles.titleBox}>
                 <Text style={styles.titleText}>
                   {
@@ -181,11 +174,6 @@ HomeView.propTypes = {
     idToken: PropTypes.string,
   }),
   nextWorkoutTree: PropTypes.object.isRequired,
-//   // workOut: PropTypes.string,
-//   // PRE: PropTypes.string,
-//   // timeDate: PropTypes.string,
-//   // focus: PropTypes.number,
-//   // nextWorkoutTree: PropTypes.object,
 };
 
 export default HomeView;

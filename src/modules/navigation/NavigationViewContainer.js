@@ -17,7 +17,6 @@ export default connect(
     onNavigateBack() {
       dispatch(popRoute());
     },
-    // fixing a bug with not saving current Scene
     containerGetPrevNavigationState() {
       dispatch(NavigationState.getPrevNavigationState());
     },
