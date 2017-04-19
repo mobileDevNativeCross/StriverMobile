@@ -4,7 +4,6 @@ import NavigationStateReducer from '../modules/navigation/NavigationState';
 import AuthStateReducer from '../modules/auth/AuthState';
 import HomeStateReducer from '../modules/Home/HomeState';
 import AppStateReducer from '../modules/AppState';
-import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import LiveWorkoutStateReducer from '../modules/LiveWorkout/LiveWorkoutState';
 
 const reducers = {
@@ -16,8 +15,6 @@ const reducers = {
   // @NOTE: By convention, the navigation state must live in a subtree called
   //`navigationState`
   navigationState: NavigationStateReducer,
-
-  session: SessionStateReducer,
 
   liveWorkout: LiveWorkoutStateReducer,
 
@@ -39,9 +36,7 @@ const namespacedReducer = combineReducers(
 );
 
 export default function mainReducer(state, action) {
-  const [nextState, effects] = action.type === RESET_STATE
-    ? namespacedReducer(action.payload, action)
-    : namespacedReducer(state || void 0, action);
+  const [nextState, effects] = namespacedReducer(state || void 0, action);
 
   // enforce the state is immutable
   return loop(fromJS(nextState), effects);

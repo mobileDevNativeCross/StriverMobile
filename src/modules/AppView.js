@@ -11,7 +11,6 @@ import {
 
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import * as auth0 from '../services/auth0';
-import * as SessionStateActions from '../modules/session/SessionState';
 import * as NavigationState from './navigation/NavigationState';
 import store from '../redux/store';
 import DeveloperMenu from '../components/DeveloperMenu';
