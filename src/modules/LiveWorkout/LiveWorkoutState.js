@@ -41,16 +41,34 @@ export const setLength = (len) => (dispatch) => {
       })
     }
   });
-}
+};
 
-export const setCheck = (index) => ({
-  type: SET_CHECK,
-  index
-});
+export const setCheck = (index) => (dispatch, getState) => {
+  const newState = getState().getIn(['liveWorkout', 'check']).map((value, ind) => {
+    if (ind === index) {
+      return !value;
+    }
+    return value;
+  });
+  AsyncStorage.setItem('checked', JSON.stringify(newState));
+  dispatch({
+    type: SET_CHECK,
+    newState,
+  });
+};
 
-export const clearCheck = () => ({
-  type: CLEAR_CHECK,
-});
+export const clearCheck = () => (dispatch, getState) => {
+  const size = getState().getIn(['liveWorkout', 'check']).length;
+  let checkMas = getState().getIn(['liveWorkout', 'check']);
+  for (let i = 0; i < size; i ++) {
+    checkMas[i] = false;
+  }
+  AsyncStorage.setItem('checked', JSON.stringify(checkMas));
+  dispatch({
+    type: CLEAR_CHECK,
+    checkMas,
+  });
+};
 
 export const showWindowFinish = (show) => dispatch => {
   AsyncStorage.setItem('showWindowFinish', JSON.stringify(show))
@@ -64,7 +82,7 @@ export const showWindowFinish = (show) => dispatch => {
     type: SHOW_WINDOW,
     show: show,
   })
-}
+};
 
 export const setWindowFinishVisible = () => (dispatch) => {
   AsyncStorage.getItem('showWindowFinish').then(visible => {
@@ -77,7 +95,7 @@ export const setWindowFinishVisible = () => (dispatch) => {
       });
     }
   })
-}
+};
 
 
 // Reducer
@@ -90,24 +108,11 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
     }
 
     case SET_CHECK: {
-      const newState = state.get('check').map((a, i) => {
-        if (i === action.index) {
-          return !a;
-        }
-        return a;
-      });
-      AsyncStorage.setItem('checked', JSON.stringify(newState));
-      return state.set('check', newState);
+      return state.set('check', action.newState);
     }
 
     case CLEAR_CHECK: {
-      const size = state.get('check').length;
-      let checkMas = state.get('check');
-      for (let i = 0; i < size; i ++) {
-        checkMas[i] = false;
-      }
-      AsyncStorage.setItem('checked', JSON.stringify(checkMas));
-      return state.set('check', checkMas);
+      return state.set('check', action.checkMas);
     }
 
     case SHOW_WINDOW: {
@@ -117,4 +122,4 @@ export default function LiveWorkoutStateReducer(state = initialState, action = {
     default:
       return state;
   }
-}
+};

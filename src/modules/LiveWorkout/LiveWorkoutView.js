@@ -18,128 +18,17 @@ import * as LiveWorkoutState from './LiveWorkoutState';
 import * as AppState from '../AppState';
 import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import * as MK from 'react-native-material-kit';
-import { regular, bold, medium} from 'AppFonts';
+import { regular, bold, medium } from 'AppFonts';
+import styles from './LiveWorkoutStyle';
 
 const { width, height } = Dimensions.get('window');
-// const pencil = require('../../assets/pencil.png');
 const {
   MKButton,
   MKColor,
   MKCheckbox,
 } = MK;
 
-const styles = StyleSheet.create({
-  viewContainer: {
-    // height: Platform.OS === 'android' ? (height - 150) : (height - 125),
-    flex: 1,
-    width,
-  },
-  container: {
-    paddingTop: Platform.OS === 'android' ? 0 : 25,
-    backgroundColor: 'white',
-  },
-  activityIndicator: {
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  viewHead: {
-    paddingHorizontal: 40,
-  },
-  viewHeadItem: {
-    height: 48,
-    justifyContent: 'center',
-  },
-  textTop: {
-    color: '#7b7b7b',
-    fontSize: 20,
-    fontFamily: bold,
-  },
-  viewTouchOpacityComplete: {
-    width,
-    alignItems: 'center',
-  },
-  completeWorkoutButton: {
-    paddingHorizontal: 16,
-    marginTop: 25,
-  },
-  textComplete: {
-    fontSize: 15,
-    color: '#7b7b7b',
-    fontWeight: '600',
-  },
-  touchableItem: {
-    paddingVertical: 10,
-  },
-  viewRow: {
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width - 30),
-    alignItems: 'center',
-  },
-  viewItems: {
-    marginTop: 30,
-  },
-  viewItem: {
-    justifyContent: 'center',
-    width: (width),
-  },
-  textExercizeName: {
-    color: '#7b7b7b',
-    fontSize: 17,
-    width: (width / 1.4),
-    fontFamily: bold
-  },
-  viewSetsFlex: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width / 1.5),
-  },
-  viewSets: {
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 5,
-  },
-  textSets: {
-    color: '#7b7b7b',
-    fontSize: 16,
-    fontFamily: bold
-  },
-  viewSetHead: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-  },
-  viewFlexDirectionSet: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width / 1.5),
-  },
-  viewSetsArray: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 5,
-  },
-  viewSetParam: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-    marginTop: 5,
-  },
-  textSetParam: {
-    color: '#7b7b7b',
-    fontSize: 16,
-  },
-  textCompleteButton: {
-    fontFamily: bold,
-    fontSize: 14,
-  },
-});
-
 class LiveWorkout extends Component {
-
   componentWillMount() {
     AsyncStorage.getItem('currentToken')
       .then(token => {
@@ -159,7 +48,7 @@ class LiveWorkout extends Component {
           })
           .then((response) => {
             if ((response.status == 401) && (response.ok == false) && (response._bodyText === 'Unauthorized', '\\n')) {
-              console.warn('Unauthorized');
+              console.log('Unauthorized');
               auth0.showLogin()
                 .catch(e => console.log('error in showLogin()', e))
             }
@@ -173,19 +62,22 @@ class LiveWorkout extends Component {
       .catch(e => {console.log('error in getItem(\'newToken\') in reducer', e)})
 
     this.props.dispatch(HomeState.checkEnter(false));
-    AsyncStorage.getItem('checked').then(result => {
-      const res = JSON.parse(result);
-      this.props.dispatch(LiveWorkoutState.setCheckArray(res));
-    })
+    AsyncStorage.getItem('checked')
+      .then(result => {
+        const res = JSON.parse(result);
+        this.props.dispatch(LiveWorkoutState.setCheckArray(res));
+      })
+      .catch((e) => {console.log('error in setCheckArray:', e)})
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.nextWorkoutTree.liveWorkoutComponents && this.setState({len: this.props.nextWorkoutTree.liveWorkoutComponents.length});
+    this.props.nextWorkoutTree.liveWorkoutComponents &&
+    this.setState({
+      len: this.props.nextWorkoutTree.liveWorkoutComponents.length
+    });
   }
 
   state={
-    // check: [],
-    // disable: true,
     len: 0,
     windowFinishVisible: false,
     beginWorkoutTime: null,
@@ -194,16 +86,16 @@ class LiveWorkout extends Component {
   renderComleteWorkoutButton = () => {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
-      .withStyle([styles.completeWorkoutButton, {height: 36}, this.check() && {shadowRadius: 0, elevation: 0}])
-      .withTextStyle([styles.textCompleteButton, this.check() ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0} : {color: 'white'}])
+      .withStyle([styles.completeWorkoutButton, this.check() && styles.unActiveButtonStyle])
+      .withTextStyle([styles.textCompleteButton, this.check() ? styles.textStyleUnActiveButton : styles.textStyleActiveButton])
       .withText('Complete Workout')
       .build();
-      return (
-        <CompleteWorkout
-          onPress={() => {this.setWindowFinishVisible(true)}}
-          disabled={this.check()}
-        />
-      );
+    return (
+      <CompleteWorkout
+        onPress={() => {this.setWindowFinishVisible(true)}}
+        disabled={this.check()}
+      />
+    );
   }
 
   pop = () => {
@@ -280,7 +172,7 @@ class LiveWorkout extends Component {
               {liveWorkoutComponents[index].Exercise.name}
             </Text>
             <MKCheckbox
-              style={{width: 24, height: 24}}
+              style={styles.checkBox}
               borderOffColor={'rgba(0,0,0,.54)'}
               fillColor={MKColor.Blue}
               borderOnColor={MKColor.Blue}
@@ -316,7 +208,7 @@ class LiveWorkout extends Component {
   }
 
   render() {
-    const { workOut, PRE, timeDate, focus, nextWorkoutTree, currentTimerValue, check } = this.props;
+    const { nextWorkoutTree, check, reduxCurrentToken, showWindowFinish } = this.props;
     const workoutName = this.props.nextWorkoutTree.workoutName;
     const intensityScore = this.props.nextWorkoutTree.intensityScore;
     const workoutDate = moment(this.props.nextWorkoutTree.workoutDate).format('MM/DD/YYYY');
@@ -324,13 +216,6 @@ class LiveWorkout extends Component {
       <View style={styles.viewContainer}>
         <ScrollView style={styles.container}>
           <View style={styles.viewHead}>
-          {
-            // <View style={styles.viewHeadItem}>
-            //   <Text style={styles.textTop}>
-            //     Workout Name:
-            //   </Text>
-            // </View>
-          }
             <View style={styles.viewHeadItem}>
               <Text style={styles.textTop}>
                 Date: {workoutDate}
@@ -348,7 +233,7 @@ class LiveWorkout extends Component {
             </View>
           </View>
           <View style={styles.viewTouchOpacityComplete}>
-          {this.renderComleteWorkoutButton()}
+            {this.renderComleteWorkoutButton()}
           </View>
           <View style={styles.viewItems}>
             {
@@ -370,17 +255,13 @@ class LiveWorkout extends Component {
           </View>
         </ScrollView>
         <LiveWorkoutFinishWindow
-          currentTimerValue={currentTimerValue}
           closeWindowFinish={() => {this.closeWindowFinish()}}
-          windowFinishVisible={this.props.showWindowFinish}
+          windowFinishVisible={showWindowFinish}
           setWindowFinishVisible={(visible) => {this.setWindowFinishVisible(visible)}}
-          beginWorkoutTime={this.state.beginWorkoutTime}
-          athleteId={this.props.athleteId}
-          nextWorkoutTree={this.props.nextWorkoutTree}
-          nextWorkoutToken={this.props.nextWorkoutToken}
+          nextWorkoutTree={nextWorkoutTree}
           popToStartScreen={() => {this.pop()}}
           clearCheck={() => {this.clearCheck()}}
-          reduxCurrentToken={this.props.reduxCurrentToken}
+          reduxCurrentToken={reduxCurrentToken}
           dispatchTokenToRedux={(token) => {this.props.dispatch(AppState.setTokenToRedux(JSON.parse(token)))}}
         />
       </View>
@@ -389,11 +270,14 @@ class LiveWorkout extends Component {
 }
 
 LiveWorkout.propTypes = {
-  workOut: PropTypes.string,
-  PRE: PropTypes.string,
-  timeDate: PropTypes.string,
-  focus: PropTypes.number,
-  nextWorkoutTree: PropTypes.object,
+  nextWorkoutTree: PropTypes.object.isRequired,
+  check: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  reduxCurrentToken: PropTypes.shape({
+    tokenType: PropTypes.string,
+    accessToken: PropTypes.string,
+    idToken: PropTypes.string,
+  }),
+  showWindowFinish: PropTypes.bool.isRequired,
 };
 
 export default LiveWorkout;
