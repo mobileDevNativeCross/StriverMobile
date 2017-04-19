@@ -34,11 +34,11 @@ export const getWorkoutTree = () => (dispatch, getState) => {
     }
     return response.json();
   })
-  .then((responseJson) => {// chnge to setWorkoutTree action
-    dispatch(({
+  .then((responseJson) => {// change to setWorkoutTree action
+    dispatch({
       type: GET_WORKOUT_TREE,
       response: responseJson,
-    }))
+    })
     AsyncStorage.setItem('workoutTree', JSON.stringify(responseJson));
     dispatch(setLength(responseJson.liveWorkoutComponents.length));
   })

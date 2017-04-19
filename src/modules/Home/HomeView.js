@@ -21,7 +21,6 @@ import { regular, bold, medium} from 'AppFonts';
 
 
 const displayWidth = Dimensions.get('window').width;
-// const displayHeight = Dimensions.get('window').height;
 const fontColor = 'rgb(110,110,110)';
 
 const styles = StyleSheet.create({
@@ -31,11 +30,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  workoutInfo: {
+    borderWidth: 0,
+    borderRadius: 2,
+    width: displayWidth - 30,
+    alignSelf: 'center',
+    marginTop: 3,
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    elevation: 2,
+  },
   title: {
-    // width: displayWidth,
     paddingVertical: 25,
     paddingHorizontal: 40,
     backgroundColor: 'white',
+    borderTopRightRadius: 2,
+    borderTopLeftRadius: 2,
   },
   titleBox:{
     height: 48,
@@ -48,9 +60,10 @@ const styles = StyleSheet.create({
     fontFamily: bold
   },
   exercises: {
-    // width: displayWidth,
     paddingVertical: 14,
     backgroundColor: 'rgb(231,231,231)',
+    borderBottomRightRadius: 2,
+    borderBottomLeftRadius: 2,
   },
   exercisesLoading: {
     height: 200,
@@ -61,7 +74,6 @@ const styles = StyleSheet.create({
   exerciseItem: {
     alignItems: 'center',
     flexDirection: 'row',
-    // paddingRight: 10,
     paddingLeft: 8,
     marginVertical: 6,
   },
@@ -85,9 +97,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 55
   },
+  buttonText: {
+    color: 'white',
+    fontFamily: bold,
+    fontSize: 14
+  },
   liveWorkoutButton: {
     paddingHorizontal: 16,
     marginTop: 25,
+    height: 36,
+    elevation: 2,
   },
 });
 
@@ -98,7 +117,7 @@ const {
 } = MK;
 const BeginWorkout = MKButton.coloredButton()
   .withBackgroundColor(MKColor.Blue)
-  .withStyle([styles.liveWorkoutButton, {height: 36, elevation: 2}])
+  .withStyle(styles.liveWorkoutButton)
   .build();
 
 const theme = getTheme();
@@ -153,11 +172,8 @@ class HomeView extends Component{
     this.props.dispatch(NavigationState.pushRoute({
       key: 'liveWorkout',
     }));
-
-    // if (this.props.checkEnter) {
-      let beginWorkoutTime = moment().format();
-      AsyncStorage.setItem('beginWorkoutTime', beginWorkoutTime);
-    // }
+    let beginWorkoutTime = moment().format();
+    AsyncStorage.setItem('beginWorkoutTime', beginWorkoutTime);
   }
 
   renderItem(item) {
@@ -184,9 +200,9 @@ class HomeView extends Component{
     const { nextWorkoutTree, state} = this.props;
     return (
       <View style={styles.container}>
-        <ScrollView >
-          <View style={[theme.cardStyle, {borderWidth: 0, borderRadius: 2, width: displayWidth - 30, alignSelf: 'center', marginTop: 3, shadowOffset: {width: 0, height: 1}, elevation: 2}]}>
-            <View style={[styles.title, {borderTopRightRadius: 2, borderTopLeftRadius: 2,}]}>
+        <ScrollView>
+          <View style={[theme.cardStyle, styles.workoutInfo]}>
+            <View style={styles.title}>
               {
                 // <View style={styles.titleBox}>
                 //   <Text style={styles.titleText}>
@@ -214,13 +230,12 @@ class HomeView extends Component{
                 </Text>
               </View>
             </View>
-            <View style={[styles.exercises, {borderBottomRightRadius: 2, borderBottomLeftRadius: 2,}]}>
+            <View style={styles.exercises}>
               <Text style={styles.exText}>
                 Exercises:
               </Text>
               <View  >
                 {
-
                   nextWorkoutTree.liveWorkoutComponents &&
                   Array.isArray(nextWorkoutTree.liveWorkoutComponents) &&
                   nextWorkoutTree.liveWorkoutComponents.length > 0
@@ -241,7 +256,7 @@ class HomeView extends Component{
             <BeginWorkout onPress={() => {this.goToLiveWorkout()}}>
               <Text
                 pointerEvents="none"
-                style={{color: 'white', fontFamily: bold, fontSize: 14}}
+                style={styles.buttonText}
               >
                 Begin Workout
               </Text>

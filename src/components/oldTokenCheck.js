@@ -7,7 +7,6 @@ import store from '../redux/store';
 export default oldTokenCheck = function(reduxCurrentToken) {
   AsyncStorage.getItem('currentToken')
     .then(token => {
-      // console.warn('token in reducer: ', token);
       if (token) {
         return token;
         store.dispatch(AppState.setTokenToRedux(JSON.parse(token)));
@@ -16,7 +15,6 @@ export default oldTokenCheck = function(reduxCurrentToken) {
     .then(() => {
       const { reduxCurrentToken } = this.props;
       const currentToken = reduxCurrentToken.idToken;
-      // console.warn('checking next token: ', reduxCurrentToken.idToken);
       if (currentToken) {
         fetch('https://strivermobile-api.herokuapp.com/api/private',{
           method: 'GET',
@@ -37,5 +35,5 @@ export default oldTokenCheck = function(reduxCurrentToken) {
         });
       }
     })
-    .catch(e => {console.warn(/*'error in getItem(\'newToken\') in reducer', */e)})
+    .catch(e => {console.warn('error in getItem(\'newToken\') in reducer', e)})
 }

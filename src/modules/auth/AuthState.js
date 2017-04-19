@@ -13,7 +13,6 @@ const initialState = Map({
 });
 
 //actions
-
 const USER_LOGIN_SUCCESS = 'AuthState/USER_LOGIN_SUCCESS';
 const USER_LOGIN_ERROR = 'AuthState/USER_LOGIN_ERROR';
 const SET_WRONG_TOKEN = 'AuthState/SET_WRONG_TOKEN'; //for old token debugging
@@ -60,7 +59,7 @@ export default function AuthStateReducer(state = initialState, action = {}) {
         // This reducer is for old token debugging
         case SET_WRONG_TOKEN:
             return state
-                .set('authenticationToken', {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'idToken': 'test2'});
+                .set('authenticationToken', {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'idToken': 'oldTokenSimulation'}); // instead of 'oldTokenSimulation' was 'test2'
         default:
             return state;
     }
