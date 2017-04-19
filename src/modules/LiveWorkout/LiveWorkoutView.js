@@ -20,124 +20,14 @@ import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
 import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
+import styles from './LiveWorkoutStyle';
 
 const { width, height } = Dimensions.get('window');
-// const pencil = require('../../assets/pencil.png');
 const {
   MKButton,
   MKColor,
   MKCheckbox,
 } = MK;
-
-const styles = StyleSheet.create({
-  viewContainer: {
-    // height: Platform.OS === 'android' ? (height - 150) : (height - 125),
-    flex: 1,
-    width,
-  },
-  container: {
-    paddingTop: Platform.OS === 'android' ? 0 : 25,
-    backgroundColor: 'white',
-  },
-  activityIndicator: {
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  viewHead: {
-    paddingHorizontal: 40,
-  },
-  viewHeadItem: {
-    height: 48,
-    justifyContent: 'center',
-  },
-  textTop: {
-    color: '#7b7b7b',
-    fontSize: 20,
-    fontFamily: bold,
-  },
-  viewTouchOpacityComplete: {
-    width,
-    alignItems: 'center',
-  },
-  completeWorkoutButton: {
-    paddingHorizontal: 16,
-    marginTop: 25,
-  },
-  textComplete: {
-    fontSize: 15,
-    color: '#7b7b7b',
-    fontWeight: '600',
-  },
-  touchableItem: {
-    paddingVertical: 10,
-  },
-  viewRow: {
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width - 30),
-    alignItems: 'center',
-  },
-  viewItems: {
-    marginTop: 30,
-  },
-  viewItem: {
-    justifyContent: 'center',
-    width: (width),
-  },
-  textExercizeName: {
-    color: '#7b7b7b',
-    fontSize: 17,
-    width: (width / 1.4),
-    fontFamily: bold
-  },
-  viewSetsFlex: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width / 1.5),
-  },
-  viewSets: {
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 5,
-  },
-  textSets: {
-    color: '#7b7b7b',
-    fontSize: 16,
-    fontFamily: bold
-  },
-  viewSetHead: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-  },
-  viewFlexDirectionSet: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: (width / 1.5),
-  },
-  viewSetsArray: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 5,
-  },
-  viewSetParam: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-    marginTop: 5,
-  },
-  textSetParam: {
-    color: '#7b7b7b',
-    fontSize: 16,
-  },
-  textCompleteButton: {
-    fontFamily: bold,
-    fontSize: 14,
-  },
-});
 
 class LiveWorkout extends Component {
 
@@ -185,8 +75,6 @@ class LiveWorkout extends Component {
   }
 
   state={
-    // check: [],
-    // disable: true,
     len: 0,
     windowFinishVisible: false,
     beginWorkoutTime: null,
@@ -195,8 +83,8 @@ class LiveWorkout extends Component {
   renderComleteWorkoutButton = () => {
     const CompleteWorkout = MKButton.coloredButton()
       .withBackgroundColor(this.check() ? 'rgba(0,0,0,0.12)' : MKColor.Blue)
-      .withStyle([styles.completeWorkoutButton, {height: 36}, this.check() && {shadowRadius: 0, elevation: 0}])
-      .withTextStyle([styles.textCompleteButton, this.check() ? {color: 'rgba(0,0,0,0.26)', shadowRadius: 0, elevation: 0} : {color: 'white'}])
+      .withStyle([styles.completeWorkoutButton, this.check() && styles.unActiveButtonStyle])
+      .withTextStyle([styles.textCompleteButton, this.check() ? styles.textStyleUnActiveButton : styles.textStyleActiveButton])
       .withText('Complete Workout')
       .build();
       return (
@@ -281,7 +169,7 @@ class LiveWorkout extends Component {
               {liveWorkoutComponents[index].Exercise.name}
             </Text>
             <MKCheckbox
-              style={{width: 24, height: 24}}
+              style={styles.checkBox}
               borderOffColor={'rgba(0,0,0,.54)'}
               fillColor={MKColor.Blue}
               borderOnColor={MKColor.Blue}
