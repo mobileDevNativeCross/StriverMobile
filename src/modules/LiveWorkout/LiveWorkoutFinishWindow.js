@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
   ActivityIndicator,
   Modal,
   TouchableHighlight,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 import Display from 'react-native-display';
 import BackgroundTimer from 'react-native-background-timer';
@@ -126,12 +126,13 @@ class LiveWorkoutFinishWindow extends Component {
   }
 
   afterInternetConnectionChecking = (reach_bool) => {
+    const { nextWorkoutTree } = this.props;
     let sendStartTime = moment(startWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
     let sendEndTime = moment(endWorkoutTime).format("YYYY-DD-MM[T]HH:mm:ss");
     var resultObject = JSON.stringify({
-      "athleteId": this.props.nextWorkoutTree.athleteId, //athlete user ID  (guid)
-      "athleteWorkoutId": this.props.nextWorkoutTree.athleteWorkoutId, //grab from workout
-      "athleteProgramId": this.props.nextWorkoutTree.athleteProgramId, //grab from workout
+      "athleteId": nextWorkoutTree.athleteId, //athlete user ID  (guid)
+      "athleteWorkoutId": nextWorkoutTree.athleteWorkoutId, //grab from workout
+      "athleteProgramId": nextWorkoutTree.athleteProgramId, //grab from workout
       "PerceivedIntensityScore": Number(this.state.intensityScoreText), //scaled 1-10
       "PerceivedFocusScore": Number(this.state.focusScoreText), //scaled 1-10
       "Notes": this.state.comments, //string
@@ -462,6 +463,21 @@ class LiveWorkoutFinishWindow extends Component {
       </View>
     );
   }
+}
+
+LiveWorkoutFinishWindow.propTypes = {
+  closeWindowFinish: PropTypes.func.isRequired,
+  windowFinishVisible: PropTypes.bool.isRequired,
+  setWindowFinishVisible: PropTypes.func.isRequired,
+  nextWorkoutTree: PropTypes.object.isRequired,
+  popToStartScreen: PropTypes.func.isRequired,
+  clearCheck: PropTypes.func.isRequired,
+  reduxCurrentToken: PropTypes.shape({
+    tokenType: PropTypes.string,
+    accessToken: PropTypes.string,
+    idToken: PropTypes.string,
+  }),
+  dispatchTokenToRedux: PropTypes.func.isRequired,
 }
 
 export default LiveWorkoutFinishWindow;
