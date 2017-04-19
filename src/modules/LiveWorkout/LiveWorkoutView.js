@@ -213,13 +213,6 @@ class LiveWorkout extends Component {
       <View style={styles.viewContainer}>
         <ScrollView style={styles.container}>
           <View style={styles.viewHead}>
-          {
-            // <View style={styles.viewHeadItem}>
-            //   <Text style={styles.textTop}>
-            //     Workout Name:
-            //   </Text>
-            // </View>
-          }
             <View style={styles.viewHeadItem}>
               <Text style={styles.textTop}>
                 Date: {workoutDate}

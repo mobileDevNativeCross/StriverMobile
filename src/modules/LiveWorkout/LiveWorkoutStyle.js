@@ -6,7 +6,6 @@ const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   viewContainer: {
-    // height: Platform.OS === 'android' ? (height - 150) : (height - 125),
     flex: 1,
     width,
   },
