@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import {
   NavigationExperimental,
   View,
@@ -83,9 +83,6 @@ const ButtonGoToHistory = MKButton.coloredButton()
 
 const NavigationView = React.createClass({
   propTypes: {
-    onNavigateBack: PropTypes.func.isRequired,
-    exit_backToHomeFromLiveWorkout: PropTypes.func.isRequired,
-    pause_backToHomeFromLiveWorkout: PropTypes.func.isRequired,
     navigationState: PropTypes.shape({
       tabs: PropTypes.shape({
         routes: PropTypes.arrayOf(PropTypes.shape({
@@ -97,7 +94,14 @@ const NavigationView = React.createClass({
       LiveWorkout: NavigationPropTypes.navigationState.isRequired,
       History: NavigationPropTypes.navigationState.isRequired,
     }),
-    pushRoute: PropTypes.func.isRequired
+    checkEnter: PropTypes.bool.isRequired,
+    pushRoute: PropTypes.func.isRequired,
+    onNavigateBack: PropTypes.func.isRequired,
+    containerGetPrevNavigationState: PropTypes.func.isRequired,
+    getWindowFinishVisible: PropTypes.func.isRequired,
+    backToFirstPage: PropTypes.func.isRequired,
+    exit_backToHomeFromLiveWorkout: PropTypes.func.isRequired,
+    pause_backToHomeFromLiveWorkout: PropTypes.func.isRequired,
   },
 
   // NavigationHeader accepts a prop style

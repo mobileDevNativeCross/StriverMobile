@@ -106,7 +106,6 @@ export default function NavigationReducer(state = initialState, action) {
     }
 
     case POP_ROUTE: {
-      console.warn('POP_ROUTE');
       return state.set(action.tabKey, fromJS(action.nextScenes));
     }
 

@@ -8,7 +8,6 @@ import * as HomeState from '../Home/HomeState';
 export default connect(
   state => ({
     navigationState: state.get('navigationState').toJS(),
-    state: state,
     checkEnter: state.getIn(['home', 'checkEnter']),
   }),
   dispatch => ({

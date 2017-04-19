@@ -1,7 +1,7 @@
 import * as HomeState from './HomeState';
 import * as AppState from '.././AppState';
 import * as NavigationState from '../navigation/NavigationState';
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   // Dimensions,
   StyleSheet,
@@ -175,6 +175,20 @@ class HomeView extends Component{
       </View>
     );
   }
+};
+
+HomeView.propTypes = {
+  reduxCurrentToken: PropTypes.shape({
+    tokenType: PropTypes.string,
+    accessToken: PropTypes.string,
+    idToken: PropTypes.string,
+  }),
+  nextWorkoutTree: PropTypes.object.isRequired,
+//   // workOut: PropTypes.string,
+//   // PRE: PropTypes.string,
+//   // timeDate: PropTypes.string,
+//   // focus: PropTypes.number,
+//   // nextWorkoutTree: PropTypes.object,
 };
 
 export default HomeView;
