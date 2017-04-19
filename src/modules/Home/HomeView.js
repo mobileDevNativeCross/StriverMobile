@@ -15,7 +15,6 @@ import {
 import styles from './HomeStyle';
 import Icon from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
-import NavButton from '../../components/NavButton'
 import * as MK from 'react-native-material-kit';
 import * as auth0 from '../../services/auth0';
 

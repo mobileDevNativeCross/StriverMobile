@@ -17,7 +17,6 @@ import * as HomeState from '../Home/HomeState';
 import * as LiveWorkoutState from './LiveWorkoutState';
 import * as AppState from '../AppState';
 import LiveWorkoutFinishWindow from './LiveWorkoutFinishWindow';
-import NavButton from '../../components/NavButton';
 import * as MK from 'react-native-material-kit';
 import { regular, bold, medium} from 'AppFonts';
 
