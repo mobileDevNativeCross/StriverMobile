@@ -3,8 +3,6 @@ import * as AppState from '.././AppState';
 import * as NavigationState from '../navigation/NavigationState';
 import React, { Component, PropTypes } from 'react';
 import {
-  // Dimensions,
-  StyleSheet,
   Text,
   View,
   ScrollView,

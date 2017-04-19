@@ -95,8 +95,14 @@ export const getPrevNavigationState = () => dispatch => {
     .catch(e => {console.warn('error in NavigationReducer - GET_PREV_NAVIGAION_STATE: ', e);})
 }
 
-export function firstPageRoute() {
-  return {type: FIRSTPAGE_ROUTE};
+export const firstPageRoute = () => (dispatch) => {
+  const initState = initialState.get('HomeTab');
+  AsyncStorage.setItem('storageNavigationState', JSON.stringify(initState))
+    .catch(e => {console.warn('error in NavigationReducer - FIRST_PAGE_ROUTE: ', e);})
+  dispatch ({
+    type: FIRSTPAGE_ROUTE,
+    initState,
+  });
 }
 
 export default function NavigationReducer(state = initialState, action) {
@@ -119,10 +125,7 @@ export default function NavigationReducer(state = initialState, action) {
     }
 
     case FIRSTPAGE_ROUTE: {
-      const initState = initialState.get('HomeTab');
-      AsyncStorage.setItem('storageNavigationState', JSON.stringify(initState))
-        .catch(e => {console.warn('error in NavigationReducer - FIRST_PAGE_ROUTE: ', e);})
-      return state.set('HomeTab', initState);
+      return state.set('HomeTab', action.initState);
     }
 
     default:

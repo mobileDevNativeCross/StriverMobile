@@ -6,7 +6,7 @@ const initialState = Map({
   currentToken: null,
 });
 
-const wrongToken = {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'idToken': 'test2'};
+const wrongToken = {'tokenType': 'bearer', 'accessToken': 'x4FiU4nZWCp9GCs3', 'idToken': 'oldTokenSimulation'};
 
 // Actions
 const SET_CURRENT_TOKEN_TO_REDUX = 'SET_CURRENT_TOKEN_TO_REDUX';
@@ -23,6 +23,7 @@ export const setTokenToRedux = (token) => (dispatch) => {
 
 //This function is for old token debugging
 export function setWrongToken() {
+  AsyncStorage.setItem('currentToken', JSON.stringify(wrongToken))
   return {
       type: SET_WRONG_TOKEN,
   }
@@ -36,7 +37,6 @@ export default function AppStateReducer(state = initialState, action = {}) {
         .set('currentToken', action.setToken);
 
     case SET_WRONG_TOKEN:
-    AsyncStorage.setItem('currentToken', JSON.stringify(wrongToken))
         return state
             .set('currentToken', wrongToken);
 
