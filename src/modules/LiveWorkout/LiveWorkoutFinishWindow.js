@@ -116,6 +116,9 @@ class LiveWorkoutFinishWindow extends Component {
   }
 
   handleFinishPress = () => {
+    this.setState({
+      loadResult: true
+    });
     if (Platform.OS === 'ios') {
       NetInfo.isConnected.addEventListener('change', this.handleIOSConnectivityChange);
     } else {
@@ -434,7 +437,7 @@ class LiveWorkoutFinishWindow extends Component {
                     </MKButton>
                     <MKButton
                       backgroundColor={'transparent'}
-                      rippleColor='rgba(0,0,0,.3)'
+                      rippleColor={this.state.loadResult ? 'transparent' : 'rgba(0,0,0,.3)'}
                       disabled={this.checkEnableFinishButton() || this.state.loadResult}
                       style={styles.button}
                       onPress={() => {this.onFinish()}}
